@@ -1,0 +1,40 @@
+from django.db import models
+from datetime import datetime
+
+# Create your models here.
+
+class ChatNode(models.Model) :
+
+	chat_unique_id = models.AutoField(primary_key=True)
+	user_id = models.CharField(max_length=50, default="unknown")
+	user_name = models.CharField(max_length=50, default="unknown")
+	content = models.CharField(max_length=50, default="")
+	class_id = models.CharField(max_length=50, default="")
+	created_date = models.CharField(max_length=50,default=datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+	ddabong = models.IntegerField(default=0)
+
+	def __str__(self) :
+		return self.content
+
+
+class PDF(models.Model) :
+
+	pdf_name = models.CharField(max_length=50, default="")
+	pdf_url = models.CharField(max_length=50, default="")
+	class_id = models.CharField(max_length=50, default="")
+	pdf = models.FileField(default='', upload_to='pdfs/')
+
+	def __str__(self) :
+		return self.pdf_url
+
+
+class ClassNode(models.Model) :
+
+	class_name = models.CharField(max_length=50, default="")
+	class_id = models.CharField(max_length=50, default="")
+	number_of_user = models.IntegerField(default=0)
+	user_list = models.TextField(default = '')
+
+
+	def __str__(self) :
+		return self.class_name
