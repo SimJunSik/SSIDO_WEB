@@ -4,6 +4,7 @@ from .models import *
 from django.core import serializers
 from datetime import datetime
 from django.core.files.storage import FileSystemStorage
+from django.shortcuts import redirect
 
 # Create your views here.
 
@@ -30,11 +31,24 @@ def joinClass(request) :
 
 		class_id = request.path.split('/')[2]
 
-		print(class_id)
+		#print(class_id)
 
 		pdfs = PDF.objects.filter(class_id = class_id)
 
-		context = { 'pdfs' : pdfs }
+		if not request.session.get('login_complete', False):
+            
+			unknown_member = Member(user_name='unknown', user_id = 'unknown')
+
+			context = { 'member' : unknown_member ,  'pdfs' : pdfs }
+
+		else :
+
+			user_id = request.session.get('user_id', 'unknown')
+			user_name = request.session.get('user_name', 'unknown')
+
+			member = Member(user_name=user_name, user_id = user_id)
+
+			context = { 'member' : member ,  'pdfs' : pdfs }
 
 		"""
 		classnode = ClassNode.objects.get(class_id = class_id)
@@ -79,6 +93,102 @@ def joinClass(request) :
 		return render(request, './chat+viewer.html', context)
 
 
+
+def main(request) :
+
+	if request.method == 'GET' :
+
+		if not request.session.get('login_complete', False):
+			unknown_member = Member(user_name='unknown', user_id = 'unknown')
+			context = { 'member' : unknown_member }
+
+		else :
+			user_id = request.session.get('user_id', 'unknown')
+			user_name = request.session.get('user_name', 'unknown')
+
+			member = Member(user_name=user_name, user_id = user_id)
+
+			context = { 'member' : member }
+
+		return render(request, './main.html', context)
+
+	if request.method == 'POST':
+
+		user_name=request.POST['user_name']
+		#user_name = request.POST.get('user_name', False);
+		user_id = request.POST['user_id']
+		user_psw = request.POST['user_psw']
+		#user_email = request.POST.get('user_email', False);
+		user_email=request.POST['user_email']
+
+		new_member = Member(user_name=user_name, user_id = user_id, user_psw = user_psw, user_email=user_email)
+		#멤버 객체 생성 
+		new_member.save()
+
+		context = { 'member' : new_member }
+
+		request.session['login_complete'] = True
+		request.session['user_id'] = user_id
+		request.session['user_name'] = user_name
+
+		return render(request, './main.html', context)
+
+
+def logout(request) :
+
+	request.session['login_complete'] = False
+
+	unknown_member = Member(user_name='unknown', user_id = 'unknown')
+
+	context = { 'member' : unknown_member }
+
+	return render(request, './main.html', context)
+
+
+def check_login(request) :
+
+	user_id = request.GET.get('id',None)
+	user_psw = request.GET.get('psw',None)
+
+	try :
+		member = Member.objects.get(user_id = user_id)
+		#print(user_id, user_psw, member)
+		if member.user_psw != user_psw :
+			result = { "result" : "psw_failed"}
+		else :
+			request.session['login_complete'] = True
+			request.session['user_id'] = user_id
+			request.session['user_name'] = member.user_name
+
+			result = { "result" : "success" }
+
+	except :
+		result = { "result" : "id_failed" }
+		
+	#print(result)
+	return JsonResponse(result)
+
+
+def login(request) :
+
+	user_id = request.session.get('user_id', False)
+	user_name = request.session.get('user_name', False)
+
+	#print(user_id, user_name)
+	member = Member.objects.get(user_id = user_id)
+
+	#member = Member(user_name=user_name, user_id = user_id)
+
+	#context = { 'member' : member }
+
+	#return render(request, './main.html', context)
+
+	return redirect('../main/')
+
+
+def register(request) :
+
+	return render(request, './register.html')
 
 
 """
@@ -169,6 +279,7 @@ def updateChat(request) :
 def sendChat(request) :
 
 	if request.method == 'GET' :
+
 		now = datetime.now()
 		#print(now)
 
@@ -227,3 +338,44 @@ def delete_msg(request) :
 		result = { "result" : 'false' }
 
 		return JsonResponse(result)
+
+
+
+
+def join(request) :
+
+	members = Member.objects.all()
+	context = {'members' : members}
+	return render(request, './join.html', context)
+
+def check_id(request):
+
+	if request.method == 'GET' :
+		print(request.GET.get('user_id',None))
+		user_id = request.GET.get('user_id',None)
+
+		try:
+			member_list = Member.objects.get(user_id = user_id)
+			result = {"result" : 'true'}
+		except :
+			result = {"result" : 'false'}
+
+	return JsonResponse(result)
+
+
+def register_member_db(request):
+
+	if request.method == 'POST':
+
+		user_name=request.POST['user_name']
+		#user_name = request.POST.get('user_name', False);
+		user_id = request.POST['user_id']
+		user_psw = request.POST['user_psw']
+		#user_email = request.POST.get('user_email', False);
+		user_email=request.POST['user_email']
+
+		new_member = Member(user_name=user_name, user_id = user_id, user_psw = user_psw, user_email=user_email)
+		#멤버 객체 생성 
+		new_member.save()
+
+		return render(request, './main.html')

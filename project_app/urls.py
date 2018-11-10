@@ -25,6 +25,10 @@ urlpatterns = [
     path('cc_test/', views.cc_test),
     url(r'^joinClass/.+$',views.joinClass),
     path('inputClass/', views.inputClass),
+    path('main/', views.main),
+    path('logout/', views.logout),
+    path('login/', views.login),
+    #path('register/', views.register),
     #path('pdf_upload/', views.pdf_upload),
     #path('pdf/', views.pdf),
 
@@ -34,6 +38,11 @@ urlpatterns = [
     path('delete_msg/', views.delete_msg),
     path('create_class/', views.create_class),
     path('check_class/', views.check_class),
+    path('check_login/', views.check_login),
+
+    path('join/', views.join),
+    path('check_id/', views.check_id),
+    path('join/register_member_db/',views.main),
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

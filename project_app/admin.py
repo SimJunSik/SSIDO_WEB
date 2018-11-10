@@ -6,3 +6,4 @@ from .models import *
 admin.site.register(ChatNode)
 admin.site.register(PDF)
 admin.site.register(ClassNode)
+admin.site.register(Member)

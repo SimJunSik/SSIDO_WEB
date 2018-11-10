@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>  
+
+	<style type="text/css">
+		.top{
+			width: 100%;
+			height: 5vw;
+			background-color: white;
+			position: absolute;
+			top: 0;
+			z-index: 9999;
+		}
+		.top_login_div, .top_login_member_div{
+			width: 20vw;
+			height: 80%;
+			margin-top: 0.5%;
+			float: right;
+			position: relative;
+		}
+
+		.middle{
+			width: 100%;
+			height: 50vw;
+			background-color: white;
+			position: relative;
+			top: 5vw;
+		}
+
+		.join_button, .register_button, .login_button, .create_class_button, .mypage_button{
+		    background-color: #F2385A; /* Green */
+		    border: none;
+		    color: white;
+		    padding: 20px;
+		    text-align: center;
+		    text-decoration: none;
+		    display: inline-block;
+		    font-size: 16px;
+		    margin: 4px 2px;
+		    cursor: pointer;
+		    border-radius: 30px;
+		}
+
+		input{
+			all: unset;
+		}
+
+	</style>
+	<script type="text/javascript">
+		function join_class(){
+			var class_id = $("#class_id").val();
+
+			$.ajax({
+	          url: '/check_class/',
+	          data: {
+	          	  'class_id' : class_id,
+	          },
+	          dataType: 'json',
+	          success: function (data) {
+	          	//alert(data.result);
+	          	if(data.result == 'success'){
+	          		var addr = '../joinClass/' + class_id;
+	          		window.location.href = addr;
+	          	}
+	          	else {
+	          		alert("존재하지 않는 클래스코드 입니다.");
+	          	}
+	          }
+	        });
+		}
+
+		function go_join_page(){
+			window.location.href = "../join";
+		}
+
+		function login(){
+			var id = $("#id_input").val();
+			var psw = $("#psw_input").val();
+
+			$.ajax({
+	          url: '/check_login/',
+	          data: {
+	          	  'id' : id,
+	          	  'psw' : psw,
+	          },
+	          dataType: 'json',
+	          success: function (data) {
+	          	//alert(data.result);
+	          	if(data.result == 'success'){
+	          		window.location.href = '../login/';
+	          	}
+	          	else if(data.result == 'id_failed'){
+	          		alert("존재하지 않는 ID 입니다.");
+	          	}
+	          	else if(data.result == 'psw_failed'){
+	          		alert("PSW가 틀렸습니다.");
+	          	}
+	          }
+	        });
+		}
+	</script>
+</head>
+<body style="width: 100%; height: 2000px; margin: 0;">
+	<div class="top">
+		<img src="../../static/img/logo3.png" style="width: 10vw; height: 80%; float: left; margin-left: 5%; margin-top: 0.5%;">
+			{% if member.user_id == 'unknown' %}
+			<div class="top_login_div">
+				<input type="text" id="id_input" style="width: 5vw; height: 80%;" placeholder="ID">
+				<input type="text" id="psw_input" style="width: 5vw; height: 80%;" placeholder="PSW">
+				<button class="login_button" style="width: 5vw; height: 80%; background-color: transparent; color: black;" onclick="login();">
+					로그인
+				</button>
+				<button class="register_button" style="width: 10vw; height: 80%;" onclick="go_join_page();">
+					회원가입
+				</button>
+			</div>
+			{% else %}
+			<div class="top_login_member_div">
+				<div class="top_hello_div" style="width: 100%; height: 50%; float: right;">
+					<a href="../../logout/">{{member.user_name}}</a>님 안녕하세요.
+				</div>
+
+				<div class="top_member_button_div" style="width: 100%; height: 50%;">
+					<button class="create_class_button" style="width: 7vw; height: 80%; background-color: transparent; color: black;">
+						클래스 개설
+					</button>
+					<button class="mypage_button" style="width: 7vw; height: 80%; background-color: transparent; color: black;">
+						마이페이지
+					</button>
+				</div>
+			</div>
+			{% endif %}
+	</div>
+
+	<div class="middle">
+		<div class="middle_img_div" style="width: 50%; height: 100%; background-color: white; float: left; position: relative;">
+			<div class="middle_img" style="width: 70%; height: 70%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+				<img src="../../static/img/main_image.png" style="width: 100%; height: 100%;">
+			</div>
+		</div>
+		<div class="middle_content_div" style="width: 50%; height: 100%; background-color: white; float: left;">
+			<div class="join_class_div" style="width: 100%; height: 20%; background-color: white; position: relative; margin-top: 13vw;">
+				<div class="join_class_inner_class" style="width: 40vw; height: auto; position: absolute; top: 50%; left: 50%;  transform: translate(-50%,-50%);">
+					<input  id="class_id" type="text" style="width: 70%; height: 5vw; float: left; margin-right: 5%; font-size: 3vw; border: 6px solid #F2385A; border-radius: 40px;" placeholder="  클래스 코드">
+					<button class="join_button" type="button" style="width: 5vw; height: 5vw; float: left;" onclick="join_class();">접속</button>
+				</div>
+			</div>
+			<div class="content_text_div" style="width: 100%; height: 10%; background-color: white; position: relative;">
+				<div class="content_text" style="width: auto; height: auto; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; text-align: center; font-size: 15px; font-weight: bold;">
+					IHAQ은 당신의 프레젠테이션을 더 원활하게 만들어줍니다. <br>
+					새로워진 소통형 프레젠테이션을 경험해보세요.
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="bottom">
+	</div>
+</body>
+</html>
