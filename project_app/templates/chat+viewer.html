@@ -26,33 +26,86 @@
 	<script type="text/javascript" src="../static/js/pdfobject.js"></script>
 
 	<style type="text/css">
+		.top{
+			width: 100%;
+			height: 5vw;
+			background-color: white;
+			position: fixed;
+			top: 0;
+			z-index: 9998;
+		}
+		.top_login_div, .top_login_member_div{
+			width: 20vw;
+			height: 80%;
+			margin-top: 0.5%;
+			float: right;
+			position: relative;
+		}
+
+		.middle{
+			width: 100%; 
+			height: 90%;
+			position: absolute;
+			top: 5vw;
+		}
+
+
 		.chat_body{
 			width: 100%;
-			height: 90%;
-			background-color: gray;
+			height: 100%;
+			background-color: #EAEAEA;
+			border: 1px solid transparent;
+   			border-radius: 10px;
 		}
 		.best_chat{
 			width: 95%;
 			height: 25%;
 			margin-bottom: 5%;
-			background-color: orange;
-			overflow-y:scroll;
+			margin-left: 2.5%;
+			overflow-y : scroll;
+			overflow-x: hidden;
+			border: 1px solid black;
+   			border-radius: 10px;
 		}
 		.chat_show{
 			width: 95%;
 			height: 60%;
-			background-color: pink;
-			overflow-y:scroll;
+			margin-left: 2.5%;
+			background-color: transparent;
+			overflow-y : scroll;
+			overflow-x: hidden;
 		}
 		.chat_input_div{
 			width: 95%;
 			height: 10%;
-			background-color: green;
+			background-color: transparent;
 		}
 		.chat_div{
+			width: 100%;
+			height: 15%;
+			background-color: transparent;
+			border: 1px solid transparent;
+   			border-radius: 10px;
+		}
+		.chat_content_div{
 			width: 65%;
-			height: 4vw;
-			background-color: white;
+			height: 100%;
+			margin-bottom: 0.5vw;
+			border: 1px solid transparent;
+   			border-radius: 10px;
+		}
+		#send_msg_btn{
+			background-color: #F2385A;
+		    border: none;
+		    color: white;
+		    padding: 20px;
+		    text-align: center;
+		    text-decoration: none;
+		    display: inline-block;
+		    font-size: 16px;
+		    margin: 4px 2px;
+		    cursor: pointer;
+		    border-radius: 30px;
 		}
 		.set_user_name_div{
 			width: 100%;
@@ -60,19 +113,29 @@
 			background-color: yellow;
 		}
 		.center_div{
-			width: 50%;
+			width: 60%;
 			height: 50%;
+			margin-left: 5%;
 			float: left; 
 		}
 		.memo_div{
-			width: 100%;
-			height: 30%;
-			background-color: blue;
+			width: 60%;
+			height: 94%;
+			margin-top: 1%;
+			margin-bottom: 1%;
+			margin-left: 5%;
+			border: 1px solid transparent;
+   			border-radius: 10px;
+			background-color: white;
+			float: left;
 		}
 		.user_list_div{
 			width: 100%;
 			height: 10%;
 			background-color: green;
+		}
+		input{
+			all : unset;
 		}
 	</style>
 
@@ -92,82 +155,141 @@
 		}
 	</style>
 </head>
-<body style="height: 1500px; background-color: black; width: 100%; margin: 0; position: relative;">
+<body style="height: 1500px; background-color: white; width: 100%; margin: 0; position: relative;">
 
-
-	<div class="pdf_div"  style="width: 15%; height: 50%; float: left; background-color: white;">
-		<div class="pdf_list_div" style="width: 100%; height: 80%; background-color: white;">
-			{% for pdf in pdfs %}
-				<div id="{{pdf.pdf.url}}" class="pdf_content" style="width: 100%; height: 10%; background-color: pink;" onclick="change_pdf(this);">
-					{{pdf.pdf_name}}
+	<div class="top">
+		<img src="../../static/img/logo3.png" style="width: 10vw; height: 80%; float: left; margin-left: 5%; margin-top: 0.5%;">
+			{% if member.user_id == 'unknown' %}
+			<div class="top_login_div">
+				<!--
+				<input type="text" id="id_input" style="width: 5vw; height: 80%;" placeholder="ID">
+				<input type="text" id="psw_input" style="width: 5vw; height: 80%;" placeholder="PSW">
+				<button class="login_button" style="width: 5vw; height: 80%; background-color: transparent; color: black;" onclick="login();">
+					로그인
+				</button>
+				-->
+				<button class="login_button" style="width: 5vw; height: 80%; background-color: transparent; color: black;" onclick="loginShow();">
+					로그인
+				</button>
+				<button class="register_button" style="width: 10vw; height: 80%;" onclick="go_join_page();">
+					회원가입
+				</button>
+			</div>
+			{% else %}
+			<div class="top_login_member_div">
+				<div class="top_hello_div" style="width: 100%; height: 50%; float: right;">
+					<a href="../../logout/">{{member.user_name}}</a>님 안녕하세요.
 				</div>
-			{% endfor %}
-		</div>
 
-		<div class="upload_pdf_div">
-			<form action="" method="post" enctype="multipart/form-data" name="frm">
-				{% csrf_token %}
-		        <input type="file" id="pdfs" value="" name="upload[]" multiple>
-		        <button type="button" value="업로드" onclick="check_file_and_submit();">업로드</button>
-		        <input type="text" value="" name="class_id_text" id="class_id_text" hidden="hidden">
-		    </form>
-		    <div id="selected_pdfs" style="font-size: 10px;">
-
-		    </div>
-		</div>
+				<div class="top_member_button_div" style="width: 100%; height: 50%;">
+					<button class="create_class_button" style="width: 7vw; height: 80%; background-color: transparent; color: black;" onclick="classShow();">
+						클래스 개설
+					</button>
+					<button class="mypage_button" style="width: 7vw; height: 80%; background-color: transparent; color: black;">
+						마이페이지
+					</button>
+				</div>
+			</div>
+			{% endif %}
 	</div>
 
-	<div class="center_div">
-		<div id="viewer_div">
-			<div id="viewer_content">
+	<div class="middle">
+		<div class="class_title_div" style="width: 90%; height: 10%; margin-left: 5%; position: relative;">
+			<div class="class_title_content" style="width: auto; height: auto; font-size: 3vw; position: absolute; top: 50%; transform: translate(0%,-50%);">
+				클래스 이름
+			</div>
+		</div>
+		<div class="center_div">
+			<div id="viewer_div">
+				<div id="viewer_content">
+
+				</div>
+				<img src="../static/img/full_screen_icon.png" style="width: 1vw; height: 1vw; float: right;" onclick="startFS();"> 
+				<!--
+				<button type="button" style="width: 20px; height: 20px; background-image: url(../static/img/like_icon.png);" onclick="startFS();">[]</button>
+				-->
+			</div>
+			<!--
+			<div class="memo_div">
+				<input type="textarea" style="width: 100%; height: 100%;">
+			</div>
+			-->
+			<div class="function_div" style="width: 100%; height: 50%; background-color: #D5D5D5; border: 1px solid transparent;
+	   			border-radius: 10px;">
+				<div class="pdf_div"  style="width: 30%; height: 95%; float: left; background-color: white; border: 1px solid transparent; border-radius: 10px; margin-top: 1%;">
+					<div class="pdf_list_div" style="width: 100%; height: 80%; background-color: white;">
+						{% for pdf in pdfs %}
+							<div id="{{pdf.pdf.url}}" class="pdf_content" style="width: 100%; height: 10%; background-color: transparent; border: 1px solid transparent; border-radius: 10px;" onclick="change_pdf(this);">
+								{{pdf.pdf_name}}
+							</div>
+						{% endfor %}
+					</div>
+
+					<div class="upload_pdf_div">
+						<form action="" method="post" enctype="multipart/form-data" name="frm">
+							{% csrf_token %}
+					        <input type="file" id="pdfs" value="" name="upload[]" multiple>
+					        <button type="button" value="업로드" onclick="check_file_and_submit();">업로드</button>
+					    </form>
+					    <div id="selected_pdfs" style="font-size: 10px;">
+
+					    </div>
+					</div>
+				</div>
+
+
+				<div class="memo_div">
+					<div class="memo_title" style="width: 100%; height: 15%; font-size: 2vw;">
+						MEMO
+					</div>
+					<input type="textarea" style="width: 100%; height: 85%;">
+				</div>
+			</div>
+		</div>
+
+
+
+
+		<div class="chat_div" style="width: 25%; height: 60%; float: left; margin-left: 5%; border: 1px solid transparent;
+	   border-radius: 10px;">
+	   		<!--
+			<div class="user_list_div">
 
 			</div>
-			<button type="button" style="width: 20px; height: 20px;" onclick="startFS();">[]</button>
-		</div>
-		<div class="memo_div">
-			<input type="textarea" style="width: 100%; height: 100%;">
-		</div>
-	</div>
-
-
-
-
-	<div class="chat_div" style="width: 30%; height: 50%; float: left; margin-left: 5%;">
-		<div class="user_list_div">
-
-		</div>
-		<div class="chat_body">
-			<div class="best_chat" id="best_chat_id">
-			
-			</div>
-			<div class="chat_show" id="chat_show_id">
+			-->
+			<div class="chat_body">
+				<div class="best_chat" id="best_chat_id">
 				
+				</div>
+				<div class="chat_show" id="chat_show_id">
+					
+				</div>
+				<div class="chat_input_div" style="position: relative; margin-top: 5%;">
+					<input type="text" id="chat_input" style="width: 16vw; height: 3vw; background-color: white; float: left; border: 1px solid transparent; border-radius: 10px; margin-right: 5%; margin-left: 2%; margin-top: 0.5%;">
+					<button id="send_msg_btn" type="button" style="width: 5vw; height: 3vw; float: left;" onclick="send_msg();">보내기</button>
+				</div>
 			</div>
-			<div class="chat_input_div" style="position: relative;">
-				<input type="text" id="chat_input" style="width: 70%; height: 90%; background-color: white; float: left;">
-				<button type="button" style="width: 25%; height: 90%; float: left;" onclick="send_msg();">보내기</button>
+
+			<!--
+			<div class="set_user_name_div" style="position: relative;">
+				<input type="text" id="user_id_input" style="width: 70%; height: 90%; background-color: white; float: left;">
+				<button type="button" style="width: 25%; height: 90%; float: left;" onclick="set_user_id();">ID SET</button>
 			</div>
-		</div>
 
-		<!--
-		<div class="set_user_name_div" style="position: relative;">
-			<input type="text" id="user_id_input" style="width: 70%; height: 90%; background-color: white; float: left;">
-			<button type="button" style="width: 25%; height: 90%; float: left;" onclick="set_user_id();">ID SET</button>
-		</div>
+			<div class="set_user_name_div" style="position: relative;">
+				<input type="text" id="user_name_input" style="width: 70%; height: 90%; background-color: white; float: left;">
+				<button type="button" style="width: 25%; height: 90%; float: left;" onclick="set_user_name();">NAME SET</button>
+			</div>
 
-		<div class="set_user_name_div" style="position: relative;">
-			<input type="text" id="user_name_input" style="width: 70%; height: 90%; background-color: white; float: left;">
-			<button type="button" style="width: 25%; height: 90%; float: left;" onclick="set_user_name();">NAME SET</button>
+			<div class="set_user_name_div" style="position: relative;">
+				<input type="text" id="class_id_input" style="width: 70%; height: 90%; background-color: white; float: left;">
+				<button type="button" style="width: 25%; height: 90%; float: left;" onclick="set_class_id();">CLASS SET</button>
+			</div>
+			-->
 		</div>
-
-		<div class="set_user_name_div" style="position: relative;">
-			<input type="text" id="class_id_input" style="width: 70%; height: 90%; background-color: white; float: left;">
-			<button type="button" style="width: 25%; height: 90%; float: left;" onclick="set_class_id();">CLASS SET</button>
-		</div>
-		-->
 	</div>
 
-
+	<input type="text" name="class_id_text" id="class_id_text" value="{{class_id}}" hidden="hidden">
 	<input type="text" id="global_user_id_value" value="{{member.user_id}}" hidden="hidden">
 	<input type="text" id="user_name_value" value="{{member.user_name}}" hidden="hidden">
 
@@ -185,8 +307,8 @@
 		var best_chat_min_ddabong = 5;
 		var upload_ok = 'true';
 
-		alert(global_user_id);
-		alert(user_name);
+		//alert(global_user_id);
+		//alert(user_name);
 
 	    $(document).ready(function(){
 	      	updateData();
@@ -381,24 +503,23 @@
 		        	//alert(class_id_list[i]);
 		        	if(global_class_id == class_id_list[i]){
 			            var start = "<div class=\"chat_div\">";
-			            var content_start = "<div class=\"chat_content_div\">";
+			            var content_start = "<div class=\"chat_content_div\" style=\"background-color: #A6A6A6;float: left;\">";
 			            
-
 			            var chat_content_body = name_list[i] + " : " + content_list[i] + "<br><br>";
 			            
-			            var chat_ddabong1 = "<button type=\"button\" id=\"";
+			            var chat_ddabong1 = "<img src=\"../static/img/like_icon.png\" id=\"";
 			            var chat_ddabong_id = class_id_list[i] + "$$$" + name_list[i] + "$$$" + content_list[i] + "$$$" + date_list[i];
-			            var chat_ddabong2 = "\" style=\"width: 1vw; height:1vw;\" onclick=\"ddabong(this);\">굳</button>";
+			            var chat_ddabong2 = "\" style=\"width: 1vw; height:1vw;\" onclick=\"ddabong(this);\">";
 			            var ddabong_cnt = ddabong_list[i];
 			            
-			            var chat_delete1 = "<button type=\"button\" id=\"";
+			            var chat_delete1 = "<img src=\"../static/img/delete_icon.png\" id=\"";
 			            var chat_delete_id = class_id_list[i] + "%%%" + name_list[i] + "%%%" + content_list[i] + "%%%" + date_list[i];
-			            var chat_delete2 = "\" style=\"width: 1vw; height:1vw;\" onclick=\"delete_msg(this);\">X</button>";
+			            var chat_delete2 = "\" style=\"width: 1vw; height:1vw; margin-left: 1%;\" onclick=\"delete_msg(this);\">";
 
 			            
 			            var content_end = "</div>";
 
-			            var end = "</div><hr>";
+			            var end = "</div>";
 
 			            var chat_ddabong = chat_ddabong1 + chat_ddabong_id + chat_ddabong2 + ddabong_cnt;
 			            var chat_delete = chat_delete1 + chat_delete_id + chat_delete2;
@@ -407,19 +528,21 @@
 
 			            // 본인 채팅에만 삭제버튼 추가
 			            if(global_user_id == user_id_list[i]){
-				            chat_content += start + chat_content_body + chat_ddabong + chat_delete + end;
+			            	content_start = "<div class=\"chat_content_div\" style=\"background-color: #D5D5D5;float: right;\">";
+				            chat_content += start + content_start + chat_content_body + chat_ddabong + chat_delete + content_end + end;
 				        }
 				        else{
-				        	chat_content += start + chat_content_body + chat_ddabong + end;
+				        	chat_content += start + content_start + chat_content_body + chat_ddabong + content_end + end;
 				        }
 
 				        // 좋아요 갯수 best_chat_min_ddabong 개 이상만 BEST CHAT에 등록
 				        if(ddabong_list[i] >= best_chat_min_ddabong){
+				        	start = "<div class=\"chat_div\" style=\"height: 35%;\">";
 				        	if(global_user_id == user_id_list[i]){
-				            	best_chat_content += start + chat_content_body + chat_ddabong + chat_delete + end;
+				            	best_chat_content += start + content_start + chat_content_body + chat_ddabong + chat_delete + content_end + end;
 					        }
 					        else{
-					        	best_chat_content += start + chat_content_body + chat_ddabong + end;
+					        	best_chat_content += start + content_start + chat_content_body + chat_ddabong + content_end + end;
 					        }
 				        }
 				    }
@@ -526,9 +649,9 @@
 
 	    function change_pdf(pdf){
 	    	var pdf_url = pdf.id;
-	    	$(".pdf_content").css('background-color','pink');
+	    	$(".pdf_content").css('background-color','transparent');
 	    	PDFObject.embed(pdf_url, "#viewer_content");
-	    	pdf.style.backgroundColor = 'red';
+	    	pdf.style.backgroundColor = '#F2385A';
 	    }
 
         function check_file_and_submit(){

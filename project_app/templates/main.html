@@ -3,16 +3,19 @@
 <head>
 	<title></title>
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>  
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 	<style type="text/css">
 		.top{
 			width: 100%;
 			height: 5vw;
 			background-color: white;
-			position: absolute;
+			position: fixed;
 			top: 0;
-			z-index: 9999;
+			z-index: 9998;
 		}
 		.top_login_div, .top_login_member_div{
 			width: 20vw;
@@ -31,7 +34,7 @@
 		}
 
 		.join_button, .register_button, .login_button, .create_class_button, .mypage_button{
-		    background-color: #F2385A; /* Green */
+		    background-color: #F2385A;
 		    border: none;
 		    color: white;
 		    padding: 20px;
@@ -77,8 +80,8 @@
 		}
 
 		function login(){
-			var id = $("#id_input").val();
-			var psw = $("#psw_input").val();
+			var id = $("#id").val();
+			var psw = $("#pwd").val();
 
 			$.ajax({
 	          url: '/check_login/',
@@ -102,15 +105,140 @@
 	        });
 		}
 	</script>
+
+
+	<script type="text/javascript">
+		//아이디, 비밀번호 입력 여부 체크
+		function loginCheck() {
+			if(document.f1.id.value == "") {
+				alert("아이디를 입력해주세요!");
+			}
+			else if(document.f1.pwd.value == "") {
+				alert("비밀번호를 입력해주세요!");
+			}
+			else {
+				document.f1.submit();
+			}
+		}
+		//클래스 이름, 클래스 코드 입력 여부 체크
+		function classCheck() {
+			if(document.f2.className.value == "") {
+				alert("클래스 이름을 입력해주세요!");
+			}
+			else if(document.f2.classCode.value == "") {
+				alert("클래스 코드를 입력해주세요!");
+			}
+			else {
+				document.f2.submit();
+			}
+		}
+		//로그인 버튼 누르면 창이 활성화
+		function loginShow() {
+			$("#login_div").css("display","block");
+			$("#class_div").css("display", "none");
+		}
+		//x버튼 누르면 창 사라짐
+		function loginVanish() {
+			$("#login_div").css("display", "none");
+		}
+		//클래스 버튼 누르면 창이 활성화
+		function classShow() {
+			$("#class_div").css("display","block");
+			$("#login_div").css("display", "none");
+		}
+		//x버튼 누르면 창 사라짐
+		function classVanish() {
+			$("#class_div").css("display", "none");
+		}
+	</script>
+	<style type="text/css">
+		#login_div{
+			width:350px;
+			height:540px;
+			position:absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			box-shadow:0px -1px 30px 2px #999;
+			border-radius:8px;
+			z-index: 9999;
+			background-color: white;
+		}
+		#class_div{
+			width:350px;
+			height:470px;
+			position:absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			box-shadow:0px -1px 30px 2px #999;
+			border-radius:8px;
+			z-index: 9999;
+			background-color: white;
+		}
+		#login_header, #class_header{
+			width:350px;
+			height:120px;
+			text-align:center;
+			padding:48px 50px 10px 50px;
+			font-size:1.5em;
+		}
+		#login_section1, #class_section1{
+			width:310px;
+			height:190px;
+		}
+		#login_section2{
+			width:350px;
+			height:130px;
+		}
+		#class_section2{
+			width:350px;
+			height:80px;
+		}
+		#login_footer, #class_footer{
+			width:350px;
+			height:100px;
+			text-align:center;
+		}
+		#login_id_section, #login_pwd_section, #class_name_section, #class_code_section{
+			height:95px;
+			margin:0 0 0 42px;
+			padding:10px 0 0 0;
+		}
+		span{
+			border-bottom:2px solid gray;
+			width:100px;
+			height:80px;
+			padding:0 0 5px 0;
+		}
+		A:link{text-decoration:none; color:black} /* 링크 상태일 때 스타일 */
+		A:visited{text-decoration:none; color:gray} /* 방문했을 때 스타일 */
+		A:hover{text-decoration:underline; color:blue} /* 마우스 오버시 스타일 */
+		A:active{text-decoration:none; color:red} /* 마우스를 누른 상태일 때 스타일 */
+		input{
+			border:0px;
+		}
+		#id{
+			width:200px;
+		}
+		#pwd, #className, #classCode{
+			width:185px;
+		}
+	</style>
 </head>
 <body style="width: 100%; height: 2000px; margin: 0;">
 	<div class="top">
 		<img src="../../static/img/logo3.png" style="width: 10vw; height: 80%; float: left; margin-left: 5%; margin-top: 0.5%;">
 			{% if member.user_id == 'unknown' %}
 			<div class="top_login_div">
+				<!--
 				<input type="text" id="id_input" style="width: 5vw; height: 80%;" placeholder="ID">
 				<input type="text" id="psw_input" style="width: 5vw; height: 80%;" placeholder="PSW">
 				<button class="login_button" style="width: 5vw; height: 80%; background-color: transparent; color: black;" onclick="login();">
+					로그인
+				</button>
+				-->
+				<button class="login_button" style="width: 5vw; height: 80%; background-color: transparent; color: black;" onclick="loginShow();">
 					로그인
 				</button>
 				<button class="register_button" style="width: 10vw; height: 80%;" onclick="go_join_page();">
@@ -124,7 +252,7 @@
 				</div>
 
 				<div class="top_member_button_div" style="width: 100%; height: 50%;">
-					<button class="create_class_button" style="width: 7vw; height: 80%; background-color: transparent; color: black;">
+					<button class="create_class_button" style="width: 7vw; height: 80%; background-color: transparent; color: black;" onclick="classShow();">
 						클래스 개설
 					</button>
 					<button class="mypage_button" style="width: 7vw; height: 80%; background-color: transparent; color: black;">
@@ -135,7 +263,7 @@
 			{% endif %}
 	</div>
 
-	<div class="middle">
+	<div class="middle" style="z-index: 2;">
 		<div class="middle_img_div" style="width: 50%; height: 100%; background-color: white; float: left; position: relative;">
 			<div class="middle_img" style="width: 70%; height: 70%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
 				<img src="../../static/img/main_image.png" style="width: 100%; height: 100%;">
@@ -158,6 +286,57 @@
 	</div>
 
 	<div class="bottom">
+	</div>
+
+
+
+
+	<div id="login_div" style="display:none;">
+		<input type="button" value="x" style="float:right; border:0px; margin-right: 10px;" onclick="loginVanish();"/>
+		<div id="login_header">
+			<b>로그인</b>
+		</div>
+		<div id="login_section1">
+			<form action="" method="post" name="f1">
+				<div id="login_id_section">
+					<span><input type="text" name="id" id="id" maxlength="10" placeholder="아이디" /></span>
+				</div>
+				<div id="login_pwd_section">
+					<span><input type="password" name="pwd" id="pwd" maxlength="10" placeholder="패스워드" /></span>
+				</div>
+			</form>	
+		</div>
+		<div id="login_section2">
+				<button class="btn btn-danger" style="width:250px; margin:0 0 0 45px;" onclick="login();">로그인</button>
+				<button class="btn btn-default" style="width:250px; margin:20px 0 0 45px;" onclick="">회원가입</button>
+		</div>
+		<div id="login_footer">
+			<a href="#">비밀번호를 잊어버리셨나요?</a>
+		</div>
+	</div>
+
+
+	<div id="class_div" style="display:none;">
+		<input type="button" value="x" style="float:right; border:0px; margin-right: 10px;" onclick="classVanish();"/>
+		<div id="class_header">
+			<b>클래스 개설</b>
+		</div>
+		<div id="class_section">
+			<form action="" method="post" name="f2">
+				<div id="class_name_section">
+					<span><input type="text" name="className" id="className" maxlength="10" placeholder="클래스 이름" /></span>
+				</div>
+				<div id="class_code_section">
+					<span><input type="text" name="classCode" id="classCode" maxlength="10" placeholder="클래스 코드" /></span>
+				</div>
+			</form>	
+		</div>
+		<div id="class_section2">
+				<button class="btn btn-danger" style="width:260px; margin:0 0 0 45px;" onclick="classCheck();">개설</button>
+		</div>
+		<div id="class_footer">
+			<a href="#">사용방법이 궁금하신가요?</a>
+		</div>
 	</div>
 </body>
 </html>
