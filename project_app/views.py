@@ -33,37 +33,65 @@ def joinClass(request) :
 
 		#print(class_id)
 
+		classnode = ClassNode.objects.get(class_id = class_id)
+
 		pdfs = PDF.objects.filter(class_id = class_id)
 
 		if not request.session.get('login_complete', False):
             
-			unknown_member = Member(user_name='unknown', user_id = 'unknown')
+			unknown_member = Member(user_name = 'unknown', user_id = 'unknown')
 
-			context = { 'member' : unknown_member ,  'pdfs' : pdfs }
+			context = { 'member' : unknown_member ,  'pdfs' : pdfs , 'classnode' : classnode }
 
 		else :
 
 			user_id = request.session.get('user_id', 'unknown')
 			user_name = request.session.get('user_name', 'unknown')
 
-			member = Member(user_name=user_name, user_id = user_id)
+			member = Member(user_name = user_name, user_id = user_id)
 
-			context = { 'member' : member ,  'pdfs' : pdfs }
+			context = { 'member' : member ,  'pdfs' : pdfs  , 'classnode' : classnode }
 
-		"""
-		classnode = ClassNode.objects.get(class_id = class_id)
-		classnode.number_of_user = classnode.number_of_user + 1
-		classnode.save()
-		"""
+			#print(user_id)
+
+			"""
+			classnode = ClassNode.objects.get(class_id = class_id)
+			classnode.number_of_user = classnode.number_of_user + 1
+			classnode.save()
+			"""
+
+
+			user_list = []
+			for item in classnode.user_list.split(',') :
+			    if '[' in item :
+			        item = item.replace('[', '')
+			    if '\'' in item :
+			        item = item.replace('\'', '')
+			    if ']' in item :
+			        item = item.replace(']', '')
+			    user_list.append(item.strip())
+
+
+			user_info = user_id + "(" + user_name + ")"
+			if user_info not in user_list :
+				user_list.append(user_info)
+			if '.' in user_list :
+				user_list.remove('.')
+
+			classnode.user_list = user_list
+			classnode.save()
+
 
 
 		return render(request, './chat+viewer.html', context)
 
+	# PDF 등록
 	if request.method == 'POST':
 		class_id = request.POST.get('class_id_text', False)
 
 		for pdf in request.FILES.getlist('upload[]'):
 			#print(pdf)
+			print(class_id, pdf.name)
 			pdf_url = "../media/pdfs/" + "[" + class_id + "]" + pdf.name
 			new_pdf = PDF(pdf_name = "[" + class_id + "]" + pdf.name,
 				pdf_url = pdf_url, 
@@ -268,8 +296,13 @@ def updateChat(request) :
 		chats = json_serializer.serialize(ChatNode.objects.filter(class_id=class_id), ensure_ascii=False)
 		#chats = json_serializer.serialize(Chat.objects.all(), ensure_ascii=False)
 		#chats = Chat.objects.all()
+
+		try :
+			class_user_list = ClassNode.objects.get(class_id = class_id).user_list
+		except :
+			class_user_list = []
 	
-		result = { "chats" : chats }
+		result = { "chats" : chats , "class_user_list" : class_user_list }
 
 		#print(result)
 
