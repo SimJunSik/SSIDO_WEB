@@ -103,7 +103,7 @@
 			text-align: center;
 			font-size: 0.5vw;
 		}
-		#send_msg_btn, #upload_button{
+		#send_msg_btn, #upload_button, #set_name_button{
 			background-color: #F2385A;
 		    border: none;
 		    color: white;
@@ -323,8 +323,10 @@
 				</div>
 
 				<div class="add_or_full_div" style="width: 10%; height: 100%; float: right;">
-					<img src="../static/img/full_screen_icon.png" style="width: 2vw; height: 2vw; float: right;" onclick="startFS();"> 
+					<img src="../static/img/full_screen_icon.png" style="width: 2vw; height: 2vw; float: right;" onclick="startFS();">
+					{% if member.user_id == classnode.founder_id %}
 					<img src="../static/img/pdf_plus_icon.png" style="width: 2vw; height: 2vw; float: right; margin-right: 10%;" onclick="open_upload_pdf();">
+					{% endif %}
 				</div>
 			</div>
 		</div>
@@ -345,7 +347,7 @@
 				<div class="chat_input_div" style="position: relative; margin-top: 5%;">
 					{% if member.user_name == 'unknown' %}
 						<input type="text" id="chat_input" style="width: 16vw; height: 3vw; background-color: white; float: left; border: 1px solid transparent; border-radius: 10px; margin-right: 5%; margin-left: 2%; margin-top: 0.5%;" disabled="true" placeholder="닉네임을 설정해주세요.">
-						<button id="send_msg_btn" type="button" style="width: 5vw; height: 3vw; float: left;" onclick="send_msg();" disabled="true">보내기</button>
+						<button id="send_msg_btn" type="button" style="width: 5vw; height: 3vw; float: left;" onclick="open_set_name();">SET NAME</button>
 					{% else %}
 						<input type="text" id="chat_input" style="width: 16vw; height: 3vw; background-color: white; float: left; border: 1px solid transparent; border-radius: 10px; margin-right: 5%; margin-left: 2%; margin-top: 0.5%;">
 						<button id="send_msg_btn" type="button" style="width: 5vw; height: 3vw; float: left;" onclick="send_msg();">보내기</button>
@@ -370,6 +372,20 @@
 			</div>
 			-->
 		</div>
+	</div>
+
+
+	<div id="set_name_div" style="width: 20%; height: 50%; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -70%); background-color: white; z-index: 10000; box-shadow:0px -1px 30px 2px #999; border-radius: 10px; display: none; text-align: center;">
+		<div class="set_name_close" style="width: 5%; height: 5%; position: absolute; top: 0%; right: 0%; font-weight: bold;" 
+		onclick="close_set_name();">X
+		</div>
+
+		<div class="check_set_name_input" style="width: 100%; height: 50%; position: relative; margin-top: 40%; text-align: center;">
+			<input type="text" id="set_name_input" style="width: 60%; height: 20%; border: 1px solid black;">
+			<img src="../static/img/check_icon.png" style="width: 2vw; height: 2vw;" onclick="check_set_name();">
+			<div id="result_check_set_name" style="width: 100%; text-align: center;"></div>
+		</div>
+		<button id="set_name_button" type="button" style="width: 6vw; height: 3vw; background-color: gray;" disabled="true" onclick="start_chat();">채팅시작</button>
 	</div>
 
 	<input type="text" id="global_user_id_value" value="{{member.user_id}}" hidden="hidden">
@@ -904,6 +920,57 @@
 	    function close_show_upload_pdf(){
 	    	$("#upload_pdf_div").fadeOut(500);
 	    }
+
+
+	    function open_set_name(){
+	    	$("#set_name_div").fadeIn(500);
+	    }
+
+	   	function close_set_name(){
+   	 		$("#set_name_div").fadeOut(500);
+	    }
+
+
+	    var name;
+	    function check_set_name(){
+	    	//alert("!!!!");
+	    	name = $("#set_name_input").val();
+	    	$.ajax({
+	          url: '/check_set_name/',
+	          data: {
+	          	  'user_name' : name
+	          },
+	          dataType: 'json',
+	          success: function (data) {
+	          	//alert(data.result);
+	          	if(data.result == 'success'){
+	          		//alert("가능합니다.");
+	          		$("#result_check_set_name").html("가능합니다.");
+	          		$("#result_check_set_name").css({"color" : "green"});
+	          		$("#set_name_button").css({"background-color" : "#F2385A"});
+	          		$("#set_name_button").removeAttr("disabled");
+	          	}
+	          	else {
+	          		//alert("불가능합니다.");
+	          		$("#result_check_set_name").html("불가능합니다.");
+	          		$("#result_check_set_name").css({"color" : "red"});
+	          		$("#set_name_button").css({"background-color" : "gray"});
+	          		$("#set_name_button").attr("disabled","disabled");
+	          	}
+	          }
+	        });
+	    }
+
+	    function start_chat(){
+	    	$("#set_name_div").fadeOut(500);
+	    	user_name = name;
+	    	$("#send_msg_btn").attr('onclick', 'send_msg();');
+	    	$("#send_msg_btn").html('보내기');
+
+	    	$("#chat_input").attr('placeholder', '');
+	    	$("#chat_input").removeAttr("disabled");
+	    }
+
 	</script>
 </body>
 </html>

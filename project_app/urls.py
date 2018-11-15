@@ -39,6 +39,7 @@ urlpatterns = [
     path('create_class/', views.create_class),
     path('check_class/', views.check_class),
     path('check_login/', views.check_login),
+    path('check_set_name/', views.check_set_name),
 
     path('join/', views.join),
     path('check_id/', views.check_id),

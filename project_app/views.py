@@ -5,6 +5,7 @@ from django.core import serializers
 from datetime import datetime
 from django.core.files.storage import FileSystemStorage
 from django.shortcuts import redirect
+import random, string
 
 # Create your views here.
 
@@ -38,8 +39,35 @@ def joinClass(request) :
 		pdfs = PDF.objects.filter(class_id = class_id)
 
 		if not request.session.get('login_complete', False):
+
+			N = 8
+			random_unique_id = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(N));
+
+			user_list = []
+			for item in classnode.user_list.split(',') :
+			    if '[' in item :
+			        item = item.replace('[', '')
+			    if '\'' in item :
+			        item = item.replace('\'', '')
+			    if ']' in item :
+			        item = item.replace(']', '')
+			    user_list.append(item.strip())
+
+			while True :
+				if random_unique_id in user_list :
+					random_unique_id = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(N));
+				else :
+					user_info = random_unique_id + '(unknown)'
+					if user_info not in user_list :
+						user_list.append(user_info)
+					if '.' in user_list :
+						user_list.remove('.')
+
+					classnode.user_list = user_list
+					classnode.save()
+					break
             
-			unknown_member = Member(user_name = 'unknown', user_id = 'unknown')
+			unknown_member = Member(user_name = 'unknown', user_id = random_unique_id)
 
 			context = { 'member' : unknown_member ,  'pdfs' : pdfs , 'classnode' : classnode }
 
@@ -412,3 +440,16 @@ def register_member_db(request):
 		new_member.save()
 
 		return render(request, './main.html')
+
+
+def check_set_name(request) :
+
+	user_name = request.GET.get('user_name',None)
+
+	member_list = Member.objects.filter(user_name = user_name)
+	if member_list :
+		result = { "result" : "failed" }
+	else :
+		result = { "result" : "success" }
+
+	return JsonResponse(result)
