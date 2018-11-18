@@ -46,6 +46,22 @@ class Member(models.Model) :
 	user_id = models.CharField(primary_key=True, max_length=50, default= "")
 	user_psw = models.CharField(max_length=50, default = "")
 	user_email = models.CharField(max_length=50, default= "")
+	in_class_list = models.TextField(default = '')
 
 	def __str__(self):
 		return self.user_id
+
+
+
+
+class Memo(models.Model) :
+
+	user_id = models.CharField(primary_key=True, max_length=50, default= "")
+	class_name = models.CharField(max_length=50, default="")
+	class_id = models.CharField(max_length=50, default="")
+	founder_id = models.CharField(max_length=50, default="")
+	memo = models.TextField(default = '')
+
+
+	def __str__(self) :
+		return self.class_name + ',' + self.user_id

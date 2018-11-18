@@ -317,9 +317,10 @@
 					<input type="textarea" style="width: 100%; height: 85%;">
 					-->
 					<div id="memo" style="width: 100%; height: 60%; overflow: scroll;">
-						<textarea cols="150" rows="100" id="t1" style="resize:none; overflow-x:auto; overflow-y:auto" wrap="hard"></textarea>
+						<textarea cols="150" rows="100" id="t1" style="resize:none; overflow-x:auto; overflow-y:auto" wrap="hard" >{{memo.memo}}</textarea>
 					</div>
 					<div style="width: 50%; height: 10%;" id="memo_edit"></div>
+					<button type="button" style="width: 3vw; height: 2vw; float: left; margin-left: 5%;" onclick="save_memo();">저장</button>
 				</div>
 
 				<div class="add_or_full_div" style="width: 10%; height: 100%; float: right;">
@@ -338,9 +339,11 @@
 	   border-radius: 10px;">
 			
 			<div class="chat_body">
+				<!--
 				<div class="best_chat" id="best_chat_id">
 				
 				</div>
+				-->
 				<div class="chat_show" id="chat_show_id">
 					
 				</div>
@@ -391,6 +394,7 @@
 	<input type="text" id="global_user_id_value" value="{{member.user_id}}" hidden="hidden">
 	<input type="text" id="user_name_value" value="{{member.user_name}}" hidden="hidden">
 	<input type="text" id="founder_id_value" value="{{classnode.founder_id}}" hidden="hidden">
+	<input type="text" id="class_name_value" value="{{classnode.class_name}}" hidden="hidden">
 
 	<script>
 		//Be sure your document contains an element with the CSS selector "test_div"
@@ -406,11 +410,52 @@
 		var best_chat_min_ddabong = 5;
 		var upload_ok = 'true';
 		var founder_id = $("#founder_id_value").val();
+		var class_name = $("#class_name_value").val();
+
+		var check_ddabong = [];
+
+		var check_ddabong_list_push = 0;
 
 		//alert(global_user_id);
 		//alert(user_name);
 
+		var _wasPageCleanedUp = false;
+		function pageCleanup()
+		{
+		    if (!_wasPageCleanedUp)
+		    {
+		        $.ajax({
+		            type: 'GET',
+		            async: false,
+		            url: '/delete_user_list/',
+		            data: {
+		          	  'class_id' : global_class_id,
+		          	  'user_id' : global_user_id,
+		          	  'user_name' : user_name
+		          	},
+		            success: function ()
+		            {
+		                _wasPageCleanedUp = true;
+		            }
+		        });
+		    }
+		}
+
+
+		$(window).on('beforeunload', function ()
+		{
+		    //this will work only for Chrome
+		    pageCleanup();
+		});
+
+		$(window).on("unload", function ()
+		{
+		    //this will work for other browsers
+		    pageCleanup();
+		});
+
 	    $(document).ready(function(){
+
 	      	updateData();
 
 	      	$("#pdfs").change(function () {
@@ -440,6 +485,7 @@
 	        });
 
 	      	//$("#class_id_text").val(global_class_id);
+
 	    });
 
 	    $(function(){
@@ -643,6 +689,8 @@
 
 		        //alert(user_id_list);
 
+		        //alert(check_ddabong.length);
+
 		        var chat_content = '';
 		        var best_chat_content = '';
 		        for(var i=0;i<content_list.length;i++){
@@ -660,7 +708,12 @@
 			            */
 			            var chat_ddabong_container_start = "<div class=\"ddabong_container\" id=\"";
 			            var chat_ddabong_container_id = class_id_list[i] + "$$$" + name_list[i] + "$$$" + content_list[i] + "$$$" + date_list[i] + "\">";
-			            var chat_ddabong1 = "<img class=\"ddabong_img\" src=\"../static/img/heart_icon_on.png\" id=\"";
+			            if(check_ddabong[i] == 0 || check_ddabong.length == 0){
+				            var chat_ddabong1 = "<img class=\"ddabong_img\" src=\"../static/img/heart_icon_off.png\" id=\"";
+				        }
+				        else {
+				        	var chat_ddabong1 = "<img class=\"ddabong_img\" src=\"../static/img/heart_icon_on.png\" id=\"";
+				        }
 			            var chat_ddabong_id = class_id_list[i] + "###" + name_list[i] + "###" + content_list[i] + "###" + date_list[i];
 			            var chat_ddabong2 = "\" style=\"width: 100%;\" onclick=\"ddabong(this);\">";
 
@@ -687,7 +740,7 @@
 			            // 본인 채팅 혹은 개설자 입장에서만 삭제버튼 추가
 			            if(global_user_id == user_id_list[i]){
 			            	content_start = "<div class=\"chat_content_div\" style=\"background-color: #D5D5D5; float: right;\">";
-				            chat_content += start + content_start + chat_content_body + chat_delete + content_end + end;
+				            chat_content += start + content_start + chat_content_body + chat_ddabong + chat_delete + content_end + end;
 				        }
 				        else{
 				        	if(global_user_id == founder_id){
@@ -715,6 +768,19 @@
 				        }
 				    }
 		        }
+
+
+		        if(check_ddabong_list_push == 0){
+			        var img_list = $('.ddabong_img');
+			        for(var i=0;i<img_list.length;i++){
+			        	check_ddabong.push(0);
+			        }
+			        if(img_list.length > 0){
+			        	check_ddabong_list_push = 1;
+			        }
+			        //alert(img_list);
+			    }
+		        //alert(check_ddabong.length);
 
 
 
@@ -747,7 +813,7 @@
 		        }
 
 	            $("#chat_show_id").html(chat_content);
-	            $("#best_chat_id").html(best_chat_content);
+	            //$("#best_chat_id").html(best_chat_content);
 	            $("#user_num").html("참여인원 : " + class_user_list_split.length);
 	            $("#show_user_list_content").html(user_list_content);
 	          }
@@ -771,6 +837,7 @@
 	            //alert("!!!!");
 	          }
 	        });
+	        check_ddabong.push(0);
 	    }
 
 
@@ -816,23 +883,51 @@
 	    	}
 	    	*/
 
-	    	var btn_id_split = btn.id.split("###");
-	    	//alert(btn_id_split);
-	    	$.ajax({
-	          url: '/ddabong/',
-	          data: {
-	          	  'class_id' : btn_id_split[0],
-	          	  'user_name' : btn_id_split[1],
-	          	  'content' : btn_id_split[2],
-	          	  'date' : btn_id_split[3]
-	          },
-	          dataType: 'json',
-	          success: function (data) {
-	          	$("#chat_input").val("");
-	            //alert("!!!!");
-	          }
-	        });
-	        
+	    	var img_list = $(".ddabong_img");
+	    	//alert(img_list[0].id);
+	    	for(var i=0;i<img_list.length;i++){
+	    		if(img_list[i].id == btn.id){
+	    			if(check_ddabong[i] == 0){
+	    				check_ddabong[i] = 1;
+
+	    				var btn_id_split = btn.id.split("###");
+				    	//alert(btn_id_split);
+				    	$.ajax({
+				          url: '/ddabong/',
+				          data: {
+				          	  'class_id' : btn_id_split[0],
+				          	  'user_name' : btn_id_split[1],
+				          	  'content' : btn_id_split[2],
+				          	  'date' : btn_id_split[3],
+				          	  'is_ddabong' : 'no'
+				          },
+				          dataType: 'json',
+				          success: function (data) {
+
+				          }
+				        });
+	    			}
+	    			else if(check_ddabong[i] == 1){
+	    				check_ddabong[i] = 0;
+	    				var btn_id_split = btn.id.split("###");
+				    	//alert(btn_id_split);
+				    	$.ajax({
+				          url: '/ddabong/',
+				          data: {
+				          	  'class_id' : btn_id_split[0],
+				          	  'user_name' : btn_id_split[1],
+				          	  'content' : btn_id_split[2],
+				          	  'date' : btn_id_split[3],
+				          	  'is_ddabong' : 'yes'
+				          },
+				          dataType: 'json',
+				          success: function (data) {
+
+				          }
+				        });
+	    			}
+	    		}
+	    	}
 	    }
 
 
@@ -971,6 +1066,26 @@
 	    	$("#chat_input").removeAttr("disabled");
 	    }
 
+	    function save_memo(){
+	    	var memo_content = $("#t1").val();
+	    	//alert(memo_content);
+	    	
+	    	$.ajax({
+	          url: '/save_memo/',
+	          data: {
+	          	  'class_id' : global_class_id,
+	          	  'class_name' : class_name,
+	          	  'user_id' : global_user_id,
+	          	  'founder_id' : founder_id,
+	          	  'memo' : memo_content
+	          },
+	          dataType: 'json',
+	          success: function (data) {
+	          	alert("!!!!!");
+	          }
+	        });
+
+	    }
 	</script>
 </body>
 </html>

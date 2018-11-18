@@ -76,9 +76,40 @@ def joinClass(request) :
 			user_id = request.session.get('user_id', 'unknown')
 			user_name = request.session.get('user_name', 'unknown')
 
+			try :
+				this_member = Member.objects.get(user_id = user_id)
+				in_class_list = []
+				for item in this_member.in_class_list.split(',') :
+				    if '[' in item :
+				        item = item.replace('[', '')
+				    if '\'' in item :
+				        item = item.replace('\'', '')
+				    if ']' in item :
+				        item = item.replace(']', '')
+				    in_class_list.append(item.strip())
+
+				if class_id not in in_class_list :
+					in_class_list.append(class_id)
+				if '.' in in_class_list :
+					in_class_list.remove('.')
+				if '' in in_class_list :
+					in_class_list.remove('')
+
+				this_member.in_class_list = in_class_list
+				this_member.save()
+
+			except :
+				pass
+
 			member = Member(user_name = user_name, user_id = user_id)
 
-			context = { 'member' : member ,  'pdfs' : pdfs  , 'classnode' : classnode }
+			try :
+				memo = Memo.objects.get(class_id = class_id, user_id = user_id)
+				context = { 'member' : member ,  'pdfs' : pdfs  , 'classnode' : classnode , 'memo' : memo}
+			except :
+				context = { 'member' : member ,  'pdfs' : pdfs  , 'classnode' : classnode }
+
+			print(context)
 
 			#print(user_id)
 
@@ -321,6 +352,7 @@ def updateChat(request) :
 		class_id = request.GET.get('class_id',None)
 
 		json_serializer = serializers.get_serializer("json")()
+		#chats = json_serializer.serialize(ChatNode.objects.filter(class_id=class_id).order_by('ddabong').reverse(), ensure_ascii=False)
 		chats = json_serializer.serialize(ChatNode.objects.filter(class_id=class_id), ensure_ascii=False)
 		#chats = json_serializer.serialize(Chat.objects.all(), ensure_ascii=False)
 		#chats = Chat.objects.all()
@@ -367,13 +399,20 @@ def ddabong(request) :
 		content = request.GET.get('content',None)
 		class_id = request.GET.get('class_id',None)
 		date = request.GET.get('date',None)
+		is_ddabong = request.GET.get('is_ddabong',None)
 
-		print(user_name, content, class_id, date)
+		print(user_name, content, class_id, date, is_ddabong)
 
-		chat = ChatNode.objects.get(user_name = user_name, content = content, class_id=class_id, created_date = date)
-		#print(chat.ddabong)
-		chat.ddabong = chat.ddabong + 1
-		chat.save()
+		if is_ddabong == 'no' :
+			chat = ChatNode.objects.get(user_name = user_name, content = content, class_id=class_id, created_date = date)
+			#print(chat.ddabong)
+			chat.ddabong = chat.ddabong + 1
+			chat.save()
+		elif is_ddabong == 'yes' :
+			chat = ChatNode.objects.get(user_name = user_name, content = content, class_id=class_id, created_date = date)
+			#print(chat.ddabong)
+			chat.ddabong = chat.ddabong - 1
+			chat.save()
 	
 		result = { "result" : 'false' }
 
@@ -451,5 +490,67 @@ def check_set_name(request) :
 		result = { "result" : "failed" }
 	else :
 		result = { "result" : "success" }
+
+	return JsonResponse(result)
+
+
+def save_memo(request) :
+
+	class_id = request.GET.get('class_id',None)
+	class_name = request.GET.get('class_name',None)
+	user_id = request.GET.get('user_id',None)
+	founder_id = request.GET.get('founder_id',None)
+	memo = request.GET.get('memo',None)
+
+	try :
+		memonode = Memo.objects.get(class_id = class_id, class_name = class_name, user_id = user_id, founder_id = founder_id)
+		memonode.memo = memo
+		memonode.save()
+
+	except :
+		new_memo = Memo(class_id = class_id, class_name = class_name, user_id = user_id, founder_id = founder_id, memo = memo)
+		new_memo.save()
+
+	result = { "result" : "success" }
+
+	return JsonResponse(result)
+
+from django.core.mail import EmailMessage
+
+def send_email_test(request) :
+
+	email = EmailMessage('subject text', 'body text', to=['wnstlr24@naver.com'])
+	email.send()
+
+	return render(request, './main.html')
+
+
+def delte_user_list(request) :
+
+	class_id = request.GET.get('class_id',None)
+	user_id = request.GET.get('user_id',None)
+	user_name = request.GET.get('user_name',None)
+	#print(class_id)
+
+	classnode = ClassNode.objects.get(class_id = class_id)
+
+	user_list = []
+	for item in classnode.user_list.split(',') :
+	    if '[' in item :
+	        item = item.replace('[', '')
+	    if '\'' in item :
+	        item = item.replace('\'', '')
+	    if ']' in item :
+	        item = item.replace(']', '')
+	    user_list.append(item.strip())
+
+	user_info = user_id + "(" + user_name + ")"
+	if user_info in user_list :
+		user_list.remove(user_info)
+
+	classnode.user_list = user_list
+	classnode.save()
+
+	result = { "result" : "success" }
 
 	return JsonResponse(result)
