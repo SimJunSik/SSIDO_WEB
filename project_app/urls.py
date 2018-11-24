@@ -21,7 +21,7 @@ from django.conf import settings
 from django.conf.urls import url
 
 urlpatterns = [
-    path('', views.send_email_test),
+    path('', views.main),
     path('cc_test/', views.cc_test),
     url(r'^joinClass/.+$',views.joinClass),
     path('inputClass/', views.inputClass),

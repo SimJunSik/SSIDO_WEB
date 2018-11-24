@@ -524,8 +524,8 @@ from django.core.mail import EmailMessage
 
 def send_email_test(request) :
 
-	email = EmailMessage('subject text', 'body text', to=['wnstlr24@naver.com'])
-	email.send()
+	#email = EmailMessage('subject text', 'body text', to=['wnstlr24@naver.com'])
+	#email.send()
 
 	return render(request, './main.html')
 
