@@ -63,6 +63,9 @@ def joinClass(request) :
 					if '.' in user_list :
 						user_list.remove('.')
 
+					if '' in user_list :
+						user_list.remove('')
+					#print(user_list)
 					classnode.user_list = user_list
 					classnode.save()
 					break
@@ -109,7 +112,7 @@ def joinClass(request) :
 			except :
 				context = { 'member' : member ,  'pdfs' : pdfs  , 'classnode' : classnode }
 
-			print(context)
+			#print(context)
 
 			#print(user_id)
 
@@ -137,6 +140,8 @@ def joinClass(request) :
 			if '.' in user_list :
 				user_list.remove('.')
 
+			if '' in user_list :
+				user_list.remove('')
 			classnode.user_list = user_list
 			classnode.save()
 
@@ -554,3 +559,70 @@ def delte_user_list(request) :
 	result = { "result" : "success" }
 
 	return JsonResponse(result)
+
+
+def get_in_class_list(request) :
+
+	user_id = request.session.get('user_id', 'unknown')
+	member = Member.objects.get(user_id = user_id)
+
+	classnodes = ClassNode.objects.filter(founder_id = user_id)
+
+	in_class_lists = []
+	for item in member.in_class_list.split(',') :
+	    if '[' in item :
+	        item = item.replace('[', '')
+	    if '\'' in item :
+	        item = item.replace('\'', '')
+	    if ']' in item :
+	        item = item.replace(']', '')
+	    in_class_lists.append(item.strip())
+
+
+	context = { "member" : member , "in_class_lists" : in_class_lists}
+
+	return render(request, './get_in_class_list.html', context)
+
+
+
+def delete_pdf(request) :
+
+	if request.method == 'GET' :
+
+		pdf_url = request.GET.get('pdf_url', None)
+		class_id = request.GET.get('class_id', None)
+
+		print(pdf_url)
+
+		pdf_url_lst = pdf_url.split('/')
+
+		url = "../" + pdf_url_lst[1] + "/" + pdf_url_lst[2] + "/" + "[" + class_id + "]" + pdf_url_lst[3]
+		print(url)
+
+		#pdf = PDF.objects.get(pdf_url = url)
+		#pdf.delete()
+
+		
+		pdfs = PDF.objects.filter(class_id = class_id)
+		for item in pdfs :
+			#print(item.pdf.url)
+			if item.pdf.url == pdf_url :
+				#print(pdf_url)
+				item.delete()
+		
+
+		#pdfs = PDF.objects.filter(class_id = class_id)
+
+		#context = { 'pdfs' : pdfs }
+
+		"""
+		file_get = request.POST.get('upload', False)
+		if(file_get == False) :
+			img_src = request.FILES['upload']
+			fs = FileSystemStorage()
+			filename = fs.save(img_src.name, img_src)
+		"""
+
+		result = { "result" : "success" }
+
+		return JsonResponse(result)

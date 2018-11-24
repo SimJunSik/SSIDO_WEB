@@ -278,8 +278,13 @@
 				<div id="pdf_div" class="pdf_div"  style="width: 80%; height: 95%; float: left; background-color: white; border: 1px solid transparent; border-radius: 10px; margin-top: 1%;">
 					<div class="pdf_list_div" style="width: 100%; height: 60%; background-color: white;">
 						{% for pdf in pdfs %}
-							<div id="{{pdf.pdf.url}}" class="pdf_content" style="width: 100%; height: 10%; background-color: transparent; border: 1px solid transparent; border-radius: 10px;" onclick="change_pdf(this);">
-								{{pdf.pdf_name}}
+							<div id="{{pdf.pdf.url}}" class="pdf_content" style="width: 100%; height: 10%; background-color: transparent; border: 1px solid transparent; border-radius: 10px; position: relative;" onclick="change_pdf(this);">
+								<div class="pdf_name" style="width: 90%; height: 100%; float: left;">
+									{{pdf.pdf_name}}
+								</div>
+								<div class="delete_pdf_button" style="width: 10%; height: 100%; float: left;" onclick="delete_pdf(this);">
+									X
+								</div>
 							</div>
 						{% endfor %}
 					</div>
@@ -339,11 +344,11 @@
 	   border-radius: 10px;">
 			
 			<div class="chat_body">
-				<!--
+				
 				<div class="best_chat" id="best_chat_id">
 				
 				</div>
-				-->
+				
 				<div class="chat_show" id="chat_show_id">
 					
 				</div>
@@ -744,7 +749,10 @@
 				        }
 				        else{
 				        	if(global_user_id == founder_id){
-				        		chat_content += start + content_start + chat_content_body + chat_ddabong + chat_delete + content_end + end;
+				        		var check_answer_div_start = "<img class=\"check_answer_div\" src='../static/img/check_answer_icon.png' style='width: 1vw; height: 1vw; margin-left: 1%;' onclick='check_answer(this);'>";
+				        		//var check_answer_div_end = "</img>";
+				        		var check_answer = check_answer_div_start;
+				        		chat_content += start + content_start + chat_content_body + chat_ddabong + chat_delete + check_answer + content_end + end;
 				        	}
 				        	else{
 					        	chat_content += start + content_start + chat_content_body + chat_ddabong + content_end + end;
@@ -759,7 +767,10 @@
 					        }
 					        else{
 					        	if(global_user_id == founder_id){
-				        			best_chat_content += start + content_start + chat_content_body + chat_ddabong + chat_delete + content_end + end;
+					        		var check_answer_div_start = "<img class=\"check_answer_div\" src='../static/img/check_answer_icon.png' style='width: 1vw; height: 1vw; margin-left: 1%;' onclick='check_answer(this);'>";
+					        		//var check_answer_div_end = "</img>";
+					        		var check_answer = check_answer_div_start;
+				        			best_chat_content += start + content_start + chat_content_body + chat_ddabong + chat_delete + check_answer + content_end + end;
 					        	}
 					        	else{
 						        	best_chat_content += start + content_start + chat_content_body + chat_ddabong + content_end + end;
@@ -771,7 +782,7 @@
 
 
 		        if(check_ddabong_list_push == 0){
-			        var img_list = $('.ddabong_img');
+			        var img_list = $("#chat_show_id").find('.ddabong_img');
 			        for(var i=0;i<img_list.length;i++){
 			        	check_ddabong.push(0);
 			        }
@@ -813,7 +824,7 @@
 		        }
 
 	            $("#chat_show_id").html(chat_content);
-	            //$("#best_chat_id").html(best_chat_content);
+	            $("#best_chat_id").html(best_chat_content);
 	            $("#user_num").html("참여인원 : " + class_user_list_split.length);
 	            $("#show_user_list_content").html(user_list_content);
 	          }
@@ -883,9 +894,16 @@
 	    	}
 	    	*/
 
-	    	var img_list = $(".ddabong_img");
-	    	//alert(img_list[0].id);
+	    	//var img_list = $(".ddabong_img");
+
+	    	var img_list = $("#chat_show_id").find('.ddabong_img');
+	    	//alert(img_list.length);
+	    	//alert(img_list[0].attr('id'));
+
+	    	//console.log(img_list);
+
 	    	for(var i=0;i<img_list.length;i++){
+	    		//alert(img_list[i].attr("id"));
 	    		if(img_list[i].id == btn.id){
 	    			if(check_ddabong[i] == 0){
 	    				check_ddabong[i] = 1;
@@ -1085,6 +1103,31 @@
 	          }
 	        });
 
+	    }
+
+	    function check_answer(btn){
+	    	var parent = btn.parentNode;
+	    	//alert(parent.id);
+	    	console.log(parent);
+	    	//parent.style.backgroundColor = "red";
+	    }
+
+	    function delete_pdf(btn){
+	    	var parent = btn.parentNode;
+	    	console.log(parent.id);
+
+	    	$.ajax({
+	          url: '/delete_pdf/',
+	          data: {
+	          	  'pdf_url' : parent.id,
+	          	  'class_id' : global_class_id,
+	          },
+	          dataType: 'json',
+	          success: function (data) {
+	          	//alert("!!!!!");
+	          	window.location.reload();
+	          }
+	        });
 	    }
 	</script>
 </body>

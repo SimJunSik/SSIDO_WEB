@@ -28,6 +28,7 @@ urlpatterns = [
     path('main/', views.main),
     path('logout/', views.logout),
     path('login/', views.login),
+    path('get_in_class_list/', views.get_in_class_list),
     #path('register/', views.register),
     #path('pdf_upload/', views.pdf_upload),
     #path('pdf/', views.pdf),
@@ -42,6 +43,7 @@ urlpatterns = [
     path('check_set_name/', views.check_set_name),
     path('save_memo/', views.save_memo),
     path('delete_user_list/', views.delte_user_list),
+    path('delete_pdf/', views.delete_pdf),
 
     path('join/', views.join),
     path('check_id/', views.check_id),

@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+	<link rel="stylesheet" type="text/css" href="/static/semantic/semantic.css">
+	<title>iHAQ | main page</title>
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<script src="/static/semantic/semantic.js"></script>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 	<style type="text/css">
 		.top{
@@ -17,34 +22,52 @@
 			top: 0;
 			z-index: 9998;
 		}
-		.top_login_div, .top_login_member_div{
+		.top_login_div{
 			width: 20vw;
 			height: 80%;
 			margin-top: 0.5%;
 			float: right;
-			position: relative;
+			position: right;
 		}
+
+		.top_login_member_div{
+			width: 30vw;
+			height: 80%;
+			margin-top: 0.5%;
+			float: right;
+			position: right;
+		}		
 
 		.middle{
 			width: 100%;
 			height: 50vw;
-			background-color: white;
-			position: relative;
+			background-color: transparent;
+			position: center;
 			top: 5vw;
 		}
 
 		.join_button, .register_button, .login_button, .create_class_button, .mypage_button{
-		    background-color: #F2385A;
 		    border: none;
-		    color: white;
-		    padding: 20px;
+		    background-color: transparent;
+		    color: black;
+		    padding: 20px 5px 20px 5px;
 		    text-align: center;
 		    text-decoration: none;
 		    display: inline-block;
-		    font-size: 16px;
+		    font-size: 20px;
 		    margin: 4px 2px;
 		    cursor: pointer;
-		    border-radius: 30px;
+		    outline: 0;
+		}
+		.button{
+			border: 0;
+			outline: 0;
+		}
+		.vanish{
+			float:right; 
+			border:0px; 
+			margin-right: 
+			10px; cursor: pointer;
 		}
 
 		input{
@@ -226,9 +249,10 @@
 		}
 	</style>
 </head>
-<body style="width: 100%; height: 2000px; margin: 0;">
+<body style="width: 100%; height: 500px; margin: 0;">
 	<div class="top">
-		<img src="../../static/img/logo3.png" style="width: 10vw; height: 80%; float: left; margin-left: 5%; margin-top: 0.5%;">
+		<a href=""><img src="../../static/img/logo4.png" style="width: 10vw; height: 80%; float: left; margin-left: 5%; margin-top: 0.5%;">
+		</a>
 			{% if member.user_id == 'unknown' %}
 			<div class="top_login_div">
 				<!--
@@ -238,50 +262,63 @@
 					로그인
 				</button>
 				-->
-				<button class="login_button" style="width: 5vw; height: 80%; background-color: transparent; color: black;" onclick="loginShow();">
-					로그인
+				<button class="login_button" style="width: 8vw; height: 110%; color: #6495ED;" onclick="loginShow();">
+					Log in
 				</button>
-				<button class="register_button" style="width: 10vw; height: 80%;" onclick="go_join_page();">
-					회원가입
+				<button class="register_button" style="width: 8vw; height: 110%;" onclick="go_join_page();">
+					Join
 				</button>
 			</div>
 			{% else %}
-			<div class="top_login_member_div">
-				<div class="top_hello_div" style="width: 100%; height: 50%; float: right;">
+			<div class="top_login_member_div" style="margin-right: 1px;">
+				<div class="top_hello_div" style="width: 100%; height: 50%; float: right; padding: 0px 0px 0px 0px;">
 					<a href="../../logout/">{{member.user_name}}</a>님 안녕하세요.
 				</div>
 
-				<div class="top_member_button_div" style="width: 100%; height: 50%;">
-					<button class="create_class_button" style="width: 7vw; height: 80%; background-color: transparent; color: black;" onclick="classShow();">
-						클래스 개설
+				<div class="top_member_button_div" style="width: 100%; height: 80%;">
+					<button class="create_class_button" style="width: 10vw; height: 1vw; background-color: transparent; color: black; padding: 0px 0px 0px 0px; margin: 0px 0px;" onclick="classShow();">
+						Create Class
 					</button>
-					<button class="mypage_button" style="width: 7vw; height: 80%; background-color: transparent; color: black;">
-						마이페이지
+					<button class="mypage_button" style="width: 10vw; height: 1vw; margin: 0px; padding: 0px 2px 0px 0px; background-color: transparent; color: black;" onclick="">
+						My Page
 					</button>
 				</div>
 			</div>
 			{% endif %}
 	</div>
 
-	<div class="middle" style="z-index: 2;">
-		<div class="middle_img_div" style="width: 50%; height: 100%; background-color: white; float: left; position: relative;">
-			<div class="middle_img" style="width: 70%; height: 70%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-				<img src="../../static/img/main_image.png" style="width: 100%; height: 100%;">
+
+
+
+
+	<div class="middle">
+<!-- 	<div class="middle" style="z-index: 10;"> -->
+		<div class="middle_img_div" style="width: 100px; height: 15px; background-color: white; float: center; position: center;">
+			<div class="middle_img" style="width: 100%; height: 80%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+				<img src="../../static/img/main_image.jpg" style="width: 100%; height: 100%;">
 			</div>
 		</div>
-		<div class="middle_content_div" style="width: 50%; height: 100%; background-color: white; float: left;">
-			<div class="join_class_div" style="width: 100%; height: 20%; background-color: white; position: relative; margin-top: 13vw;">
-				<div class="join_class_inner_class" style="width: 40vw; height: auto; position: absolute; top: 50%; left: 50%;  transform: translate(-50%,-50%);">
-					<input  id="class_id" type="text" style="width: 70%; height: 5vw; float: left; margin-right: 5%; font-size: 3vw; border: 6px solid #F2385A; border-radius: 40px;" placeholder="  클래스 코드">
-					<button class="join_button" type="button" style="width: 5vw; height: 5vw; float: left;" onclick="join_class();">접속</button>
-				</div>
-			</div>
-			<div class="content_text_div" style="width: 100%; height: 10%; background-color: white; position: relative;">
-				<div class="content_text" style="width: auto; height: auto; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; text-align: center; font-size: 15px; font-weight: bold;">
-					IHAQ은 당신의 프레젠테이션을 더 원활하게 만들어줍니다. <br>
+
+
+		<div class="middle_content_div" style="width: 700px; height: 240px; background-color: black; opacity: 0.7; float: center; border: 1px solid #6495ED; position: absolute;  top: 50%; left: 50%; transform: translate(-50%, -50%);">
+			<div class="content_text_div" style="width: 100%; height: 30%; background-color: black; position: relative;">
+				<div class="content_text" style="width: 100%; height: 30%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; font-size: 20px; color: white; display: inline-block;" >
+					<br><b style="font-size: 30px;">I Have A Question<br><br></b>
+					iHAQ은 당신의 프레젠테이션을 더 원활하게 만들어줍니다. <br>
 					새로워진 소통형 프레젠테이션을 경험해보세요.
 				</div>
 			</div>
+			
+			<div class="join_class_div" style="width: 100%; height: 60px; background-color: white; position: relative; margin-top: 15vw;">
+				<div class="join_class_inner_class" style="width: 40vw; height: auto; position: absolute; top: 50%; left: 50%;  transform: translate(-50%,-50%);">
+					<input id="class_id" type="text" style="width: 70%; height: 5vw; float: left; margin-right: 5%; font-size: 2.5vw; border: 6px; border-radius: 10px;" placeholder="  Class Code">
+					<button class="join_button" type="button" style="width: 5vw; height: 5.5vw; float: left;" onclick="join_class();">
+						<i class="search icon"></i>
+					</button>
+
+				</div>
+			</div>
+
 		</div>
 	</div>
 
@@ -292,47 +329,51 @@
 
 
 	<div id="login_div" style="display:none;">
-		<input type="button" value="x" style="float:right; border:0px; margin-right: 10px;" onclick="loginVanish();"/>
+		<input type="button" value="x" class="vanish" onclick="loginVanish();"/>
 		<div id="login_header">
 			<b>로그인</b>
 		</div>
-		<div id="login_section1">
+		<div class="ui form" id="login_section1">
 			<form action="" method="post" name="f1">
-				<div id="login_id_section">
-					<span><input type="text" name="id" id="id" maxlength="10" placeholder="아이디" /></span>
-				</div>
-				<div id="login_pwd_section">
-					<span><input type="password" name="pwd" id="pwd" maxlength="10" placeholder="패스워드" /></span>
-				</div>
+				<div class="field">
+				<div class="ui left icon input" style="width: 20vw; height: 60px;" id="login_id_section">
+					<input type="text" name="id" id="id" maxlength="10" placeholder="아이디">
+					<i class="user icon"></i>
+				</div></div>
+				<div class="field">
+				<div class="ui left icon input" style="width: 20vw; height: 60px;" id="login_pwd_section">
+					<input type="password" name="pwd" id="pwd" maxlength="10" placeholder="비밀번호">
+					<i class="lock icon"></i>
+				</div></div>
 			</form>	
 		</div>
 		<div id="login_section2">
-				<button class="btn btn-danger" style="width:250px; margin:0 0 0 45px;" onclick="login();">로그인</button>
-				<button class="btn btn-default" style="width:250px; margin:20px 0 0 45px;" onclick="">회원가입</button>
+				<button class="btn btn-default" style="width:250px; margin:0 0 0 45px; background-color: #6495ED" onclick="login();">로그인</button>
+				<button class="btn btn-default" style="width:250px; margin:20px 0 0 45px;" onclick="go_join_page();">회원가입</button>
 		</div>
 		<div id="login_footer">
-			<a href="#">비밀번호를 잊어버리셨나요?</a>
+			<a href="#" style="color:grey;">비밀번호를 잊어버리셨나요?</a>
 		</div>
 	</div>
 
 
 	<div id="class_div" style="display:none;">
-		<input type="button" value="x" style="float:right; border:0px; margin-right: 10px;" onclick="classVanish();"/>
+		<input type="button" value="x" class="vanish" onclick="classVanish();"/>
 		<div id="class_header">
 			<b>클래스 개설</b>
 		</div>
 		<div id="class_section">
-			<form action="" method="post" name="f2">
-				<div id="class_name_section">
+			<form class="ui form" action="" method="post" name="f2">
+				<div class="field" id="class_name_section" style="width: 260px; margin:0 0 0 45px;" >
 					<span><input type="text" name="className" id="className" maxlength="10" placeholder="클래스 이름" /></span>
 				</div>
-				<div id="class_code_section">
+				<div class="field" id="class_code_section" style="width: 260px; margin:0 0 0 45px;" >
 					<span><input type="text" name="classCode" id="classCode" maxlength="10" placeholder="클래스 코드" /></span>
 				</div>
 			</form>	
 		</div>
 		<div id="class_section2">
-				<button class="btn btn-danger" style="width:260px; margin:0 0 0 45px;" onclick="classCheck();">개설</button>
+				<button class="btn btn-default" style="width:260px; margin:0 0 0 45px; background-color: #6495ED;" onclick="classCheck();">개설</button>
 		</div>
 		<div id="class_footer">
 			<a href="#">사용방법이 궁금하신가요?</a>
