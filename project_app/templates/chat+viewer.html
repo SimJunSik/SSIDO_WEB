@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 
@@ -44,9 +45,10 @@
 
 		.middle{
 			width: 100%; 
-			height: 90%;
+			height: 100%;
 			position: absolute;
-			top: 5vw;
+			top: 0;
+			background-color: #00283F;
 		}
 
 
@@ -55,7 +57,6 @@
 			height: 100%;
 			background-color: #EAEAEA;
 			border: 1px solid transparent;
-   			border-radius: 10px;
 		}
 		.best_chat{
 			width: 95%;
@@ -76,20 +77,19 @@
 			overflow-x: hidden;
 		}
 		.chat_input_div{
-			width: 95%;
-			height: 10%;
+			width: 100%;
+			height: 9%;
 			background-color: transparent;
 		}
 		.chat_div{
 			width: 100%;
-			height: 15%;
-			background-color: transparent;
+			height: auto;
+			background-color: #EAEAEA;
 			border: 1px solid transparent;
-   			border-radius: 10px;
 		}
 		.chat_content_div{
 			width: 65%;
-			height: 100%;
+			height: auto;
 			margin-bottom: 0.5vw;
 			border: 1px solid transparent;
    			border-radius: 10px;
@@ -103,7 +103,20 @@
 			text-align: center;
 			font-size: 0.5vw;
 		}
-		#send_msg_btn, #upload_button, #set_name_button{
+		#send_msg_btn{
+			background-color: transparent;
+		    border: none;
+		    color: white;
+		    padding: 20px;
+		    text-align: center;
+		    text-decoration: none;
+		    display: inline-block;
+		    font-size: 16px;
+		    margin: 4px 2px;
+		    cursor: pointer;
+		    border-radius: 30px;
+		}
+		#upload_button, #set_name_button{
 			background-color: #F2385A;
 		    border: none;
 		    color: white;
@@ -122,30 +135,31 @@
 			background-color: yellow;
 		}
 		.center_div{
-			width: 60%;
-			height: 50%;
-			margin-left: 5%;
-			float: left; 
+			width: 72vw;
+			height: 48vw;
+			margin-left: 1%;
+			float: left;
 		}
 		.memo_div{
 			width: 80%;
-			height: 94%;
+			height: 80%;
 			margin-top: 1%;
 			margin-bottom: 1%;
 			margin-left: 5%;
 			border: 1px solid transparent;
-   			border-radius: 10px;
 			background-color: white;
 			float: left;
 		}
 		.user_list_div{
 			position: relative;
-			width: 40%;
-			height: 90%;
-			float: right;
-			background-color: #F2385A;
+			width: 8vw;
+			height: 2vw;
+			float: left;
+			background-color: #0A5F8E;
 			border: 1px solid transparent;
-   			border-radius: 10px;
+   			border-radius: 0px;
+   			top: 25%;
+   			left: 5%;
 		}
 		.user_list_node{
 			width: 100%;
@@ -161,28 +175,118 @@
 	<style type="text/css">
 		#viewer_div{
 			width: 100%;
-			height: 30vw;
+			height: 35vw;
+			background-color: transparent;
 		}
 		#viewer_content{
-			width: 100%;
+			width: 70.4vw;
 			height: 90%;
+			background-color: white;
 		}
 		.pdfobject-container { 
 			height: 30rem; 
 			border: 1rem solid rgba(0,0,0,.1); 
 		}
 	</style>
+
+	<style type="text/css">
+		/* pdf list scrollbar*/
+		#pdf_list_div::-webkit-scrollbar-track
+		{
+			-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+			border-radius: 10px;
+			background-color: transparent;
+		}
+
+		#pdf_list_div::-webkit-scrollbar
+		{
+			width: 12px;
+			background-color: transparent;
+		}
+
+		#pdf_list_div::-webkit-scrollbar-thumb
+		{
+			border-radius: 10px;
+			-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+			background-color: white;
+		}
+
+
+		/* chat scrollbar */
+		#chat_show_id::-webkit-scrollbar-track
+		{
+			-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+			border-radius: 10px;
+			background-color: transparent;
+		}
+
+		#chat_show_id::-webkit-scrollbar
+		{
+			width: 12px;
+			background-color: transparent;
+		}
+
+		#chat_show_id::-webkit-scrollbar-thumb
+		{
+			border-radius: 10px;
+			-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+			background-color: #0A5F8E;
+		}
+
+		/* best chat scrollbar */
+		#best_chat_id::-webkit-scrollbar-track
+		{
+			-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+			border-radius: 10px;
+			background-color: transparent;
+		}
+
+		#best_chat_id::-webkit-scrollbar
+		{
+			width: 12px;
+			background-color: transparent;
+		}
+
+		#best_chat_id::-webkit-scrollbar-thumb
+		{
+			border-radius: 10px;
+			-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+			background-color: #0A5F8E;
+		}
+
+		/* pdf viewer scrollbar */
+		#viewer_content::-webkit-scrollbar-track
+		{
+			-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+			border-radius: 10px;
+			background-color: transparent;
+		}
+
+		#viewer_content::-webkit-scrollbar
+		{
+			width: 12px;
+			background-color: transparent;
+		}
+
+		#viewer_content::-webkit-scrollbar-thumb
+		{
+			border-radius: 10px;
+			-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+			background-color: #0A5F8E;
+		}
+
+	</style>
 </head>
-<body style="height: 1500px; background-color: white; width: 100%; margin: 0; position: relative;">
+<body style="height: 70vw; background-color: white; width: 100%; margin: 0; position: relative;">
 
 	<div id="show_user_list_div" style="width: 20%; height: 50%; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -70%); background-color: white; z-index: 10000; box-shadow:0px -1px 30px 2px #999; border-radius: 10px; display: none;">
 		<div class="show_user_list_close" style="width: 5%; height: 5%; position: absolute; top: 0%; right: 0%; font-weight: bold;" onclick="close_show_user_list();">
 			X
 		</div>
-		<div class="show_user_list_title" style="width: 100%; height: 10%; border: 1px solid transparent; border-radius: 10px; text-align: center; font-size: 2vw; font-weight: bold; background-color: #F2385A; color: white;">
+		<div class="show_user_list_title" style="width: 100%; height: 10%; border: 1px solid transparent; border-radius: 10px; text-align: center; font-size: 2vw; font-weight: bold; background-color: #0A5F8E; color: white; ">
 			참여인원 리스트
 		</div>
-		<div id="show_user_list_content" style="width: 100%; height: 80%; background-color: gray;  border: 1px solid transparent; border-radius: 10px; margin-top: 10%;">
+		<div id="show_user_list_content" style="width: 100%; height: 80%; background-color: gray;  border: 1px solid transparent; border-radius: 10px; margin-top: 10%;  overflow-x: hidden; overflow-y:auto;">
 			<!--
 			<div class="user_list_node">
 				wnstlr24(심준식)
@@ -194,6 +298,8 @@
 		</div>
 	</div>
 
+
+	<!--
 	<div class="top">
 		<img src="../../static/img/logo3.png" style="width: 10vw; height: 80%; float: left; margin-left: 5%; margin-top: 0.5%;">
 		<div class="top_right" style="float: right; width: 25%; height: 80%; margin-top: 1%; margin-right: 5%; position: relative;">
@@ -211,12 +317,32 @@
 			</div>
 		</div>	
 	</div>
+	-->
 
 	<div class="middle">
-		<div class="class_title_div" style="width: 90%; height: 10%; margin-left: 5%; position: relative;">
-			<div class="class_title_content" style="width: auto; height: auto; font-size: 3vw; position: absolute; top: 50%; transform: translate(0%,-50%);">
+		<div class="class_title_div" style="width: 90%; height: 6%; margin-left: 1.5%; position: relative; background-color: transparent;">
+			<!--
+			<div class="class_title_content" style="width: auto; height: auto; font-size: 3vw; position: absolute; top: 50%; transform: translate(0%,-50%); color: white; float: left;">
 				{{classnode.class_name}}
 			</div>
+			{% if member.user_id == classnode.founder_id %}
+			<div class="user_list_div" onclick="show_user_list();">
+				<div id="user_num" class="user_num" style="width: auto; height: auto; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 0.7vw; font-weight: bold; color: white;">
+					
+				</div>
+			</div>
+			{% endif %}
+			-->
+			<div class="class_title_content" style="width: auto; height: auto; font-size: 3vw; color: white; float: left;">
+				{{classnode.class_name}}
+			</div>
+			{% if member.user_id == classnode.founder_id %}
+			<div class="user_list_div" onclick="show_user_list();">
+				<div id="user_num" class="user_num" style="width: auto; height: auto;  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 0.7vw; font-weight: bold; color: white;">
+					
+				</div>
+			</div>
+			{% endif %}
 		</div>
 		<div class="center_div">
 			<div id="viewer_div">
@@ -229,57 +355,71 @@
 				<input type="textarea" style="width: 100%; height: 100%;">
 			</div>
 			-->
-			<div class="function_div" style="width: 100%; height: 50%; background-color: white; border-top: 2px solid #D5D5D5;">
+			<div class="function_div" style="width: 100%; height: 22%; background-color: #00283F; border: 1px solid white; position: relative;">
 	   			{% if member.user_id != classnode.founder_id %}
-	   			<div class="choice_function_div" style="width: 2%; height: 95%; float: left; position: relative; margin-top: 1%; background-color: white;">
-	   				<div id="choice_pdf" class="choice_pdf choice_class" style="width: 100%; height: 50%; text-align: center; border: 1px solid black; background-color: #F2385A; color: white;" onclick="change_function(this);">
-	   					<br>
+	   			<div class="choice_function_div" style="width: 5%; height: 100%; float: left; position: relative; background-color: transparent; margin: 0;">
+	   				<div id="choice_pdf" class="choice_pdf choice_class" style="width: 100%; height: 50%; text-align: center; border:
+	   				border-right: 1px solid white;
+	   				background-color: transparent; color: white;" onclick="change_function(this);">   					
 	   					<br>
 	   					P<br>
 	   					D<br>
 	   					F
 	   				</div>
 
-	   				<div id="choice_memo" class="choice_memo choice_class" style="width: 100%; height: 50%;  text-align: center; border: 1px solid black;"  onclick="change_function(this);">
+	   				<div id="choice_memo" class="choice_memo choice_class" style="width: 100%; height: 50%;  text-align: center; 
+	   				border-right: 1px solid white;
+	   				border-top: 1px solid white;
+	   				color: white;"  onclick="change_function(this);">
 	   					<br>
 	   					<br>
-	   					M<br>
-	   					E<br>
-	   					M<br>
-	   					O
+	   					메<br>
+	   					모
 	   				</div>
 	   			</div>
 
-				<div id="pdf_div" class="pdf_div"  style="width: 80%; height: 95%; float: left; background-color: white; border: 1px solid transparent; border-radius: 10px; margin-top: 1%; margin-left: 5%;">
-					<div class="pdf_list_div" style="width: 100%; height: 60%; background-color: white; overflow-x: hidden; overflow-y:auto;">
+				<div id="pdf_div" class="pdf_div"  style="width: 90%; height: 100%; float: left; background-color: transparent; border: 1px solid transparent; margin-left: 1%;">
+					<div class="pdf_search_div" style="width: 100%; height: 15%;  border: 1px solid #5D5D5D;  border-radius: 10px; position: relative; margin-top: 0.5%;">
+						<div class="pdf_search_text" style="width: 5%; height: 100%; float: left; margin-top: 0.1%; margin-left: 0.5%; margin-right: 0.5%; color: white;">
+							검색
+						</div>
+						<input id="search_text" class="search_text" type="text" style="width: 70%; height: 100%; float: left; color: white;">
+						<div class="add_or_full_div" style="width: 10%; height: 100%; float: right;">
+							<img src="../static/img/full_screen_icon.png" style="width: 1vw; height: 1vw; float: right;" onclick="startFS();">
+							{% if member.user_id == classnode.founder_id %}
+							<img src="../static/img/pdf_plus_icon.png" style="width: 1vw; height: 1vw; float: right; margin-right: 10%;" onclick="open_upload_pdf();">
+							{% endif %}
+						</div>
+					</div>
+					<div class="pdf_list_div" id="pdf_list_div" style="width: 100%; height: 60%; background-color: #00283F; overflow-x: hidden; overflow-y:auto;">
 						{% for pdf in pdfs %}
-							<div id="{{pdf.pdf.url}}" class="pdf_content" style="width: 100%; height: 10%; background-color: transparent; border: 1px solid transparent; border-radius: 10px;" onclick="change_pdf(this);">
-								{{pdf.pdf_name}}
+							<div id="{{pdf.pdf.url}}" class="pdf_content" style="width: 100%; height: 25%; background-color: transparent; border: 1px solid transparent; border-radius: 10px; color: white; font-size: 1vw; font-weight: bold;" onclick="change_pdf(this);">
+								<div class="pdf_name" style="width: 90%; height: 100%; float: left; left: 0;">
+									{{pdf.pdf_name}}
+								</div>
 							</div>
 						{% endfor %}
 					</div>
-
-					<!--
-					<div class="upload_pdf_div">
-						<form action="" method="post" enctype="multipart/form-data" name="frm">
-							{% csrf_token %}
-					        <input type="file" id="pdfs" value="" name="upload[]" multiple>
-					        <input type="hidden" name="class_id_text" id="class_id_text" value="{{classnode.class_id}}">
-					        <button type="button" value="업로드" onclick="check_file_and_submit();">업로드</button>
-					    </form>
-					    <div id="selected_pdfs" style="font-size: 10px;">
-
-					    </div>
-					</div>
-					-->
 				</div>
 
 				{% else %}
-				<div id="pdf_div" class="pdf_div"  style="width: 80%; height: 95%; float: left; background-color: white; border: 1px solid transparent; border-radius: 10px; margin-top: 1%;">
-					<div class="pdf_list_div" style="width: 100%; height: 60%; background-color: white;">
+				<div id="pdf_div" class="pdf_div"  style="width: 95%; height: 100%; float: left; background-color: transparent; border: 1px solid transparent; margin-left: 1%;">
+					<div class="pdf_search_div" style="width: 100%; height: 15%;  border: 1px solid #5D5D5D;  border-radius: 10px; position: relative;  margin-top: 0.5%;">
+						<div class="pdf_search_text" style="width: 5%; height: 100%; float: left; margin-top: 0.1%; margin-left: 0.5%; margin-right: 0.5%; color: white;">
+							검색
+						</div>
+						<input id="search_text" class="search_text" type="text" style="width: 70%; height: 100%; float: left; color: white;">
+						<div class="add_or_full_div" style="width: 10%; height: 100%; float: right;">
+							<img src="../static/img/full_screen_icon.png" style="width: 1vw; height: 1vw; float: right;" onclick="startFS();">
+							{% if member.user_id == classnode.founder_id %}
+							<img src="../static/img/pdf_plus_icon.png" style="width: 1vw; height: 1vw; float: right; margin-right: 10%;" onclick="open_upload_pdf();">
+							{% endif %}
+						</div>
+					</div>
+					<div class="pdf_list_div" id="pdf_list_div" style="width: 100%; height: 60%; background-color: #00283F;  overflow-x: hidden; overflow-y:auto; margin-top: 1%;">
 						{% for pdf in pdfs %}
-							<div id="{{pdf.pdf.url}}" class="pdf_content" style="width: 100%; height: 10%; background-color: transparent; border: 1px solid transparent; border-radius: 10px; position: relative;" onclick="change_pdf(this);">
-								<div class="pdf_name" style="width: 90%; height: 100%; float: left;">
+							<div id="{{pdf.pdf.url}}" class="pdf_content" style="width: 100%; height: 25%; background-color: transparent; border: 1px solid transparent; border-radius: 10px; position: relative; color: white;  font-size: 1vw;  font-weight: bold;" onclick="change_pdf(this);">
+								<div class="pdf_name" style="width: 90%; height: 100%; float: left; left: 0;">
 									{{pdf.pdf_name}}
 								</div>
 								<div class="delete_pdf_button" style="width: 10%; height: 100%; float: left;" onclick="delete_pdf(this);">
@@ -305,7 +445,7 @@
 					    <div class="show_pdf_list_title" style="width: 100%; height: 10%; border: 1px solid transparent; border-radius: 10px; text-align: center; font-size: 2vw; font-weight: bold; background-color: #F2385A; color: white;">
 							선택된 파일 리스트
 						</div>
-					    <div id="selected_pdfs" style="width: 100%; height: 60%; background-color: gray;  border: 1px solid transparent; border-radius: 10px; margin-top: 10%;">
+					    <div id="selected_pdfs" style="width: 100%; height: 60%; background-color: gray;  border: 1px solid transparent; border-radius: 10px; margin-top: 10%; overflow-x: hidden; overflow-y:auto;">
 
 					    </div>
 					    <button id="upload_button" type="button" value="업로드" style="width: 6vw; height: 3vw;" onclick="check_file_and_submit();">업로드</button>
@@ -327,21 +467,13 @@
 					<div style="width: 50%; height: 10%;" id="memo_edit"></div>
 					<button type="button" style="width: 3vw; height: 2vw; float: left; margin-left: 5%;" onclick="save_memo();">저장</button>
 				</div>
-
-				<div class="add_or_full_div" style="width: 10%; height: 100%; float: right;">
-					<img src="../static/img/full_screen_icon.png" style="width: 2vw; height: 2vw; float: right;" onclick="startFS();">
-					{% if member.user_id == classnode.founder_id %}
-					<img src="../static/img/pdf_plus_icon.png" style="width: 2vw; height: 2vw; float: right; margin-right: 10%;" onclick="open_upload_pdf();">
-					{% endif %}
-				</div>
 			</div>
 		</div>
 
 
 
 
-		<div class="chat_div" style="width: 25%; height: 60%; float: left; margin-left: 5%; border: 1px solid transparent;
-	   border-radius: 10px;">
+		<div class="chat_div" style="width: 25%; height: 65%; float: left; margin-left: 1%; border: 1px solid transparent;">
 			
 			<div class="chat_body">
 				
@@ -352,13 +484,13 @@
 				<div class="chat_show" id="chat_show_id">
 					
 				</div>
-				<div class="chat_input_div" style="position: relative; margin-top: 5%;">
+				<div class="chat_input_div" style="position: relative; margin-top: 5%; background-color: #00283F;">
 					{% if member.user_name == 'unknown' %}
-						<input type="text" id="chat_input" style="width: 16vw; height: 3vw; background-color: white; float: left; border: 1px solid transparent; border-radius: 10px; margin-right: 5%; margin-left: 2%; margin-top: 0.5%;" disabled="true" placeholder="닉네임을 설정해주세요.">
+						<input type="text" id="chat_input" style="width: 16vw; height: 3vw; background-color: #00283F; float: left; border: 1px solid white; border-radius: 10px; margin-right: 5%; margin-left: 2%; margin-top: 2%; color: white;" disabled="true" placeholder="닉네임을 설정해주세요.">
 						<button id="send_msg_btn" type="button" style="width: 5vw; height: 3vw; float: left;" onclick="open_set_name();">SET NAME</button>
 					{% else %}
-						<input type="text" id="chat_input" style="width: 16vw; height: 3vw; background-color: white; float: left; border: 1px solid transparent; border-radius: 10px; margin-right: 5%; margin-left: 2%; margin-top: 0.5%;">
-						<button id="send_msg_btn" type="button" style="width: 5vw; height: 3vw; float: left;" onclick="send_msg();">보내기</button>
+						<input type="text" id="chat_input" style="width: 16vw; height: 3vw; background-color: #00283F; float: left; border: 1px solid white; border-radius: 10px; margin-right: 5%; margin-left: 2%; margin-top: 2%; color: white;">
+						<button id="send_msg_btn" type="button" style="width: 5vw; height: 3vw; float: left;" onclick="send_msg();">전송</button>
 					{% endif %}
 				</div>
 			</div>
@@ -468,6 +600,7 @@
 	        	var file_length = document.getElementById('pdfs').files.length;
 	        	var file_list = '';
 	        	var is_not_pdf_file = 'false';
+	        	var pdf_name_flag = 'false';
 	        	for(var i=0;i<file_length;i++){
 	                var pdfs = document.getElementById('pdfs').files[i].name;
 	                //alert(pdfs.split('.')[pdfs.split('.').length-1]);
@@ -477,11 +610,30 @@
 		                color = 'red';
 		                is_not_pdf_file = 'true';
 		            }
+
 		            file_list += "<p style=\"color:" + color + ";\">" + (i+1) + " : " + pdfs + '<br>';
+	            }
+
+	            for(var i=0;i<file_length;i++){
+	            	var pdfs = document.getElementById('pdfs').files[i].name;
+	            	var pdf_list = document.getElementsByClassName("pdf_name");
+					for( var i=0; i<pdf_list.length; i++){
+						//console.log(pdfs[i].innerHTML);
+						//alert(pdfs[i].innerHTML);
+						//console.log(pdfs[i].innerHTML.substring(idx,idx+text.length));
+						//console.log(pdfs);
+						if(pdf_list[i].innerHTML.indexOf(pdfs) != -1){
+							alert(pdfs + "는 이미 존재하는 PDF 이름입니다.");
+							pdf_name_flag = 'true';
+						}
+					}
 	            }
 	            $("#selected_pdfs").html(file_list);
 	            if(is_not_pdf_file == 'true'){
 	            	alert("pdf 파일만 업로드 가능합니다.");
+	            	upload_ok = 'false';
+	            }
+	            else if(pdf_name_flag == 'true'){
 	            	upload_ok = 'false';
 	            }
 	            else {
@@ -490,6 +642,33 @@
 	        });
 
 	      	//$("#class_id_text").val(global_class_id);
+
+	      	$('input.search_text').on('input',function(e){
+				//alert('Changed!')
+				var text = $("#search_text").val();
+				//console.log(text);
+				var pdfs = document.getElementsByClassName("pdf_name");
+				for( var i=0; i<pdfs.length; i++){
+					//console.log(pdfs[i].innerHTML);
+					//alert(pdfs[i].innerHTML);
+					console.log(pdfs[i].innerHTML.indexOf(text));
+					if(text.length != 0){
+						var idx = pdfs[i].innerHTML.indexOf(text);
+						pdfs[i].style.backgroundColor = 'transparent';
+						if(idx != -1){
+							/*
+							console.log(pdfs[i].innerHTML.substring(0,idx));
+							console.log(pdfs[i].innerHTML.substring(idx,idx+text.length));
+							console.log(pdfs[i].innerHTML.substring(idx+text.length,pdfs[i].innerHTML.length));
+							*/
+							pdfs[i].style.backgroundColor = '#0A5F8E';
+						}
+					}
+					else{
+						pdfs[i].style.backgroundColor = 'transparent';
+					}
+				}
+			});
 
 	    });
 
@@ -532,6 +711,9 @@
 				}
 			});
 		});
+
+		var total_chat_num = 0;
+		var total_chat_num_plus = 0;
 
 	    function updateData(){
 	    	var content_list = [];
@@ -698,11 +880,21 @@
 
 		        var chat_content = '';
 		        var best_chat_content = '';
+		        /*
+		        total_chat_num_plus = content_list.length;
+		        if(total_chat_num_plus > total_chat_num){
+		        	console.log(content_list.length);
+		        	var objDiv = document.getElementById("chat_show_id");
+					objDiv.scrollTop = objDiv.scrollHeight;
+
+					total_chat_num = total_chat_num_plus;
+		        }
+				*/
 		        for(var i=0;i<content_list.length;i++){
 		        	//alert(class_id_list[i]);
 		        	if(global_class_id == class_id_list[i]){
 			            var start = "<div class=\"chat_div\">";
-			            var content_start = "<div class=\"chat_content_div\" style=\"background-color: #A6A6A6;float: left;\">";
+			            var content_start = "<div class=\"chat_content_div\" style=\"background-color: #A6A6A6;float: left; overflow:hidden;word-wrap:break-word;\">";
 			            
 			            var chat_content_body = name_list[i] + " : " + content_list[i] + "<br><br>";
 			            /*
@@ -825,6 +1017,8 @@
 
 	            $("#chat_show_id").html(chat_content);
 	            $("#best_chat_id").html(best_chat_content);
+	            //var objDiv = document.getElementById("chat_show_id");
+				//objDiv.scrollTop = objDiv.scrollHeight;
 	            $("#user_num").html("참여인원 : " + class_user_list_split.length);
 	            $("#show_user_list_content").html(user_list_content);
 	          }
@@ -977,11 +1171,13 @@
 	    	var pdf_url = pdf.id;
 	    	$(".pdf_content").css('background-color','transparent');
 	    	PDFObject.embed(pdf_url, "#viewer_content");
-	    	pdf.style.backgroundColor = '#F2385A';
+	    	//pdf.style.backgroundColor = '#F2385A';
+	    	pdf.style.backgroundColor = '#0A5F8E';
 	    }
 
         function check_file_and_submit(){
         	var file_length = document.getElementById('pdfs').files.length;
+        	
         	if(file_length == 0){
         		alert("파일을 선택해주세요.");
         	}
@@ -991,8 +1187,9 @@
 	            p.submit();
 	        }
 	        else if(upload_ok == 'false'){
-	        	alert("pdf 파일만 업로드 가능합니다.");
+	        	alert("PDF 파일을 다시 확인해주세요.");
 	        }
+	        
         }
 	    
 	    function show_user_list(){
@@ -1006,11 +1203,14 @@
 
 	    function change_function(function_div){
 	    	var id = function_div.id;
-	    	$(".choice_class").css("background-color", "white");
-	    	$(".choice_class").css("color", "black");
+	    	//$(".choice_class").css("background-color", "white");
+	    	$(".choice_class").css("color", "white");
+	    	$(".choice_class").css("border-right", "1px solid white");
 
-	    	$("#" + id).css("background-color", "#F2385A");
+
+	    	//$("#" + id).css("background-color", "#F2385A");
 	    	$("#" + id).css("color", "white");
+	    	$("#" + id).css("border-right", "0px");
 
 	    	if(id == 'choice_pdf'){
 	    		$("#memo_div").css("display", "none");
@@ -1124,7 +1324,7 @@
 	          },
 	          dataType: 'json',
 	          success: function (data) {
-	          	//alert("!!!!!");
+	          	//44444444444444alert("!!!!!");
 	          	window.location.reload();
 	          }
 	        });

@@ -42,6 +42,7 @@ class ClassNode(models.Model) :
 
 
 class Member(models.Model) :
+	
 	user_name = models.CharField(max_length=50, default= "")
 	user_id = models.CharField(primary_key=True, max_length=50, default= "")
 	user_psw = models.CharField(max_length=50, default = "")
