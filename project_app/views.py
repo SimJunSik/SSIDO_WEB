@@ -153,6 +153,12 @@ def joinClass(request) :
 	# PDF 등록
 	if request.method == 'POST':
 		class_id = request.POST.get('class_id_text', False)
+		user_id = request.session.get('user_id', 'unknown')
+		user_name = request.session.get('user_name', 'unknown')
+		
+		member = Member.objects.get(user_name = user_name, user_id = user_id)
+
+		classnode = ClassNode.objects.get(class_id = class_id)
 
 		for pdf in request.FILES.getlist('upload[]'):
 			#print(pdf)
@@ -173,7 +179,7 @@ def joinClass(request) :
 
 		pdfs = PDF.objects.filter(class_id = class_id)
 
-		context = { 'pdfs' : pdfs }
+		context = { 'pdfs' : pdfs, 'member' : member, 'classnode' : classnode }
 
 		"""
 		file_get = request.POST.get('upload', False)
