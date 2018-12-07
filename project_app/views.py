@@ -733,9 +733,10 @@ def upload_class(request):
 
  	if request.method == 'POST':
  		form = ClassNodeForm(request.POST, request.FILES)
+ 		class_id = request.POST.get("class_id",None)
  		if form.is_valid():
  			form.save()
- 			return redirect('../')
+ 			return redirect('../' + "joinClass/" + class_id)
  	else:
  		form = ClassNodeForm()
  		return render(request, 'upload_class.html', {
