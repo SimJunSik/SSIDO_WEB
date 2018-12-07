@@ -33,9 +33,11 @@ class ClassNode(models.Model) :
 	class_name = models.CharField(max_length=50, default="")
 	class_id = models.CharField(max_length=50, default="")
 	founder_id = models.CharField(max_length=50, default="")
+	founder_name = models.CharField(max_length=50, default="")
+	created_date = models.CharField(max_length=50,default=datetime.now().strftime("%Y-%m-%d"))
+	image = models.ImageField(upload_to='classImg/', default='classImg/LYAN1.jpg')
 	number_of_user = models.IntegerField(default=0)
 	user_list = models.TextField(default = '')
-
 
 	def __str__(self) :
 		return self.class_name

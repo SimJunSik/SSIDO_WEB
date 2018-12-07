@@ -103,11 +103,10 @@
 			text-align: center;
 			font-size: 0.5vw;
 		}
-		#send_msg_btn{
+		#send_msg_btn, #delete_msg_cancel_btn{
 			background-color: transparent;
 		    border: none;
 		    color: white;
-		    padding: 20px;
 		    text-align: center;
 		    text-decoration: none;
 		    display: inline-block;
@@ -116,11 +115,10 @@
 		    cursor: pointer;
 		    border-radius: 30px;
 		}
-		#upload_button, #set_name_button{
-			background-color: #F2385A;
+		#upload_button, #set_name_button, #delete_msg_ok_btn{
+			background-color: #0A5F8E;
 		    border: none;
 		    color: white;
-		    padding: 20px;
 		    text-align: center;
 		    text-decoration: none;
 		    display: inline-block;
@@ -333,7 +331,12 @@
 			</div>
 			{% endif %}
 			-->
-			<div class="class_title_content" style="width: auto; height: auto; font-size: 3vw; color: white; float: left;">
+			<a href="../main">
+				<div class="logo_div" style="width: 8vw; height: 2vw; float: left; top: 12%; position: relative; margin-right:2vw;">
+					<img src="../../static/img/logo4.png" style="width: auto; height: auto;">
+				</div>
+			</a>
+			<div class="class_title_content" style="width: auto; height: auto; font-size: 3vw; color: white; float: left; position: relative;">
 				{{classnode.class_name}}
 			</div>
 			{% if member.user_id == classnode.founder_id %}
@@ -526,6 +529,19 @@
 			<div id="result_check_set_name" style="width: 100%; text-align: center;"></div>
 		</div>
 		<button id="set_name_button" type="button" style="width: 6vw; height: 3vw; background-color: gray;" disabled="true" onclick="start_chat();">채팅시작</button>
+	</div>
+
+	<div class="delete_msg_div" id="delete_msg_div" style="width: 15%; height: 10%; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -70%); background-color: white; z-index: 10000; box-shadow:0px -1px 30px 2px #999; border-radius: 10px; display: none; text-align: center;">
+
+		<div class="delete_msg_text" style="width: 100%; height: auto; position: relative; margin-bottom: 5%;">
+			삭제하시겠습니까?
+		</div>
+
+		<div class="delete_msg_button_div" style="width: auto; height: auto; position: relative; margin-left: 18%;">
+			<button id="delete_msg_ok_btn" style="width: 5vw; height: 2vw; float: left;" onclick="delete_msg();">OK</button>
+			<button id="delete_msg_cancel_btn" style="width: 5vw; height: 2vw; float: left; color: black;" onclick="cancel_delete_msg();">CANCEL</button>
+		</div>
+
 	</div>
 
 	<input type="text" id="global_user_id_value" value="{{member.user_id}}" hidden="hidden">
@@ -922,7 +938,8 @@
 
 			            var chat_delete1 = "<img src=\"../static/img/delete_icon.png\" id=\"";
 			            var chat_delete_id = class_id_list[i] + "%%%" + name_list[i] + "%%%" + content_list[i] + "%%%" + date_list[i];
-			            var chat_delete2 = "\" style=\"width: 1vw; height:1vw; margin-left: 1%;\" onclick=\"delete_msg(this);\">";
+			            //var chat_delete2 = "\" style=\"width: 1vw; height:1vw; margin-left: 1%;\" onclick=\"delete_msg(this);\">";
+			            var chat_delete2 = "\" style=\"width: 1vw; height:1vw; margin-left: 1%;\" onclick=\"open_delete_msg(this);\">";
 
 			            
 			            var content_end = "</div>";
@@ -1143,11 +1160,21 @@
 	    }
 
 
+	    var chat_id;
 
+	    function open_delete_msg(btn){
+	    	$("#delete_msg_div").css('display', 'block');
+	    	chat_id = btn.id;
+	    }
+
+	    function cancel_delete_msg(){
+	    	$("#delete_msg_div").css('display', 'none');
+	    }
 
 
 	    function delete_msg(btn){
-	    	var btn_id = btn.id;
+	    	//var btn_id = btn.id;
+	    	var btn_id = chat_id;
 	    	var btn_id_split = btn_id.split("%%%");
 
 	    	$.ajax({
@@ -1160,10 +1187,12 @@
 	          },
 	          dataType: 'json',
 	          success: function (data) {
-	          	$("#chat_input").val("");
+	          	//$("#chat_input").val("");
 	            //alert("!!!!");
 	          }
 	        });
+
+	        $("#delete_msg_div").css('display', 'none');
 	    }
 
 

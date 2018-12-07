@@ -6,6 +6,7 @@ from datetime import datetime
 from django.core.files.storage import FileSystemStorage
 from django.shortcuts import redirect
 import random, string
+from .forms import ClassNodeForm
 
 # Create your views here.
 
@@ -626,3 +627,117 @@ def delete_pdf(request) :
 		result = { "result" : "success" }
 
 		return JsonResponse(result)
+
+
+def password_change(request) :
+	return render(request, './password_change.html')
+
+
+def check_validation(request) : 
+
+	user_id = request.GET.get('id',None)
+	user_email = request.GET.get('email',None)
+
+	try :
+		member = Member.objects.get(user_id = user_id)
+		#print(user_id, user_psw, member)
+		if member.user_email != user_email :
+			result = { "result" : "email_failed"}
+		else :
+			#request.session['validation'] = True
+			request.session['user_id'] = user_id
+			request.session['user_email'] = user_email
+
+			result = { "result" : "success" }
+
+	except :
+		result = { "result" : "id_failed" }
+		
+	#print(result)
+	return JsonResponse(result)
+
+def password_change_success(request) :
+	if request.method == 'POST':
+		user_email = request.POST.get('email',None)
+		user_id = request.POST.get('id',None)
+
+		print(user_email)
+		send_mail(
+		'Password_Reset',
+		'http://localhost:8000/password_validation_check/'+user_id ,
+		'tlsjh082@gmail.com',
+		[user_email],
+		fail_silently=False,
+		)
+		return render(request, './password_change_success.html')
+
+
+def password_validation_check(request): 
+	#print(request.path.split('/')[2])
+	id = request.path.split('/')[2]
+	member = Member.objects.get(user_id = id)
+	return render(request, './password_validation_check.html', {'member':member})
+
+def psw_changed_success(request):
+	if request.method == 'POST':
+		id = request.path.split('/')[2]
+		member = Member.objects.get(user_id = id)
+		user_psw=request.POST.get('user_psw',False)
+		member.user_psw=user_psw
+		member.save()
+		return render(request, './psw_changed_success.html')
+ 
+def mypage(request):
+ 	user_id = request.session.get('user_id', False)
+ 	myself = Member.objects.filter(user_id = user_id)
+ 	classMake_check = ClassNode.objects.filter(founder_id = user_id)
+ 	classConnect_check = Member.objects.filter(user_id = user_id).values('in_class_list')
+
+ 	con_list = []
+ 	for item in classConnect_check[0]['in_class_list'].split(','):
+ 		if '[' in item :
+ 			item = item.replace('[', '')
+ 		if '\'' in item :
+ 			item = item.replace('\'', '')
+ 		if ']' in item :
+ 			item = item.replace(']', '')
+ 		con_list.append(item.strip())
+	
+ 	classConnect_len = len(con_list)
+ 	classMake_count = classMake_check.count()
+
+ 	classimages1 = ClassNode.objects.filter(founder_id = 'default')
+ 	classimages2 = ClassNode.objects.filter(founder_id = 'default')
+ 	classimages3 = ClassNode.objects.filter(founder_id = 'default')
+ 	classimages4 = ClassNode.objects.filter(founder_id = 'default')
+
+ 	if classMake_count > 1:
+ 		classimages1 = ClassNode.objects.filter(founder_id = user_id)[classMake_check.count()-2:classMake_check.count()-1]
+ 		classimages2 = ClassNode.objects.filter(founder_id = user_id)[classMake_check.count()-1:classMake_check.count()]
+ 	if classMake_count == 1:
+ 		classimages1 = ClassNode.objects.filter(founder_id = user_id)[classMake_check.count()-1:classMake_check.count()]
+
+ 	if classConnect_len > 0 and len(con_list[0]) > 0:
+ 		classimages3 = ClassNode.objects.filter(class_id = con_list[len(con_list)-2])
+ 		if classConnect_len > 1:
+ 			classimages4 = ClassNode.objects.filter(class_id = con_list[len(con_list)-1])
+		
+ 	return render(request, 'my_page.html', {
+ 		'myself' : myself , 'classimages1' : classimages1, 'classimages2' : classimages2,
+ 		'classimages3' : classimages3, 'classimages4' : classimages4,
+ 	})			
+	
+def upload_class(request):
+ 	user_id = request.session.get('user_id', False)
+ 	myself = Member.objects.filter(user_id = user_id)
+
+ 	if request.method == 'POST':
+ 		form = ClassNodeForm(request.POST, request.FILES)
+ 		if form.is_valid():
+ 			form.save()
+ 			return redirect('../')
+ 	else:
+ 		form = ClassNodeForm()
+ 		return render(request, 'upload_class.html', {
+ 		'form':form, 'myself' : myself
+ 		})	

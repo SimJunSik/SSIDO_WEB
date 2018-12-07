@@ -19,7 +19,7 @@ from . import views
 from django.conf.urls.static import static
 from django.conf import settings
 from django.conf.urls import url
-
+ 
 urlpatterns = [
     path('', views.main),
     path('cc_test/', views.cc_test),
@@ -48,6 +48,14 @@ urlpatterns = [
     path('join/', views.join),
     path('check_id/', views.check_id),
     path('join/register_member_db/',views.main),
+
+    path('password-change/', views.password_change),
+    path('check_validation/', views.check_validation),
+    path('password_change_success/', views.password_change_success),
+    path('mypage/', views.mypage),
+    path('upload/', views.upload_class),
+    url(r'^password_validation_check/.+$',views.password_validation_check),
+    url(r'^psw_changed_success/.+$',views.psw_changed_success),
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
