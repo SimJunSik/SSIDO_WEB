@@ -4,6 +4,8 @@
 	<title>클래스 업로드</title>
 	<link rel="stylesheet" type="text/css" href="/static/semantic/semantic.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <style type="text/css">
 		#class_div{
 			width:350px;
@@ -71,6 +73,48 @@
 		}
 
 
+		function create_class(){
+			var form = document.frm;
+			if(check_class_id_flag == true){
+				form.action = "../upload/";
+				form.submit();
+			}
+			else{
+				alert("클래스 코드를 확인해주세요.");
+			}
+		}
+
+		var check_class_id_flag = false;
+
+		$(document).ready(function(){
+	      	$('#id_class_id').on('input',function(e){
+				//alert('Changed!')
+				var class_id = $("#id_class_id").val();
+				//console.log(text);
+				$.ajax({
+					url: '/check_class_id/',
+					data: {
+						'class_id' : class_id,
+					},
+					dataType: 'json',
+					success: function (data) {
+						//console.log(class_id);
+						if(data.result == 'success'){
+							$("#class_check_text").html("사용 가능한 클래스코드 입니다.");
+							$("#class_check_text").css("color", "green");
+							check_class_id_flag = true;
+						}
+						else{
+							$("#class_check_text").html("이미 사용중인 클래스코드 입니다.");
+							$("#class_check_text").css("color", "red");
+							check_class_id_flag = false;
+						}
+					}
+				});
+			});
+	    });
+
+
 </script>
 </head>
 <body>
@@ -79,7 +123,7 @@
 			<b>클래스 개설</b>
 		</div>
 		<div id="class_section">
-			<form class="ui form" method="post" enctype="multipart/form-data"> 
+			<form class="ui form" name="frm" method="post" enctype="multipart/form-data"> 
 				{% csrf_token %}
 				<div class="field" id="class_image_section">
 					<span>
@@ -98,9 +142,11 @@
 					<button type="button" class="btn btn-danger" id="btn" onclick="allocate();">
 						할당
 					</button>
+					<br>
+					<div id="class_check_text" style="width: 100%; height: 40px;"></div>
 				</div>
 				<div  id="class_button_section" >
-					<button class="btn btn-default" id="btn1" type="submit">
+					<button class="btn btn-default" id="btn1" type="button" onclick="create_class();">
 						클래스 생성
 					</button>
 				</div>

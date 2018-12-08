@@ -747,4 +747,16 @@ def upload_class(request):
  		form = ClassNodeForm()
  		return render(request, 'upload_class.html', {
  		'form':form, 'myself' : myself
- 		})	
+ 		})
+
+
+
+def check_class_id(request) :
+	class_id = request.GET.get("class_id", None)
+	try :
+		classnode = ClassNode.objects.get(class_id = class_id)
+		result = { "result" : "failed" }
+	except :
+		result = { "result" : "success" }
+	return JsonResponse(result)
+

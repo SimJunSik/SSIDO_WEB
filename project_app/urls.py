@@ -44,6 +44,7 @@ urlpatterns = [
     path('save_memo/', views.save_memo),
     path('delete_user_list/', views.delte_user_list),
     path('delete_pdf/', views.delete_pdf),
+    path('check_class_id/', views.check_class_id),
 
     path('join/', views.join),
     path('check_id/', views.check_id),

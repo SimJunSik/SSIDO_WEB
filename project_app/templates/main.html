@@ -235,9 +235,13 @@
 			text-align: center;
 			font-size: 1.5em;
 		}*/
-		#login_section1, #class_section1, #join_section1{
+		#login_section1, #class_section1{
 			width:100%;
 			height:30%;
+		}
+		#join_section1{
+			width: 100%;
+			height: 60%;
 		}
 		#login_section2{
 			width:100%;
@@ -350,7 +354,7 @@
 			var re_psw = $("#user_re_psw").val();
 
 			if(psw == re_psw){
-				$("#psw_check_result").html("PASS");
+				$("#psw_check_result").html("비밀번호가 일치합니다.");
 				$("#psw_check_result").css({
 					'color' : 'green',
 				});
@@ -380,7 +384,7 @@
 					//alert(response_result.result);
 					
 					if(response_result.result == 'true'){
-						alert("Please Rewrite ID");
+						alert("사용중인 아이디입니다.");
 						$("#id_check_result").html("중복");
 						$("#id_check_result").css({
 							'color' : 'red',
@@ -388,7 +392,7 @@
 						id_validation = 'false';
 					}
 					else if(response_result.result == 'false'){
-						alert("ID Validation Success");
+						alert("사용가능한 아이디입니다.");
 						$("#id_check_result").html("사용가능");
 						$("#id_check_result").css({
 							'color' : 'green',
@@ -401,7 +405,7 @@
 		}
 
 		function check_submit(){
-			var p_val=/^.*(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/;
+			var p_val=/^.*(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=*]).*$/;
 			var e_val = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
 
 			var id=document.frm.user_id.value;
@@ -484,6 +488,7 @@
 		function loginShow() {
 			$("#login_div").css("display","block");
 			$("#join_div").css("display", "none");
+			$("#findpw_div").css("display", "none");
 		}
 		//x버튼 누르면 창 사라짐
 		function loginVanish() {
@@ -493,11 +498,16 @@
 		function joinShow() {
 			$("#join_div").css("display","block");
 			$("#login_div").css("display", "none");
-			$("#class_div").css("display", "none");
+			$("#findpw_div").css("display", "none");
 		}
 		//x버튼 누르면 창 사라짐
 		function joinVanish() {
 			$("#join_div").css("display", "none");
+		}
+		function findpwShow(){
+			$("#login_div").css("display","block");
+			$("#join_div").css("display", "none");
+			$("#findpw_div").css("display", "none");
 		}
 
 		function go_classpage(){
@@ -556,10 +566,10 @@
 		<div id="login_section1">
 			<form action="" method="post" name="f1" style="width: 100%; height: 60%">
 				<div class="id_input" style="width: 100%; padding-left: 10%; padding-top: 12%;">
-					<input class="border-bottom" type="text" name="id" id="id" maxlength="10" placeholder=" 아이디" style="width: 90%;">
+					<input class="border-bottom" type="text" name="id" id="id" maxlength="12" placeholder=" 아이디" style="width: 90%;">
 				</div>
 				<div class="pw_input" style="width: 100%; padding-left: 10%; padding-top: 12%;">
-					<input class="border-bottom" type="password" name="pwd" id="pwd" maxlength="10" placeholder=" 비밀번호" style="width: 90%">
+					<input class="border-bottom" type="password" name="pwd" id="pwd" maxlength="12" placeholder=" 비밀번호" style="width: 90%">
 				</div>
 			</form>	
 		</div>
@@ -578,37 +588,44 @@
 			<b>회원가입</b>
 		</div>
 		<div id="join_section1">
-			<form class="ui form" method="post" name="frm">
+			<form method="post" name="frm">
 				{% csrf_token %}
-				<div class="field" id="user_name_section" style="width: 19vw; padding-left: 2vw;">
-					<span><input type="text" id="user_name" name="user_name" placeholder="이름" autofocus></span>
+				<div id="user_name_section" style="width: 100%; padding-left: 10%; padding-top: 7%;">
+					<input class="border-bottom" type="text" id="user_name" name="user_name" placeholder="이름" autofocus style="width: 90%">
 				</div>
-				<div class="field" id="user_id_section" style="width: 19vw; padding-left: 2vw;">
-					<span><input type="text" id = "user_id" name = "user_id" placeholder="아이디 (4자 이상)" onchange="check_id_validation();"></span>
-					<button type="button" onclick="check_id();">중복확인</button>
+				<div id="user_id_section" style="width: 100%; padding-left: 10%; padding-top: 7%;">
+					<input class="border-bottom" type="text" id ="user_id" name="user_id" placeholder="아이디 (4~12자)" onchange="check_id_validation();" style="width: 65%">
+					<button type="button" class="btn btn-default" onclick="check_id();" style="width: 25%; height:30%; font-size: 1.8vh;">중복확인</button>
 					<div id="id_check_result"></div>
 				</div>
-				<div class="field" id="user_psw_section" style="width: 19vw; padding-left: 2vw;">
-					<span><input type="password" id = "user_psw" name = "user_psw" placeholder="비밀번호 (영문, 숫자 조합 6자 이상)" onchange="check_psw_validation();"></span>
+				<div id="user_psw_section" style="width: 100%; padding-left: 10%; padding-top: 7%;">
+					<input class="border-bottom" type="password" id = "user_psw" name = "user_psw" placeholder="비밀번호(영문, 숫자, 특수문자 조합 6자 이상)" onchange="check_psw_validation();" style="width: 90%;">
 				</div>
-				<div class="field" id="user_re_psw_section" style="width: 19vw; padding-left: 2vw;">
-					<span><input type="password" id = "user_re_psw" name = "user_re_psw" placeholder="비밀번호 확인" onchange="check_psw();"></span>
+				<div id="user_re_psw_section" style="width: 100%; padding-left: 10%; padding-top: 7%;">
+					<input class="border-bottom" type="password" id = "user_re_psw" name = "user_re_psw" placeholder="비밀번호 확인" onchange="check_psw();" style="width: 90%;">
 				<div id="psw_check_result"></div>
 				</div>
-				<div class="field" id="user_email_section" style="width: 19vw; padding-left: 2vw;">
-					<span><input type="text" id="user_email" name="user_email" placeholder="E-mail"></span>
+				<div id="user_email_section" style="width: 100%; padding-left: 10%; padding-top: 7%;">
+					<input class="border-bottom" type="text" id="user_email" name="user_email" placeholder="E-mail" style="width: 90%;">
 				</div>
 			</form>
-			<!--</div>
-			<div id="join_section2">-->
-			<button type="submit" class="btn btn-default" style="width:260px;" onclick="check_submit();">회원가입</button>
+			<button type="submit" class="btn btn-default" style="width:80%; margin-left: 10%; margin-top: 5%; background-color: darkgrey;" onclick="check_submit();">회원가입</button>
 		</div>
 	</div>
 
-	<div id="findpw_div" style="display: none;">
+<!-- 	<div id="findpw_div" style="display: none;">
 		<input type="button" value="x" class="vanish" onclick="findpwVanish();"/>
 		<div id=findpw_header>
 			<b>비밀번호 찾기</b>
-
+		</div>
+		<div id="findpw_section1">
+			<form class="check_form" method="post" name="frm" >
+				{% csrf_token%}
+				<p>아이디 : <input type = "text" id = "id" name = "id"></p>
+				<p>E-mail : <input type="text" id="email" name = "email"></p>
+			</form>
+				<button type="button" onclick="validation();">메일 보내기</button>
+		</div>
+ -->
 </body>
 </html>
