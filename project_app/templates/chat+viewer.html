@@ -134,20 +134,21 @@
 		}
 		.center_div{
 			width: 70%;
-			height: 48vw;
+			height: 46vw;
 			margin-left: 1%;
 			float: left;
 			margin-right: 1%;
+			position: relative;
 		}
 		.memo_div{
-			width: 80%;
-			height: 80%;
-			margin-top: 1%;
-			margin-bottom: 1%;
-			margin-left: 5%;
-			border: 1px solid transparent;
+			width: 90%;
+			height: 100%;
+			margin-top: 0%;
+			margin-bottom: 0%;
+			margin-left: 1%;
 			background-color: white;
 			float: left;
+			position: relative;
 		}
 		.user_list_div{
 			position: relative;
@@ -276,7 +277,7 @@
 
 	</style>
 </head>
-<body style="height: 70vw; background-color: white; width: 100%; margin: 0; position: relative;">
+<body style="height: 55vw; background-color: white; width: 100%; margin: 0; position: relative;">
 
 	<div id="show_user_list_div" style="width: 20%; height: 50%; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -70%); background-color: white; z-index: 10000; box-shadow:0px -1px 30px 2px #999; border-radius: 10px; display: none;">
 		<div class="show_user_list_close" style="width: 5%; height: 5%; position: absolute; top: 0%; right: 0%; font-weight: bold;" onclick="close_show_user_list();">
@@ -334,7 +335,7 @@
 			-->
 			<a href="../main">
 				<div class="logo_div" style="width: 8vw; height: 2vw; float: left; top: 12%; position: relative; margin-right:2vw;">
-					<img src="../../static/img/logo4.png" style="width: auto; height: auto;">
+					<img src="../../static/img/logo4.png" style="width: 8vw; height: 3vw;">
 				</div>
 			</a>
 			<div class="class_title_content" style="width: auto; height: auto; font-size: 3vw; color: white; float: left; position: relative;">
@@ -359,7 +360,7 @@
 				<input type="textarea" style="width: 100%; height: 100%;">
 			</div>
 			-->
-			<div class="function_div" style="width: 100%; height: 22%; background-color: #00283F; border: 1px solid white; position: relative;">
+			<div class="function_div" style="width: 100%; height: 12vw; background-color: #00283F; border: 1px solid white; position: absolute; bottom: 0;">
 	   			{% if member.user_id != classnode.founder_id %}
 	   			<div class="choice_function_div" style="width: 5%; height: 100%; float: left; position: relative; background-color: transparent; margin: 0;">
 	   				<div id="choice_pdf" class="choice_pdf choice_class" style="width: 100%; height: 50%; text-align: center; border:
@@ -384,7 +385,7 @@
 
 				<div id="pdf_div" class="pdf_div"  style="width: 90%; height: 100%; float: left; background-color: transparent; border: 1px solid transparent; margin-left: 1%;">
 					<div class="pdf_search_div" style="width: 100%; height: 15%;  border: 1px solid #5D5D5D;  border-radius: 10px; position: relative; margin-top: 0.5%;">
-						<div class="pdf_search_text" style="width: 5%; height: 100%; float: left; margin-top: 0.1%; margin-left: 0.5%; margin-right: 0.5%; color: white;">
+						<div class="pdf_search_text" style="width: 5%; height: 100%; float: left; margin-top: 0.1%; margin-left: 0.5%; margin-right: 0.5%; color: white; font-size: 1vw;">
 							검색
 						</div>
 						<input id="search_text" class="search_text" type="text" style="width: 70%; height: 100%; float: left; color: white;">
@@ -395,7 +396,7 @@
 							{% endif %}
 						</div>
 					</div>
-					<div class="pdf_list_div" id="pdf_list_div" style="width: 100%; height: 60%; background-color: #00283F; overflow-x: hidden; overflow-y:auto;">
+					<div class="pdf_list_div" id="pdf_list_div" style="width: 100%; height: 75%; background-color: #00283F; overflow-x: hidden; overflow-y:auto; margin-top: 1%;">
 						{% for pdf in pdfs %}
 							<div id="{{pdf.pdf.url}}" class="pdf_content" style="width: 100%; height: 25%; background-color: transparent; border: 1px solid transparent; border-radius: 10px; color: white; font-size: 1vw; font-weight: bold;" onclick="change_pdf(this);">
 								<div class="pdf_name" style="width: 90%; height: 100%; float: left; left: 0;">
@@ -409,10 +410,10 @@
 				{% else %}
 				<div id="pdf_div" class="pdf_div"  style="width: 90%; height: 100%; float: left; background-color: transparent; border: 1px solid transparent; margin-left: 1%;">
 					<div class="pdf_search_div" style="width: 100%; height: 15%;  border: 1px solid #5D5D5D;  border-radius: 10px; position: relative;  margin-top: 0.5%;">
-						<div class="pdf_search_text" style="width: 5%; height: 100%; float: left; margin-top: 0.1%; margin-left: 0.5%; margin-right: 0.5%; color: white;">
+						<div class="pdf_search_text" style="width: 5%; height: 100%; float: left; margin-top: 0.1%; margin-left: 0.5%; margin-right: 0.5%; color: white;  font-size: 1vw;">
 							검색
 						</div>
-						<input id="search_text" class="search_text" type="text" style="width: 70%; height: 100%; float: left; color: white;">
+						<input id="search_text" class="search_text" type="text" style="width: 75%; height: 100%; float: left; color: white;">
 						<div class="add_or_full_div" style="width: 10%; height: 100%; float: right;">
 							<img src="../static/img/full_screen_icon.png" style="width: 1vw; height: 1vw; float: right;" onclick="startFS();">
 							{% if member.user_id == classnode.founder_id %}
@@ -420,7 +421,7 @@
 							{% endif %}
 						</div>
 					</div>
-					<div class="pdf_list_div" id="pdf_list_div" style="width: 100%; height: 60%; background-color: #00283F;  overflow-x: hidden; overflow-y:auto; margin-top: 1%;">
+					<div class="pdf_list_div" id="pdf_list_div" style="width: 100%; height: 70%; background-color: #00283F;  overflow-x: hidden; overflow-y:auto; margin-top: 1%;">
 						{% for pdf in pdfs %}
 							<div id="{{pdf.pdf.url}}" class="pdf_content" style="width: 100%; height: 25%; background-color: transparent; border: 1px solid transparent; border-radius: 10px; position: relative; color: white;  font-size: 1vw;  font-weight: bold;" onclick="change_pdf(this);">
 								<div class="pdf_name" style="width: 90%; height: 100%; float: left; left: 0;">
@@ -459,17 +460,18 @@
 
 
 				<div id="memo_div" class="memo_div" style="display: none;">
-					<div class="memo_title" style="width: 100%; height: 15%; font-size: 2vw; margin-bottom: 5%;">
-						MEMO
+					<div class="memo_body" style="width: 90%; height: 100%; float: left;">
+						<div class="memo_title" style="width: 100%; height: 8%; font-size: 1.5vw; margin-bottom: 4%;">
+							MEMO
+						</div>
+						<div id="memo" style="width: 100%; height: 70%; overflow: scroll;">
+							<textarea cols="150" rows="100" id="t1" style="resize:none; overflow-x:auto; overflow-y:auto" wrap="hard" >{{memo.memo}}</textarea>
+						</div>
 					</div>
-					<!--
-					<input type="textarea" style="width: 100%; height: 85%;">
-					-->
-					<div id="memo" style="width: 100%; height: 60%; overflow: scroll;">
-						<textarea cols="150" rows="100" id="t1" style="resize:none; overflow-x:auto; overflow-y:auto" wrap="hard" >{{memo.memo}}</textarea>
+					<div class="memo_function" style="width: 10%; height: 100%; float: left; background-color: #00283F;">
+						<div style="width: 130%; height: 20%; color: white;" id="memo_edit"></div>
+						<button type="button" style="width: 3vw; height: 2vw; float: left; margin-left: 5%;" onclick="save_memo();">저장</button>
 					</div>
-					<div style="width: 50%; height: 10%;" id="memo_edit"></div>
-					<button type="button" style="width: 3vw; height: 2vw; float: left; margin-left: 5%;" onclick="save_memo();">저장</button>
 				</div>
 			</div>
 		</div>
@@ -477,7 +479,7 @@
 
 
 
-		<div class="chat_div" style="width: 25%; height: 65%; float: left; margin-left: 1%; border: 1px solid transparent;">
+		<div class="chat_div" style="width: 25%; height: 46vw; float: left; margin-left: 1%; border: 1px solid transparent;">
 			
 			<div class="chat_body">
 				
@@ -491,10 +493,10 @@
 				<div class="chat_input_div" style="position: relative; margin-top: 5%; background-color: #00283F;">
 					{% if member.user_name == 'unknown' %}
 						<input type="text" id="chat_input" style="width: 16vw; height: 3vw; background-color: #00283F; float: left; border: 1px solid white; border-radius: 10px; margin-right: 5%; margin-left: 2%; margin-top: 2%; color: white;" disabled="true" placeholder="닉네임을 설정해주세요.">
-						<button id="send_msg_btn" type="button" style="width: 5vw; height: 3vw; float: left;" onclick="open_set_name();">SET NAME</button>
+						<button id="send_msg_btn" type="button" style="width: 5vw; height: 3vw; float: left;  font-size: 1vw;" onclick="open_set_name();">SET NAME</button>
 					{% else %}
 						<input type="text" id="chat_input" style="width: 16vw; height: 3vw; background-color: #00283F; float: left; border: 1px solid white; border-radius: 10px; margin-right: 5%; margin-left: 2%; margin-top: 2%; color: white;">
-						<button id="send_msg_btn" type="button" style="width: 5vw; height: 3vw; float: left;" onclick="send_msg();">전송</button>
+						<button id="send_msg_btn" type="button" style="width: 5vw; height: 3vw; float: left;  font-size: 1vw;" onclick="send_msg();">전송</button>
 					{% endif %}
 				</div>
 			</div>
