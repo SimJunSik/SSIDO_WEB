@@ -92,13 +92,13 @@
 			height: auto;
 			margin-bottom: 0.5vw;
 			border: 1px solid transparent;
-   			border-radius: 10px;
+   			border-radius: 4px;
 		}
 		.ddabong_container{
 			width : 1.5vw; 
 			height : 1.5vw; 
 			float:left;
-			color: white;
+			color: black;
 			position: relative; 
 			text-align: center;
 			font-size: 0.5vw;
@@ -115,7 +115,15 @@
 		    cursor: pointer;
 		    border-radius: 30px;
 		}
-		#upload_button, #set_name_button, #delete_msg_ok_btn{
+		#upload_button{
+			position: relative;
+			float: left;
+			background-color: white;
+			border-radius: 10px;
+			width: 8vw;
+			height: 2vw;
+		}
+		#set_name_button, #delete_msg_ok_btn{
 			background-color: #0A5F8E;
 		    border: none;
 		    color: white;
@@ -152,7 +160,7 @@
 		}
 		.user_list_div{
 			position: relative;
-			width: 8vw;
+			width: 10vw;
 			height: 2vw;
 			float: left;
 			background-color: #0A5F8E;
@@ -160,11 +168,28 @@
    			border-radius: 0px;
    			top: 25%;
    			left: 5%;
+   			z-index: 9998;
+		}
+		.user_list_div_show{
+			padding-top: 2.5vw;
+			display: none;
+			position: absolute;
+			width: 10vw;
+			height: 2vw;
+			background-color: white;
+			border: 1px solid transparent;
+   			border-radius: 0px;
+   			top: 25%;
+   			left: 0%;
+   			z-index: 9997;
+   			overflow-y: scroll;
 		}
 		.user_list_node{
+			position: relative;
 			width: 100%;
-			height: 5%;
-			color: white;
+			height: auto;
+			color: black;
+			font-size: 1vw;
 		}
 		input{
 			all : unset;
@@ -181,7 +206,7 @@
 		#viewer_content{
 			width: 100%;
 			height: 90%;
-			background-color: white;
+			background-color: #D5D5D5;
 		}
 		.pdfobject-container { 
 			height: 30rem; 
@@ -275,10 +300,75 @@
 			background-color: #0A5F8E;
 		}
 
+
+		.user_list_div_show::-webkit-scrollbar-track
+		{
+			-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+			border-radius: 10px;
+			background-color: transparent;
+		}
+
+		.user_list_div_show::-webkit-scrollbar
+		{
+			width: 12px;
+			background-color: transparent;
+		}
+
+		.user_list_div_show::-webkit-scrollbar-thumb
+		{
+			border-radius: 10px;
+			-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+			background-color: #0A5F8E;
+		}
+
+	</style>
+
+
+	<style type="text/css">
+		.filebox label, .upload_box { 
+			display: inline-block;
+			padding: .5em .75em; 
+			color: black; 
+			font-size: inherit; 
+			line-height: normal; 
+			vertical-align: middle; 
+			background-color: white; 
+			cursor: pointer; 
+			border: 0.7px solid black;
+			border-radius: 4px;
+
+			position: relative;
+			float: left;
+			width: 7vw;
+			height: 0.8vw;
+		}
+		.filebox input[type="file"] { 
+			/* 파일 필드 숨기기 */ 
+			position: absolute; 
+			width: 1px; 
+			height: 1px; 
+			padding: 0; 
+			margin: -1px; 
+			overflow: hidden; 
+			clip:rect(0,0,0,0);
+			border: 0; 
+		}
+	</style>
+
+	<style type="text/css">
+		.overlay {
+			display: none;
+			z-index: 1000;
+			position: fixed;
+			width: 100%; height: 100%;
+			left: 0; top: 0;
+			background-color: rgba(0,0,0, 0.4);
+			overflow-x: hidden;
+		}
 	</style>
 </head>
 <body style="height: 55vw; background-color: white; width: 100%; margin: 0; position: relative;">
-
+	<div class="overlay"></div>
 	<div id="show_user_list_div" style="width: 20%; height: 50%; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -70%); background-color: white; z-index: 10000; box-shadow:0px -1px 30px 2px #999; border-radius: 10px; display: none;">
 		<div class="show_user_list_close" style="width: 5%; height: 5%; position: absolute; top: 0%; right: 0%; font-weight: bold;" onclick="close_show_user_list();">
 			X
@@ -342,10 +432,13 @@
 				{{classnode.class_name}} / {{classnode.class_id}}
 			</div>
 			{% if member.user_id == classnode.founder_id %}
-			<div class="user_list_div" onclick="show_user_list();">
-				<div id="user_num" class="user_num" style="width: auto; height: auto;  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 0.7vw; font-weight: bold; color: white;">
+			<div class="user_list_div" onclick="test123();">
+				<div id="user_num" class="user_num" style="width: auto; height: auto;  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 0.8vw; font-weight: bold; color: white;">
 					
 				</div>
+			</div>
+			<div class="user_list_div_show">
+
 			</div>
 			{% endif %}
 		</div>
@@ -434,26 +527,31 @@
 						{% endfor %}
 					</div>
 
-					<div id="upload_pdf_div" class="upload_pdf_div" style="width: 20%; height: 50%; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -70%); background-color: white; z-index: 10000; box-shadow:0px -1px 30px 2px #999; border-radius: 10px; display: none; text-align: center;">
+					<div id="upload_pdf_div" class="upload_pdf_div" style="width: 20%; height: 60%; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -70%); background-color: white; z-index: 10000; box-shadow:0px -1px 30px 2px #999; border-radius: 10px; display: none; text-align: center;">
 						<div class="show_upload_pdf_close" style="width: 5%; height: 5%; position: absolute; top: 0%; right: 0%; font-weight: bold;" onclick="close_show_upload_pdf();">
 							X
 						</div>
 
-
-
-						<form action="" method="post" enctype="multipart/form-data" name="frm">
-							{% csrf_token %}
-					        <input type="file" id="pdfs" value="" name="upload[]" multiple>
-					        <input type="hidden" name="class_id_text" id="class_id_text" value="{{classnode.class_id}}">
-					    </form>
-
-					    <div class="show_pdf_list_title" style="width: 100%; height: 10%; border: 1px solid transparent; border-radius: 10px; text-align: center; font-size: 2vw; font-weight: bold; background-color: #F2385A; color: white;">
-							선택된 파일 리스트
+					    <div class="show_pdf_list_title" style="width: 100%; height: 10%; text-align: center; font-size: 2vw; margin-top: 15%; font-weight: bold; background-color: white; color: black;">
+							파일 업로드
 						</div>
-					    <div id="selected_pdfs" style="width: 100%; height: 60%; background-color: gray;  border: 1px solid transparent; border-radius: 10px; margin-top: 10%; overflow-x: hidden; overflow-y:auto;">
+					    <div id="selected_pdfs" style="width: 90%; height: 60%; background-color: #D5D5D5;  border: 1px solid transparent; border-radius: 4px; margin-top: 5%; margin-left: 5%; overflow-x: hidden; overflow-y:auto; text-align: left;">
 
 					    </div>
-					    <button id="upload_button" type="button" value="업로드" style="width: 6vw; height: 3vw;" onclick="check_file_and_submit();">업로드</button>
+					    <div class="upload_pdf_button_div" style="width: 18vw; height: auto; position: absolute; left: 50%; transform: translate(-50%,0%); margin-top: 4%;">
+						    <form action="" method="post" enctype="multipart/form-data" name="frm">
+								{% csrf_token %}
+		                        <div class="filebox" style="float: left;">
+		                        	<label for="pdfs">파일 선택</label> 
+						        	<input type="file" id="pdfs" value="" name="upload[]" multiple style="position: relative; float: left;">
+						    	</div>
+						        <input type="hidden" name="class_id_text" id="class_id_text" value="{{classnode.class_id}}">
+						    </form>
+						    <!--
+						    <button id="upload_button" type="button" value="업로드" onclick="check_file_and_submit();">업로드</button>
+						    -->
+						    <div class="upload_box" style="float: right;">업로드</div>
+						</div>
 					</div>
 				</div>
 				{% endif %}
@@ -610,6 +708,50 @@
 		    pageCleanup();
 		});
 
+		var ff = 0;
+
+		/*
+		$(".user_list_div").hover(
+			function(){
+				if(ff == 0){
+					$(".user_list_div_show").css('display', 'block');
+					$(".user_list_div_show").css('padding-top', '2.5vw');
+					$(".user_list_div_show").css('height', '4vw');
+					
+					$(".user_list_div_show").stop().animate({
+						height : "+=1vw"
+					}, 500);
+					
+					ff = 1;
+					//console.log(f);
+				}
+				else {
+					$(".user_list_div_show").css('padding-top', '0vw');
+					$(".user_list_div_show").css('height', '2vw');
+					
+					$(".user_list_div_show").stop().animate({
+						height : "-=1vw"
+					}, 500);
+					
+					ff = 0;
+					//console.log(f);
+				}
+			}
+		);
+		*/
+
+		function change_div_offset(){
+			var x = $(".user_list_div").offset().left;
+			var y = $(".user_list_div").offset().top;
+			//console.log(x,y);
+			$(".user_list_div_show").offset({top : y, left : x});
+			setTimeout("change_div_offset()",200);
+		}
+
+		if(global_user_id == founder_id){
+			change_div_offset();
+		}
+
 	    $(document).ready(function(){
 
 	      	updateData();
@@ -620,6 +762,8 @@
 	        	var file_list = '';
 	        	var is_not_pdf_file = 'false';
 	        	var pdf_name_flag = 'false';
+	        	var img_tag = "<img src=\"../../static/img/file_icon.png\" style=\"position : relative; width : 1vw; height 1vw; margin-left : 0.3vw; margin-right : 0.3vw; top: 50%; transform : translate(0%,-20%);\">";
+	        	//var delete_button_div = "<div style=\"float : right;\"> X </div>";
 	        	for(var i=0;i<file_length;i++){
 	                var pdfs = document.getElementById('pdfs').files[i].name;
 	                //alert(pdfs.split('.')[pdfs.split('.').length-1]);
@@ -630,7 +774,7 @@
 		                is_not_pdf_file = 'true';
 		            }
 
-		            file_list += "<p style=\"color:" + color + ";\">" + (i+1) + " : " + pdfs + '<br>';
+		            file_list += "<div style=\"color:" + color + "; width : 100%; height : 1vw; border-bottom : 0.7px solid black; background-color : transparent; position : relative; padding-bottom : 0.4vw; font-size : 0.6vw;\">" + img_tag + pdfs + "</div>";
 	            }
 
 	            for(var i=0;i<file_length;i++){
@@ -913,7 +1057,7 @@
 		        	//alert(class_id_list[i]);
 		        	if(global_class_id == class_id_list[i]){
 			            var start = "<div class=\"chat_div\">";
-			            var content_start = "<div class=\"chat_content_div\" style=\"background-color: #A6A6A6;float: left; overflow:hidden;word-wrap:break-word;\">";
+			            var content_start = "<div class=\"chat_content_div\" style=\"background-color: white;float: left; overflow:hidden;word-wrap:break-word;\">";
 			            
 			            var chat_content_body = name_list[i] + " : " + content_list[i] + "<br><br>";
 			            /*
@@ -956,7 +1100,7 @@
 
 			            // 본인 채팅 혹은 개설자 입장에서만 삭제버튼 추가
 			            if(global_user_id == user_id_list[i]){
-			            	content_start = "<div class=\"chat_content_div\" style=\"background-color: #D5D5D5; float: right;\">";
+			            	content_start = "<div class=\"chat_content_div\" style=\"background-color: #5D5D5D; float: right;\">";
 				            chat_content += start + content_start + chat_content_body + chat_ddabong + chat_delete + content_end + end;
 				        }
 				        else{
@@ -1039,8 +1183,9 @@
 	            $("#best_chat_id").html(best_chat_content);
 	            //var objDiv = document.getElementById("chat_show_id");
 				//objDiv.scrollTop = objDiv.scrollHeight;
-	            $("#user_num").html("참여인원 : " + class_user_list_split.length);
-	            $("#show_user_list_content").html(user_list_content);
+	            $("#user_num").html("참여 인원 : " + class_user_list_split.length);
+	            //$("#show_user_list_content").html(user_list_content);
+	            $(".user_list_div_show").html(user_list_content);
 	          }
 	        });
 	        setTimeout("updateData()",1000);
@@ -1167,11 +1312,13 @@
 
 	    function open_delete_msg(btn){
 	    	$("#delete_msg_div").css('display', 'block');
+	    	$(".overlay").css('display','block');
 	    	chat_id = btn.id;
 	    }
 
 	    function cancel_delete_msg(){
 	    	$("#delete_msg_div").css('display', 'none');
+	    	$(".overlay").css('display','none');
 	    }
 
 
@@ -1227,10 +1374,12 @@
 	    function show_user_list(){
 	    	//$("#show_user_list_div").css('display', 'block');
 	    	$("#show_user_list_div").fadeIn(500);
+	    	$(".overlay").css('display','block');
 	    }
 
 	    function close_show_user_list(){
 	    	$("#show_user_list_div").fadeOut(500);
+	    	$(".overlay").css('display','none');
 	    }
 
 	    function change_function(function_div){
@@ -1260,19 +1409,23 @@
 
 	    function open_upload_pdf(){
 	    	$("#upload_pdf_div").fadeIn(500);
+	    	$(".overlay").css('display','block');
 	    }
 
 	    function close_show_upload_pdf(){
 	    	$("#upload_pdf_div").fadeOut(500);
+	    	$(".overlay").css('display','none');
 	    }
 
 
 	    function open_set_name(){
 	    	$("#set_name_div").fadeIn(500);
+	    	$(".overlay").css('display','block');
 	    }
 
 	   	function close_set_name(){
    	 		$("#set_name_div").fadeOut(500);
+   	 		$(".overlay").css('display','none');
 	    }
 
 
@@ -1361,6 +1514,27 @@
 	          }
 	        });
 	    }
+
+	    var f = 0;
+		function test123(){					
+			if(f == 0){
+				$(".user_list_div_show").css('display', 'block');
+				$(".user_list_div_show").css('padding-top', '2.5vw');
+				$(".user_list_div_show").stop().animate({
+					height : "+=10vw"
+				}, 500);
+				f = 1;
+				//console.log(f);
+			}
+			else {
+				$(".user_list_div_show").css('padding-top', '0vw');
+				$(".user_list_div_show").stop().animate({
+					height : "-=10vw"
+				}, 500);
+				f = 0;
+				//console.log(f);
+			}
+		}
 	</script>
 </body>
 </html>
