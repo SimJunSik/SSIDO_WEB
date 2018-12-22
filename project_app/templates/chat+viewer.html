@@ -48,7 +48,7 @@
 			height: 100%;
 			position: absolute;
 			top: 0;
-			background-color: #00283F;
+			background-color: #072837;
 		}
 
 
@@ -168,8 +168,8 @@
 			width: 10vw;
 			height: 2vw;
 			float: left;
-			background-color: #00283F;
-			border: 1px solid white;
+			background-color: #072837;
+			border: 1px solid rgba(255,255,255,0.4);
    			border-radius: 0px;
    			top: 25%;
    			left: 5%;
@@ -211,7 +211,7 @@
 		#viewer_content{
 			width: 100%;
 			height: 90%;
-			background-color: #D5D5D5;
+			background-color: #EDEDED;
 		}
 		.pdfobject-container { 
 			height: 30rem; 
@@ -415,7 +415,7 @@
 	-->
 
 	<div class="middle">
-		<div class="class_title_div" style="width: 90%; height: 6%; margin-left: 1.5%; position: relative; background-color: transparent;">
+		<div class="class_title_div" style="width: 90%; height: 7%; margin-left: 1.5%; position: relative; background-color: transparent;">
 			<!--
 			<div class="class_title_content" style="width: auto; height: auto; font-size: 3vw; position: absolute; top: 50%; transform: translate(0%,-50%); color: white; float: left;">
 				{{classnode.class_name}}
@@ -430,10 +430,10 @@
 			-->
 			<a href="../main">
 				<div class="logo_div" style="width: 8vw; height: 2vw; float: left; top: 12%; position: relative; margin-right:2vw;">
-					<img src="../../static/img/logo4.png" style="width: 8vw; height: 3vw;">
+					<img src="../../static/img/logo_white.png" style="width: 10vw; height: 3.5vw;">
 				</div>
 			</a>
-			<div class="class_title_content" style="width: auto; height: auto; font-size: 3vw; color: white; float: left; position: relative;">
+			<div class="class_title_content" style="width: auto; height: auto; font-size: 2vw; color: white; float: left; position: relative; margin-top: 0.5vw;">
 				{{classnode.class_name}} / {{classnode.class_id}}
 			</div>
 			{% if member.user_id == classnode.founder_id %}
@@ -458,11 +458,11 @@
 				<input type="textarea" style="width: 100%; height: 100%;">
 			</div>
 			-->
-			<div class="function_div" style="width: 100%; height: 12vw; background-color: #00283F; border: 1px solid white; position: absolute; bottom: 0;">
+			<div class="function_div" style="width: 100%; height: 12vw; background-color: #072837; border: 1px solid rgba(255,255,255,0.4); position: absolute; bottom: 0;">
 	   			{% if member.user_id != classnode.founder_id %}
 	   			<div class="choice_function_div" style="width: 5%; height: 100%; float: left; position: relative; background-color: transparent; margin: 0;">
 	   				<div id="choice_pdf" class="choice_pdf choice_class" style="width: 100%; height: 50%; text-align: center; border:
-	   				border-right: 1px solid white;
+	   				border-right: 1px solid rgba(255,255,255,0.4);
 	   				background-color: transparent; color: white;" onclick="change_function(this);">   					
 	   					<br>
 	   					P<br>
@@ -471,8 +471,8 @@
 	   				</div>
 
 	   				<div id="choice_memo" class="choice_memo choice_class" style="width: 100%; height: 50%;  text-align: center; 
-	   				border-right: 1px solid white;
-	   				border-top: 1px solid white;
+	   				border-right: 1px solid rgba(255,255,255,0.4);
+	   				border-top: 1px solid rgba(255,255,255,0.4);
 	   				color: white;"  onclick="change_function(this);">
 	   					<br>
 	   					<br>
@@ -494,10 +494,10 @@
 							{% endif %}
 						</div>
 					</div>
-					<div class="pdf_list_div" id="pdf_list_div" style="width: 100%; height: 75%; background-color: #00283F; overflow-x: hidden; overflow-y:auto; margin-top: 1%;">
+					<div class="pdf_list_div" id="pdf_list_div" style="width: 100%; height: 75%; background-color: #072837; overflow-x: hidden; overflow-y:auto; margin-top: 1%;">
 						{% for pdf in pdfs %}
 							<div id="{{pdf.pdf.url}}" class="pdf_content" style="width: 100%; height: 20%; background-color: transparent; border: 1px solid transparent; border-radius: 10px; color: white; font-size: 1vw; font-weight: bold;" onclick="change_pdf(this);">
-								<div class="pdf_name" style="width: 90%; height: 100%; float: left; left: 0;">
+								<div class="pdf_name" style="width: 90%; height: 100%; float: left; left: 0;  font-size: 1vw;">
 									{{pdf.pdf_name}}
 								</div>
 							</div>
@@ -519,10 +519,10 @@
 							{% endif %}
 						</div>
 					</div>
-					<div class="pdf_list_div" id="pdf_list_div" style="width: 100%; height: 70%; background-color: #00283F;  overflow-x: hidden; overflow-y:auto; margin-top: 1%;">
+					<div class="pdf_list_div" id="pdf_list_div" style="width: 100%; height: 70%; background-color: #072837;  overflow-x: hidden; overflow-y:auto; margin-top: 1%;">
 						{% for pdf in pdfs %}
 							<div id="{{pdf.pdf.url}}" class="pdf_content" style="width: 100%; height: 20%; background-color: transparent; border: 1px solid transparent; border-radius: 10px; position: relative; color: white;  font-size: 1vw;  font-weight: bold;" onclick="change_pdf(this);">
-								<div class="pdf_name" style="width: 90%; height: 100%; float: left; left: 0;">
+								<div class="pdf_name" style="width: 90%; height: 100%; float: left; left: 0;  font-size: 1vw;">
 									{{pdf.pdf_name}}
 								</div>
 								<div class="delete_pdf_button" style="width: 10%; height: 100%; float: left;" onclick="delete_pdf(this);">
@@ -540,7 +540,7 @@
 					    <div class="show_pdf_list_title" style="width: 100%; height: 10%; text-align: center; font-size: 2vw; margin-top: 15%; font-weight: bold; background-color: white; color: black;">
 							파일 업로드
 						</div>
-					    <div id="selected_pdfs" style="width: 90%; height: 60%; background-color: #D5D5D5;  border: 1px solid transparent; border-radius: 4px; margin-top: 5%; margin-left: 5%; overflow-x: hidden; overflow-y:auto; text-align: left;">
+					    <div id="selected_pdfs" style="width: 90%; height: 60%; background-color: #EDEDED;  border: 1px solid transparent; border-radius: 4px; margin-top: 5%; margin-left: 5%; overflow-x: hidden; overflow-y:auto; text-align: left;">
 
 					    </div>
 					    <div class="upload_pdf_button_div" style="width: 18vw; height: auto; position: absolute; left: 50%; transform: translate(-50%,0%); margin-top: 4%;">
@@ -571,7 +571,7 @@
 							<textarea cols="150" rows="100" id="t1" style="resize:none; overflow-x:auto; overflow-y:auto" wrap="hard" >{{memo.memo}}</textarea>
 						</div>
 					</div>
-					<div class="memo_function" style="width: 10%; height: 100%; float: left; background-color: #00283F;">
+					<div class="memo_function" style="width: 10%; height: 100%; float: left; background-color: #072837;">
 						<div style="width: 130%; height: 20%; color: white;" id="memo_edit"></div>
 						<button type="button" style="width: 3vw; height: 2vw; float: left; margin-left: 5%;" onclick="save_memo();">저장</button>
 					</div>
@@ -593,12 +593,12 @@
 				<div class="chat_show" id="chat_show_id">
 					
 				</div>
-				<div class="chat_input_div" style="position: relative; margin-top: 5%; background-color: #00283F;">
+				<div class="chat_input_div" style="position: relative; margin-top: 5%; background-color: #072837;">
 					{% if member.user_name == 'unknown' %}
-						<input type="text" id="chat_input" style="width: 16vw; height: 3vw; background-color: #00283F; float: left; border: 1px solid white; border-radius: 10px; margin-right: 5%; margin-left: 2%; margin-top: 2%; color: white;" disabled="true" placeholder="닉네임을 설정해주세요.">
+						<input type="text" id="chat_input" style="width: 16vw; height: 3vw; background-color: #072837; float: left; border: 1px solid rgba(255,255,255,0.4); border-radius: 10px; margin-right: 5%; margin-left: 2%; margin-top: 2%; color: white;" disabled="true" placeholder="닉네임을 설정해주세요.">
 						<button id="send_msg_btn" type="button" style="width: 5vw; height: 3vw; float: left;  font-size: 1vw;" onclick="open_set_name();">SET NAME</button>
 					{% else %}
-						<input type="text" id="chat_input" style="width: 16vw; height: 3vw; background-color: #00283F; float: left; border: 1px solid white; border-radius: 10px; margin-right: 5%; margin-left: 2%; margin-top: 2%; color: white;">
+						<input type="text" id="chat_input" style="width: 16vw; height: 3vw; background-color: #072837; float: left; border: 1px solid rgba(255,255,255,0.4); border-radius: 10px; margin-right: 5%; margin-left: 2%; margin-top: 2%; color: white;">
 						<button id="send_msg_btn" type="button" style="width: 5vw; height: 3vw; float: left;  font-size: 1vw;" onclick="send_msg();">전송</button>
 					{% endif %}
 				</div>
@@ -674,6 +674,7 @@
 		var check_ddabong = [];
 
 		var check_ddabong_list_push = 0;
+		var check_answer_list_push = 0;
 
 		//alert(global_user_id);
 		//alert(user_name);
@@ -883,6 +884,7 @@
 		var total_chat_num = 0;
 		var total_chat_num_plus = 0;
 		var is_scrollBottom = 'false';
+		var check_answer_list = [];
 
 	    function updateData(){
 	    	var content_list = [];
@@ -1062,9 +1064,21 @@
 		        for(var i=0;i<content_list.length;i++){
 		        	//alert(class_id_list[i]);
 		        	if(global_class_id == class_id_list[i]){
-			            var start = "<div class=\"chatnode_div\">";
-			            var content_start = "<div class=\"chat_content_div\" style=\"background-color: white;float: left; overflow:hidden; word-wrap:break-word;\">";
-			            
+		        		var start = "<div class=\"chatnode_div\">";
+		        		/*
+		        		if(check_answer_list[i] == 0){
+				            var start = "<div class=\"chatnode_div\">";
+				        }
+				        else{
+				        	var start = "<div class=\"chatnode_div\" style='background-color : #0A5F8E;'>";
+				        }
+				        */
+				        if(check_answer_list[i] == 0){
+			           		var content_start = "<div class=\"chat_content_div\" style=\"background-color: white; float: left; overflow:hidden; word-wrap:break-word;\">";
+			            }
+			            else{
+			            	var content_start = "<div class=\"chat_content_div\" style=\"background-color: #0A5F8E; float: left; overflow:hidden; word-wrap:break-word;\">";
+			            }
 			            var chat_content_body = name_list[i] + " : " + content_list[i] + "<br><br>";
 			            /*
 			            <div class="container">
@@ -1088,7 +1102,7 @@
 				        	var chat_ddabong1 = "<img class=\"ddabong_img\" src=\"../static/img/heart_icon_on.png\" id=\"";
 				        }
 			            var chat_ddabong_id = class_id_list[i] + "###" + name_list[i] + "###" + content_list[i] + "###" + date_list[i];
-			            var chat_ddabong2 = "\" style=\"width: 100%;\" onclick=\"ddabong(this);\">";
+			            var chat_ddabong2 = "\" style=\"width: 1.5vw; height : 1.5vw;\" onclick=\"ddabong(this);\">";
 
 			            var ddabong_cnt_div_start = "<div class=\"ddabong_div\" style=\"position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);\">";
 			            var ddabong_cnt = ddabong_list[i];
@@ -1099,7 +1113,7 @@
 			            var chat_delete1 = "<img src=\"../static/img/delete_icon.png\" id=\"";
 			            var chat_delete_id = class_id_list[i] + "%%%" + name_list[i] + "%%%" + content_list[i] + "%%%" + date_list[i];
 			            //var chat_delete2 = "\" style=\"width: 1vw; height:1vw; margin-left: 1%;\" onclick=\"delete_msg(this);\">";
-			            var chat_delete2 = "\" style=\"width: 1vw; height:1vw; margin-left: 1%;\" onclick=\"open_delete_msg(this);\">";
+			            var chat_delete2 = "\" style=\"width: 1.5vw; height:1.5vw; margin-left: 1%;\" onclick=\"open_delete_msg(this);\">";
 
 			            var function_div_end = "</div>"
 
@@ -1113,21 +1127,39 @@
 
 			            // 본인 채팅 혹은 개설자 입장에서만 삭제버튼 추가
 			            if(global_user_id == user_id_list[i]){
-			            	content_start = "<div class=\"chat_content_div\" style=\"background-color: #5D5D5D; float: right;  overflow:hidden; word-wrap:break-word;\">";
-			            	function_div_start = "<div class='chat_function_div' style='width: 15%; height: auto; float: right; position: relative;'>";
-			            	function_div = function_div_start + chat_ddabong + chat_delete + function_div_end;
+			            	//content_start = "<div class=\"chat_content_div\" style=\"background-color: #5D5D5D; float: right;  overflow:hidden; word-wrap:break-word;\">";
+			            	if(check_answer_list[i] == 0){
+				           		var content_start = "<div class=\"chat_content_div\" style=\"background-color: #5D5D5D; float: right; overflow:hidden; word-wrap:break-word;\">";
+				            }
+				            else{
+				            	var content_start = "<div class=\"chat_content_div\" style=\"background-color: #0A5F8E; float: right; overflow:hidden; word-wrap:break-word;\">";
+				            }
+			            	function_div_start = "<div class='chat_function_div' style='width: 3.5vw; height: auto; float: right; position: relative;'>";
+			            	if(global_user_id == founder_id){
+				            	var check_answer_div_start = "<img class=\"check_answer_div\" src='../static/img/check_answer_icon.png' style='width: 0vw; height: 0vw; margin-left: 0%; display : none;' onclick='check_answer(this);' id='";
+					        	var check_answer_id = class_id_list[i] + "***" + name_list[i] + "***" + content_list[i] + "***" + date_list[i];
+					        	var check_answer_div_end = "'>";
+					        	var check_answer = check_answer_div_start + check_answer_id + check_answer_div_end;
+				            	function_div = function_div_start + chat_ddabong + chat_delete + check_answer + function_div_end;
+				            }
+				            else{
+				            	function_div = function_div_start + chat_ddabong + chat_delete + function_div_end;
+				            }
 				            chat_content += start + content_start + chat_content_body + content_end + function_div + end;
 				        }
 				        else{
 				        	if(global_user_id == founder_id){
-				        		var check_answer_div_start = "<img class=\"check_answer_div\" src='../static/img/check_answer_icon.png' style='width: 1vw; height: 1vw; margin-left: 1%;' onclick='check_answer(this);'>";
-				        		//var check_answer_div_end = "</img>";
-				        		var check_answer = check_answer_div_start;
-				        		chat_content += start + content_start + chat_content_body + check_answer + function_div + content_end + end;
+				        		var check_answer_div_start = "<img class=\"check_answer_div\" src='../static/img/check_answer_icon.png' style='width: 1.5vw; height: 1.5vw; margin-left: 1%;' onclick='check_answer(this);' id='";
+				        		var check_answer_id = class_id_list[i] + "***" + name_list[i] + "***" + content_list[i] + "***" + date_list[i];
+				        		var check_answer_div_end = "'>";
+				        		var check_answer = check_answer_div_start + check_answer_id + check_answer_div_end;
+				            	function_div_start = "<div class='chat_function_div' style='width: 5vw; height: auto; float: left; position: relative;'>";
+				            	function_div = function_div_start + chat_ddabong + chat_delete + check_answer + function_div_end;
+				        		chat_content += start + content_start + chat_content_body + content_end + function_div + end;
 				        	}
 				        	else{
 				        		function_div = function_div_start + chat_ddabong + function_div_end;
-					        	chat_content += start + content_start + chat_content_body + content_end + chat_ddabong + end;
+					        	chat_content += start + content_start + chat_content_body + content_end + function_div + end;
 					        }
 				        }
 
@@ -1157,9 +1189,11 @@
 			        var img_list = $("#chat_show_id").find('.ddabong_img');
 			        for(var i=0;i<img_list.length;i++){
 			        	check_ddabong.push(0);
+			        	check_answer_list.push(0);
 			        }
 			        if(img_list.length > 0){
 			        	check_ddabong_list_push = 1;
+			        	check_answer_list_push = 1;
 			        }
 			        //alert(img_list);
 			    }
@@ -1167,9 +1201,10 @@
 			    if(check_ddabong.length < content_list.length){
 			    	for(var i=0; i<content_list.length - check_ddabong.length;i++){
 			    		check_ddabong.push(0);
+			    		check_answer_list.push(0);
 			    	}
 			    }
-			    console.log(check_ddabong);
+			    //console.log(check_ddabong);
 		        //alert(check_ddabong.length);
 
 
@@ -1227,7 +1262,7 @@
 	            $(".user_list_div_show").html(user_list_content);
 	          }
 	        });
-	        setTimeout("updateData()",1000);
+	        setTimeout("updateData()",250);
 	    }
 
 	    function send_msg(){
@@ -1426,7 +1461,7 @@
 	    	var id = function_div.id;
 	    	//$(".choice_class").css("background-color", "white");
 	    	$(".choice_class").css("color", "white");
-	    	$(".choice_class").css("border-right", "1px solid white");
+	    	$(".choice_class").css("border-right", "1px solid rgba(255,255,255,0.4)");
 
 
 	    	//$("#" + id).css("background-color", "#F2385A");
@@ -1531,9 +1566,21 @@
 	    }
 
 	    function check_answer(btn){
-	    	var parent = btn.parentNode;
+	    	var nodes = $(".check_answer_div");
+	    	for(var i=0;i<nodes.length;i++){
+	    		if(btn.id == nodes[i].id){
+		    		console.log(nodes[i]);
+		    		if(check_answer_list[i] == 0){
+			    		check_answer_list[i] = 1;
+			    	}
+			    	else{
+			    		check_answer_list[i] = 0;
+			    	}
+		    	}
+	    	}
+	    	//var parent = btn.parentNode.parentNode;
 	    	//alert(parent.id);
-	    	console.log(parent);
+	    	//console.log(parent);
 	    	//parent.style.backgroundColor = "red";
 	    }
 
