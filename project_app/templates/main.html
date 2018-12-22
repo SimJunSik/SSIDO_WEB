@@ -293,6 +293,23 @@
 		#pwd, #className, #classCode{
 			width:185px;
 		}
+		.main_text{
+			width: 50%;
+			float: left;
+			padding-top: 15%;
+		}
+
+		.main_text p{
+				text-align: left;
+				font-weight:bold;
+				font-size:150%;
+				width: 60%;
+				margin: 0 auto;
+		}
+		.main_video{
+				width: 60%;
+				margin: 0 auto;
+		}
 	</style>
 
 	<script type="text/javascript">
@@ -554,6 +571,7 @@
 		}
 		//회원가입 버튼 누르면 창이 활성화
 		function joinShow() {
+			window.location.href = '../#1';
 			$("#join_div").css("display","block");
 			$("#login_div").css("display", "none");
 			$("#class_div").css("display", "none");
@@ -617,131 +635,188 @@
 
 </head>
 
-<body style="width: 100%; height: 5vw; margin: 0; background-image: url('../../static/img/main_image.png'); background-size: 100%;">
-	<div class="top">
-		{% if member.user_id == 'unknown' %}
-			<div class="top_login_div">
-				<button class="login_button" id="login_button" style="width: 8vw; height: 110%;" onclick="loginShow();"> 로그인 </button>
-				<button class="register_button" style="width: 8vw; height: 110%;" onclick="joinShow();"> 회원가입 </button>
+<body>
+	<div id="fullpage">
+		<div class="section" style="width: 100%; height: 5vw; margin: 0; background-image: url('../../static/img/main_image.png'); background-size: 100%;">
+			<div class="top">
+			{% if member.user_id == 'unknown' %}
+				<div class="top_login_div">
+					<button class="login_button" id="login_button" style="width: 8vw; height: 110%;" onclick="loginShow();"> 로그인 </button>
+					<button class="register_button" style="width: 8vw; height: 110%;" onclick="joinShow();"> 회원가입 </button>
+				</div>
+			{% else %}
+				<div class="top_login_member_div" style="margin-right: 1px;">
+					<div class="top_hello_div">
+						{{member.user_name}}님 안녕하세요!
+					</div>
+					<button class="logout_button" onclick="location.href = '/logout/';"> 로그아웃 </button>
+					<button class="mypage_button" onclick="go_mypage();"> 마이페이지 </button>
+				</div>
+				<div class="create_new_class">
+					<button class="create_new_class_button" onclick="classShow();"> 새 클래스 생성 </button> 
+				</div>
+			{% endif %}
+		</div>
+
+		<div class="mid">
+			<div class="mid_title">
+				<b>iHAQ</b>
 			</div>
-		{% else %}
-			<div class="top_login_member_div" style="margin-right: 1px;">
-				<div class="top_hello_div">
-					{{member.user_name}}님 안녕하세요!
-				</div>
-				<button class="logout_button" onclick="location.href = '/logout/';"> 로그아웃 </button>
-				<button class="mypage_button" onclick="go_mypage();"> 마이페이지 </button>
+			<div class="mid_explain">
+				iHAQ은 당신의 프레젠테이션을 더 원활하게 만들어줍니다. <br>
+				새로워진 소통형 프레젠테이션을 경험해보세요.
 			</div>
-			<div class="create_new_class">
-				<button class="create_new_class_button" onclick="classShow();"> 새 클래스 생성 </button> 
+		</div>
+
+		<div id="overlay" onclick="off()"></div>
+
+		<div class="join_input">
+			<input id="class_id" type="text" placeholder="클래스 코드 입력" style="height: 100%; font-size: 3vh;">
+			<button class="join_button" type="button" onclick="join_class();">검색</button>
+		</div>
+
+		<div id="login_div" style="display:none;">
+			<input type="button" value="x" class="vanish" onclick="loginVanish();"/>
+			<div id="login_header">
+				<b>로그인</b>
 			</div>
-		{% endif %}
+			<div id="login_section1">
+				<form action="" method="post" name="f1" style="width: 100%; height: 60%">
+					<div class="id_input" style="width: 100%; padding-left: 10%; padding-top: 12%;">
+						<input class="border-bottom" type="text" name="id" id="id" maxlength="12" placeholder=" 아이디" style="width: 90%;" onkeypress="login_enter(this.form)">
+					</div>
+					<div class="pw_input" style="width: 100%; padding-left: 10%; padding-top: 12%;">
+						<input class="border-bottom" type="password" name="pwd" id="pwd" maxlength="12" placeholder=" 비밀번호" style="width: 90%" onkeypress="login_enter(this.form)">
+					</div>
+				</form>	
+			</div>
+			<div id="login_section2">
+					<button class="btn btn-default" style="width:80%; margin-left: 10%; margin-top: 5%;" onclick="login();">로그인</button>
+					<button class="btn btn-default" style="width:80%; margin-left: 10%; margin-top: 5%; background-color: darkgrey;" onclick="joinShow();">회원가입</button>
+			</div>
+			<div id="login_footer">
+				<a href="../../password-change/" style="color:grey;">비밀번호를 잊어버리셨나요?</a>
+			</div>
+		</div>
+
+		<div id="join_div" style="display: none;">
+			<input type="button" value="x" class="vanish" onclick="joinVanish();"/>
+			<div id="join_header">
+				<b>회원가입</b>
+			</div>
+			<div id="join_section1">
+				<form method="post" name="frm">
+					{% csrf_token %}
+					<div id="user_name_section" style="width: 100%; padding-left: 10%; padding-top: 7%;">
+						<input class="border-bottom" type="text" id="user_name" name="user_name" placeholder="이름" autofocus style="width: 90%" onkeypress="join_enter(this.form)">
+					</div>
+					<div id="user_id_section" style="width: 100%; padding-left: 10%; padding-top: 7%;">
+						<input class="border-bottom" type="text" id ="user_id" name="user_id" placeholder="아이디 (4~12자)" onchange="check_id_validation();" style="width: 65%" onkeypress="join_enter(this.form)">
+						<button type="button" class="btn btn-default" onclick="check_id();" style="width: 25%; height:30%; font-size: 1.8vh;">중복확인</button>
+						<div id="id_check_result"></div>
+					</div>
+					<div id="user_psw_section" style="width: 100%; padding-left: 10%; padding-top: 7%;">
+						<input class="border-bottom" type="password" id = "user_psw" name = "user_psw" placeholder="비밀번호(영문, 숫자, 특수문자 조합 6자 이상)" onchange="check_psw_validation();" style="width: 90%;" onkeypress="join_enter(this.form)">
+					</div>
+					<div id="user_re_psw_section" style="width: 100%; padding-left: 10%; padding-top: 7%;">
+						<input class="border-bottom" type="password" id = "user_re_psw" name = "user_re_psw" placeholder="비밀번호 확인" onchange="check_psw();" style="width: 90%;" onkeypress="join_enter(this.form)">
+					<div id="psw_check_result"></div>
+					</div>
+					<div id="user_email_section" style="width: 100%; padding-left: 10%; padding-top: 7%;">
+						<input class="border-bottom" type="text" id="user_email" name="user_email" placeholder="E-mail" style="width: 90%;" onkeypress="join_enter(this.form)">
+					</div>
+				</form>
+				<button type="submit" class="btn btn-default" style="width:80%; margin-left: 10%; margin-top: 10%; background-color: darkgrey;" onclick="check_submit();">회원가입</button>
+			</div>
+		</div>
+
+		<div id="class_div" style="display: none;">
+			<input type="button" value="x" class="vanish" onclick="classVanish();"/>
+			<div id="class_header">
+				<b>클래스 개설</b>
+			</div>
+			<div id="class_section1">
+				<form action="../upload/" name="f3" method="post" enctype="multipart/form-data" style="width: 100%; height: 60%;"> 
+					{% csrf_token %}
+					<div id="class_image_section" style="width: 100%; padding-left: 10%; padding-top: 15%;">
+							<input class="border-bottom" type="file" name="image" accept="image/*" id="id_image" style="width: 90%;">
+					</div>
+					<div id="class_name_section" style="width: 100%; padding-left: 10%; padding-top: 15%;">
+							<input class="border-bottom" type="text" name="class_name" maxlength="10" required id="id_class_name" style="width: 90%;" placeholder="클래스 이름">
+					</div>
+					<div id="class_code_section" style="width: 100%; padding-left: 10%; padding-top: 12%;">
+							<input class="border-bottom" type="text" name="class_id" maxlength="10" required id="id_class_id" style="width: 75%;"placeholder="클래스 코드">
+						<button type="button" class="btn btn-default" id="btn" onclick="allocate();"> 할당 </button>
+					</div>
+				</form>
+			</div>
+			<div id="class_section2">
+					<div id="class_button_section" style="width: 100%;">
+						<button class="btn btn-default" id="btn1" type="button" style="width: 76%; margin-left: 12%; margin-top: 12%; background-color: darkgrey;" onclick="submit_class();"> 클래스 생성 </button>
+					</div>
+					<input type="hidden" name="founder_id" maxlength="10" required id="id_founder_id" value="{{ myself.get.user_id }}">
+					<input type="hidden" name="founder_name" maxlength="10" required id="id_founder_name" value="{{ myself.get.user_name }}">
+			</div>
+	<!-- 		<div id="class_footer">
+				<a href="#">사용방법이 궁금하신가요?</a>
+			</div> -->
+
+		</div>
 	</div>
-
-	<div class="mid">
-		<div class="mid_title">
-			<b>iHAQ</b>
-		</div>
-		<div class="mid_explain">
-			iHAQ은 당신의 프레젠테이션을 더 원활하게 만들어줍니다. <br>
-			새로워진 소통형 프레젠테이션을 경험해보세요.
-		</div>
+	
+	<div class="section">
+	       <div class="main_text"> 
+	          <p style="font-size:300%;">LIVE CHAT</p><br/>
+	          <p>
+	             프레젠테이션을 진행하면서 실시간 채팅을 통해 청중의 의견을 확인해보세요.
+	          </p>
+	          <br/>
+	          <p>
+	             IHAQ은 보다 더 원활한 소통을 가능하게 해줍니다.
+	          </p>
+	            <button class="btn btn-default" id="btn1" type="button" style="width: 20%; margin-left: 20%; margin-top: 5%; background-color: darkgrey; font-weight:bold;
+	            font-size:150%;"  onclick="joinShow();"> 가입하기 </button>
+	         </div>
+	       <div class="main_text">
+	          <div class="main_video">
+	               <video loop muted controls="false" data-autoplay>
+	                  <source src="http://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+	             </video>
+	          </div>
+	       </div>
+	    </div>
+	    <div class="section" style="width: 100%;">
+	       <div style="background-color: #072837; height: 70%; position: relative; top:15%;">
+	       <div class="main_text" style="padding-top: 8%;">
+	          <div class="main_video">
+	               <video loop muted controls="false" data-autoplay>
+	                  <source src="http://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+	             </video>
+	          </div>
+	       </div>
+	       <div class="main_text" style="padding-top: 8%;">
+	          <p style="font-size:300%;color:white;">SHARING PDF</p><br/>
+	          <p style="color:white;">
+	             프레젠테이션 자료를 공유하는 기능을 통해 청중의 몰입도를 높여보세요.
+	          </p>
+	          <br/>
+	          <p style="color:white;">
+	             IHAQ은 보다 더 원활한 소통을 가능하게 해줍니다.
+	          </p>
+	            <button class="btn btn-default" id="btn1" type="button" style="width: 20%; margin-left: 20%; margin-top: 5%; background-color: darkgrey; font-weight:bold;
+	            font-size:150%;" onclick="joinShow();"> 가입하기 </button>
+	         </div>
+	    </div>
+	   </div>
 	</div>
+	<script type="text/javascript" src="../../static/main/fullpage.js"></script>
 
-	<div id="overlay" onclick="off()"></div>
+	<script type="text/javascript">
+	    var myFullpage = new fullpage('#fullpage', {
+	        anchors: ['1', '2', '3']
+	    });
+	</script>
 
-	<div class="join_input">
-		<input id="class_id" type="text" placeholder="클래스 코드 입력" style="height: 100%; font-size: 3vh;">
-		<button class="join_button" type="button" onclick="join_class();">검색</button>
-	</div>
-
-	<div id="login_div" style="display:none;">
-		<input type="button" value="x" class="vanish" onclick="loginVanish();"/>
-		<div id="login_header">
-			<b>로그인</b>
-		</div>
-		<div id="login_section1">
-			<form action="" method="post" name="f1" style="width: 100%; height: 60%">
-				<div class="id_input" style="width: 100%; padding-left: 10%; padding-top: 12%;">
-					<input class="border-bottom" type="text" name="id" id="id" maxlength="12" placeholder=" 아이디" style="width: 90%;" onkeypress="login_enter(this.form)">
-				</div>
-				<div class="pw_input" style="width: 100%; padding-left: 10%; padding-top: 12%;">
-					<input class="border-bottom" type="password" name="pwd" id="pwd" maxlength="12" placeholder=" 비밀번호" style="width: 90%" onkeypress="login_enter(this.form)">
-				</div>
-			</form>	
-		</div>
-		<div id="login_section2">
-				<button class="btn btn-default" style="width:80%; margin-left: 10%; margin-top: 5%;" onclick="login();">로그인</button>
-				<button class="btn btn-default" style="width:80%; margin-left: 10%; margin-top: 5%; background-color: darkgrey;" onclick="joinShow();">회원가입</button>
-		</div>
-		<div id="login_footer">
-			<a href="../../password-change/" style="color:grey;">비밀번호를 잊어버리셨나요?</a>
-		</div>
-	</div>
-
-	<div id="join_div" style="display: none;">
-		<input type="button" value="x" class="vanish" onclick="joinVanish();"/>
-		<div id="join_header">
-			<b>회원가입</b>
-		</div>
-		<div id="join_section1">
-			<form method="post" name="frm">
-				{% csrf_token %}
-				<div id="user_name_section" style="width: 100%; padding-left: 10%; padding-top: 7%;">
-					<input class="border-bottom" type="text" id="user_name" name="user_name" placeholder="이름" autofocus style="width: 90%" onkeypress="join_enter(this.form)">
-				</div>
-				<div id="user_id_section" style="width: 100%; padding-left: 10%; padding-top: 7%;">
-					<input class="border-bottom" type="text" id ="user_id" name="user_id" placeholder="아이디 (4~12자)" onchange="check_id_validation();" style="width: 65%" onkeypress="join_enter(this.form)">
-					<button type="button" class="btn btn-default" onclick="check_id();" style="width: 25%; height:30%; font-size: 1.8vh;">중복확인</button>
-					<div id="id_check_result"></div>
-				</div>
-				<div id="user_psw_section" style="width: 100%; padding-left: 10%; padding-top: 7%;">
-					<input class="border-bottom" type="password" id = "user_psw" name = "user_psw" placeholder="비밀번호(영문, 숫자, 특수문자 조합 6자 이상)" onchange="check_psw_validation();" style="width: 90%;" onkeypress="join_enter(this.form)">
-				</div>
-				<div id="user_re_psw_section" style="width: 100%; padding-left: 10%; padding-top: 7%;">
-					<input class="border-bottom" type="password" id = "user_re_psw" name = "user_re_psw" placeholder="비밀번호 확인" onchange="check_psw();" style="width: 90%;" onkeypress="join_enter(this.form)">
-				<div id="psw_check_result"></div>
-				</div>
-				<div id="user_email_section" style="width: 100%; padding-left: 10%; padding-top: 7%;">
-					<input class="border-bottom" type="text" id="user_email" name="user_email" placeholder="E-mail" style="width: 90%;" onkeypress="join_enter(this.form)">
-				</div>
-			</form>
-			<button type="submit" class="btn btn-default" style="width:80%; margin-left: 10%; margin-top: 10%; background-color: darkgrey;" onclick="check_submit();">회원가입</button>
-		</div>
-	</div>
-
-	<div id="class_div" style="display: none;">
-		<input type="button" value="x" class="vanish" onclick="classVanish();"/>
-		<div id="class_header">
-			<b>클래스 개설</b>
-		</div>
-		<div id="class_section1">
-			<form action="../upload/" name="f3" method="post" enctype="multipart/form-data" style="width: 100%; height: 60%;"> 
-				{% csrf_token %}
-				<div id="class_image_section" style="width: 100%; padding-left: 10%; padding-top: 15%;">
-						<input class="border-bottom" type="file" name="image" accept="image/*" id="id_image" style="width: 90%;">
-				</div>
-				<div id="class_name_section" style="width: 100%; padding-left: 10%; padding-top: 15%;">
-						<input class="border-bottom" type="text" name="class_name" maxlength="10" required id="id_class_name" style="width: 90%;" placeholder="클래스 이름">
-				</div>
-				<div id="class_code_section" style="width: 100%; padding-left: 10%; padding-top: 12%;">
-						<input class="border-bottom" type="text" name="class_id" maxlength="10" required id="id_class_id" style="width: 75%;"placeholder="클래스 코드">
-					<button type="button" class="btn btn-default" id="btn" onclick="allocate();"> 할당 </button>
-				</div>
-			</form>
-		</div>
-		<div id="class_section2">
-				<div id="class_button_section" style="width: 100%;">
-					<button class="btn btn-default" id="btn1" type="button" style="width: 76%; margin-left: 12%; margin-top: 12%; background-color: darkgrey;" onclick="submit_class();"> 클래스 생성 </button>
-				</div>
-				<input type="hidden" name="founder_id" maxlength="10" required id="id_founder_id" value="{{ myself.get.user_id }}">
-				<input type="hidden" name="founder_name" maxlength="10" required id="id_founder_name" value="{{ myself.get.user_name }}">
-		</div>
-<!-- 		<div id="class_footer">
-			<a href="#">사용방법이 궁금하신가요?</a>
-		</div> -->
-
-	</div>
 
 </body>
 </html>

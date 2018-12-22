@@ -582,7 +582,7 @@
 
 
 
-		<div class="chat_div" style="width: 25%; height: 46vw; float: left; margin-left: 1%; border: 1px solid transparent;">
+		<div class="chat_div" style="width: 25%; height: 45.8vw; float: left; margin-left: 1%; border: 1px solid transparent;">
 			
 			<div class="chat_body">
 				
@@ -1074,10 +1074,10 @@
 				        }
 				        */
 				        if(check_answer_list[i] == 0){
-			           		var content_start = "<div class=\"chat_content_div\" style=\"background-color: white; float: left; overflow:hidden; word-wrap:break-word;\">";
+			           		var content_start = "<div class=\"chat_content_div\" style=\"background-color: white; float: left; overflow:hidden; word-wrap:break-word; color : black;\">";
 			            }
 			            else{
-			            	var content_start = "<div class=\"chat_content_div\" style=\"background-color: #0A5F8E; float: left; overflow:hidden; word-wrap:break-word;\">";
+			            	var content_start = "<div class=\"chat_content_div\" style=\"background-color: #0A5F8E; float: left; overflow:hidden; word-wrap:break-word; color : white;\">";
 			            }
 			            var chat_content_body = name_list[i] + " : " + content_list[i] + "<br><br>";
 			            /*
@@ -1091,7 +1091,7 @@
 			            var content_end = "</div>";
 
 
-			            var function_div_start = "<div class='chat_function_div' style='width: 30%; height: auto; float: left; position: relative;'>";
+			            var function_div_start = "<div class='chat_function_div' style='width: 30%; height: auto; float: left; position: relative; margin-left : 1%;'>";
 
 			            var chat_ddabong_container_start = "<div class=\"ddabong_container\" id=\"";
 			            var chat_ddabong_container_id = class_id_list[i] + "$$$" + name_list[i] + "$$$" + content_list[i] + "$$$" + date_list[i] + "\">";
@@ -1129,12 +1129,12 @@
 			            if(global_user_id == user_id_list[i]){
 			            	//content_start = "<div class=\"chat_content_div\" style=\"background-color: #5D5D5D; float: right;  overflow:hidden; word-wrap:break-word;\">";
 			            	if(check_answer_list[i] == 0){
-				           		var content_start = "<div class=\"chat_content_div\" style=\"background-color: #5D5D5D; float: right; overflow:hidden; word-wrap:break-word;\">";
+				           		var content_start = "<div class=\"chat_content_div\" style=\"background-color: #5D5D5D; float: right; overflow:hidden; word-wrap:break-word; color : black;\">";
 				            }
 				            else{
-				            	var content_start = "<div class=\"chat_content_div\" style=\"background-color: #0A5F8E; float: right; overflow:hidden; word-wrap:break-word;\">";
+				            	var content_start = "<div class=\"chat_content_div\" style=\"background-color: #0A5F8E; float: right; overflow:hidden; word-wrap:break-word; color : white;\">";
 				            }
-			            	function_div_start = "<div class='chat_function_div' style='width: 3.5vw; height: auto; float: right; position: relative;'>";
+			            	function_div_start = "<div class='chat_function_div' style='width: 3.5vw; height: auto; float: right; position: relative;  margin-left : 2%;'>";
 			            	if(global_user_id == founder_id){
 				            	var check_answer_div_start = "<img class=\"check_answer_div\" src='../static/img/check_answer_icon.png' style='width: 0vw; height: 0vw; margin-left: 0%; display : none;' onclick='check_answer(this);' id='";
 					        	var check_answer_id = class_id_list[i] + "***" + name_list[i] + "***" + content_list[i] + "***" + date_list[i];
@@ -1153,7 +1153,7 @@
 				        		var check_answer_id = class_id_list[i] + "***" + name_list[i] + "***" + content_list[i] + "***" + date_list[i];
 				        		var check_answer_div_end = "'>";
 				        		var check_answer = check_answer_div_start + check_answer_id + check_answer_div_end;
-				            	function_div_start = "<div class='chat_function_div' style='width: 5vw; height: auto; float: left; position: relative;'>";
+				            	function_div_start = "<div class='chat_function_div' style='width: 5vw; height: auto; float: left; position: relative;  margin-left : 2%;'>";
 				            	function_div = function_div_start + chat_ddabong + chat_delete + check_answer + function_div_end;
 				        		chat_content += start + content_start + chat_content_body + content_end + function_div + end;
 				        	}
