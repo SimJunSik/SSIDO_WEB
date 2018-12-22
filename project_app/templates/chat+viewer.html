@@ -81,18 +81,20 @@
 			height: 9%;
 			background-color: transparent;
 		}
-		.chat_div{
+		.chatnode_div{
 			width: 100%;
-			height: auto;
+			height: 10%;
 			background-color: #EAEAEA;
+			margin-bottom: 1vw;
 			border: 1px solid transparent;
 		}
 		.chat_content_div{
 			width: 65%;
 			height: auto;
-			margin-bottom: 0.5vw;
+			margin-bottom: 10px;
 			border: 1px solid transparent;
    			border-radius: 4px;
+   			font-size : 1.5vh;
 		}
 		.ddabong_container{
 			width : 1.5vw; 
@@ -102,6 +104,9 @@
 			position: relative; 
 			text-align: center;
 			font-size: 0.5vw;
+		}
+		.chat_function_div{
+			margin-top: 0%;
 		}
 		#send_msg_btn, #delete_msg_cancel_btn{
 			background-color: transparent;
@@ -163,8 +168,8 @@
 			width: 10vw;
 			height: 2vw;
 			float: left;
-			background-color: #0A5F8E;
-			border: 1px solid transparent;
+			background-color: #00283F;
+			border: 1px solid white;
    			border-radius: 0px;
    			top: 25%;
    			left: 5%;
@@ -483,15 +488,15 @@
 						</div>
 						<input id="search_text" class="search_text" type="text" style="width: 70%; height: 100%; float: left; color: white;">
 						<div class="add_or_full_div" style="width: 10%; height: 100%; float: right;">
-							<img src="../static/img/full_screen_icon.png" style="width: 1vw; height: 1vw; float: right;" onclick="startFS();">
+							<img src="../static/img/full_icon.png" style="width: 1.7vw; height: 1.7vw; float: right;" onclick="startFS();">
 							{% if member.user_id == classnode.founder_id %}
-							<img src="../static/img/pdf_plus_icon.png" style="width: 1vw; height: 1vw; float: right; margin-right: 10%;" onclick="open_upload_pdf();">
+							<img src="../static/img/plus_icon.png" style="width: 1.7vw; height: 1.7vw; float: right; margin-right: 10%;" onclick="open_upload_pdf();">
 							{% endif %}
 						</div>
 					</div>
 					<div class="pdf_list_div" id="pdf_list_div" style="width: 100%; height: 75%; background-color: #00283F; overflow-x: hidden; overflow-y:auto; margin-top: 1%;">
 						{% for pdf in pdfs %}
-							<div id="{{pdf.pdf.url}}" class="pdf_content" style="width: 100%; height: 25%; background-color: transparent; border: 1px solid transparent; border-radius: 10px; color: white; font-size: 1vw; font-weight: bold;" onclick="change_pdf(this);">
+							<div id="{{pdf.pdf.url}}" class="pdf_content" style="width: 100%; height: 20%; background-color: transparent; border: 1px solid transparent; border-radius: 10px; color: white; font-size: 1vw; font-weight: bold;" onclick="change_pdf(this);">
 								<div class="pdf_name" style="width: 90%; height: 100%; float: left; left: 0;">
 									{{pdf.pdf_name}}
 								</div>
@@ -508,15 +513,15 @@
 						</div>
 						<input id="search_text" class="search_text" type="text" style="width: 75%; height: 100%; float: left; color: white;">
 						<div class="add_or_full_div" style="width: 10%; height: 100%; float: right;">
-							<img src="../static/img/full_screen_icon.png" style="width: 1vw; height: 1vw; float: right;" onclick="startFS();">
+							<img src="../static/img/full_icon.png" style="width: 1.7vw; height: 1.7vw; float: right;" onclick="startFS();">
 							{% if member.user_id == classnode.founder_id %}
-							<img src="../static/img/pdf_plus_icon.png" style="width: 1vw; height: 1vw; float: right; margin-right: 10%;" onclick="open_upload_pdf();">
+							<img src="../static/img/plus_icon.png" style="width: 1.7vw; height: 1.7vw; float: right; margin-right: 10%;" onclick="open_upload_pdf();">
 							{% endif %}
 						</div>
 					</div>
 					<div class="pdf_list_div" id="pdf_list_div" style="width: 100%; height: 70%; background-color: #00283F;  overflow-x: hidden; overflow-y:auto; margin-top: 1%;">
 						{% for pdf in pdfs %}
-							<div id="{{pdf.pdf.url}}" class="pdf_content" style="width: 100%; height: 25%; background-color: transparent; border: 1px solid transparent; border-radius: 10px; position: relative; color: white;  font-size: 1vw;  font-weight: bold;" onclick="change_pdf(this);">
+							<div id="{{pdf.pdf.url}}" class="pdf_content" style="width: 100%; height: 20%; background-color: transparent; border: 1px solid transparent; border-radius: 10px; position: relative; color: white;  font-size: 1vw;  font-weight: bold;" onclick="change_pdf(this);">
 								<div class="pdf_name" style="width: 90%; height: 100%; float: left; left: 0;">
 									{{pdf.pdf_name}}
 								</div>
@@ -550,7 +555,7 @@
 						    <!--
 						    <button id="upload_button" type="button" value="업로드" onclick="check_file_and_submit();">업로드</button>
 						    -->
-						    <div class="upload_box" style="float: right;">업로드</div>
+						    <div class="upload_box" style="float: right;" onclick="check_file_and_submit();">업로드</div>
 						</div>
 					</div>
 				</div>
@@ -877,6 +882,7 @@
 
 		var total_chat_num = 0;
 		var total_chat_num_plus = 0;
+		var is_scrollBottom = 'false';
 
 	    function updateData(){
 	    	var content_list = [];
@@ -1056,8 +1062,8 @@
 		        for(var i=0;i<content_list.length;i++){
 		        	//alert(class_id_list[i]);
 		        	if(global_class_id == class_id_list[i]){
-			            var start = "<div class=\"chat_div\">";
-			            var content_start = "<div class=\"chat_content_div\" style=\"background-color: white;float: left; overflow:hidden;word-wrap:break-word;\">";
+			            var start = "<div class=\"chatnode_div\">";
+			            var content_start = "<div class=\"chat_content_div\" style=\"background-color: white;float: left; overflow:hidden; word-wrap:break-word;\">";
 			            
 			            var chat_content_body = name_list[i] + " : " + content_list[i] + "<br><br>";
 			            /*
@@ -1066,10 +1072,17 @@
 						  <div class="centered">Centered</div>
 						</div>
 			            */
+			      
+			          
+			            var content_end = "</div>";
+
+
+			            var function_div_start = "<div class='chat_function_div' style='width: 30%; height: auto; float: left; position: relative;'>";
+
 			            var chat_ddabong_container_start = "<div class=\"ddabong_container\" id=\"";
 			            var chat_ddabong_container_id = class_id_list[i] + "$$$" + name_list[i] + "$$$" + content_list[i] + "$$$" + date_list[i] + "\">";
 			            if(check_ddabong[i] == 0 || check_ddabong.length == 0){
-				            var chat_ddabong1 = "<img class=\"ddabong_img\" src=\"../static/img/heart_icon_off.png\" id=\"";
+				            var chat_ddabong1 = "<img class=\"ddabong_img\" src=\"../static/img/heart_icon_off.png\" id=\"";				  
 				        }
 				        else {
 				        	var chat_ddabong1 = "<img class=\"ddabong_img\" src=\"../static/img/heart_icon_on.png\" id=\"";
@@ -1088,36 +1101,39 @@
 			            //var chat_delete2 = "\" style=\"width: 1vw; height:1vw; margin-left: 1%;\" onclick=\"delete_msg(this);\">";
 			            var chat_delete2 = "\" style=\"width: 1vw; height:1vw; margin-left: 1%;\" onclick=\"open_delete_msg(this);\">";
 
-			            
-			            var content_end = "</div>";
+			            var function_div_end = "</div>"
 
 			            var end = "</div>";
 
 			            var chat_ddabong = chat_ddabong_container_start + chat_ddabong_container_id + chat_ddabong1 + chat_ddabong_id + chat_ddabong2 + ddabong_cnt_div_start + ddabong_cnt + ddabong_cnt_div_end + chat_ddabong_container_end;
 			            var chat_delete = chat_delete1 + chat_delete_id + chat_delete2;
 
+			            var function_div = function_div_start + chat_ddabong + chat_delete + function_div_end;
 			            //alert(user_id);
 
 			            // 본인 채팅 혹은 개설자 입장에서만 삭제버튼 추가
 			            if(global_user_id == user_id_list[i]){
-			            	content_start = "<div class=\"chat_content_div\" style=\"background-color: #5D5D5D; float: right;\">";
-				            chat_content += start + content_start + chat_content_body + chat_ddabong + chat_delete + content_end + end;
+			            	content_start = "<div class=\"chat_content_div\" style=\"background-color: #5D5D5D; float: right;  overflow:hidden; word-wrap:break-word;\">";
+			            	function_div_start = "<div class='chat_function_div' style='width: 15%; height: auto; float: right; position: relative;'>";
+			            	function_div = function_div_start + chat_ddabong + chat_delete + function_div_end;
+				            chat_content += start + content_start + chat_content_body + content_end + function_div + end;
 				        }
 				        else{
 				        	if(global_user_id == founder_id){
 				        		var check_answer_div_start = "<img class=\"check_answer_div\" src='../static/img/check_answer_icon.png' style='width: 1vw; height: 1vw; margin-left: 1%;' onclick='check_answer(this);'>";
 				        		//var check_answer_div_end = "</img>";
 				        		var check_answer = check_answer_div_start;
-				        		chat_content += start + content_start + chat_content_body + chat_ddabong + chat_delete + check_answer + content_end + end;
+				        		chat_content += start + content_start + chat_content_body + check_answer + function_div + content_end + end;
 				        	}
 				        	else{
-					        	chat_content += start + content_start + chat_content_body + chat_ddabong + content_end + end;
+				        		function_div = function_div_start + chat_ddabong + function_div_end;
+					        	chat_content += start + content_start + chat_content_body + content_end + chat_ddabong + end;
 					        }
 				        }
 
 				        // 좋아요 갯수 best_chat_min_ddabong 개 이상만 BEST CHAT에 등록
 				        if(ddabong_list[i] >= best_chat_min_ddabong){
-				        	start = "<div class=\"chat_div\" style=\"height: 35%;\">";
+				        	start = "<div class=\"chatnode_div\" style=\"height: 35%;\">";
 				        	if(global_user_id == user_id_list[i]){
 				            	best_chat_content += start + content_start + chat_content_body + chat_delete + content_end + end;
 					        }
@@ -1147,6 +1163,13 @@
 			        }
 			        //alert(img_list);
 			    }
+			   
+			    if(check_ddabong.length < content_list.length){
+			    	for(var i=0; i<content_list.length - check_ddabong.length;i++){
+			    		check_ddabong.push(0);
+			    	}
+			    }
+			    console.log(check_ddabong);
 		        //alert(check_ddabong.length);
 
 
@@ -1183,6 +1206,22 @@
 	            $("#best_chat_id").html(best_chat_content);
 	            //var objDiv = document.getElementById("chat_show_id");
 				//objDiv.scrollTop = objDiv.scrollHeight;
+				var objDiv = $("#chat_show_id");
+				//console.log(objDiv[0].scrollHeight, objDiv.scrollTop(), objDiv.outerHeight());
+				//console.log(objDiv[0].scrollHeight - Math.round(objDiv.scrollTop() + objDiv.outerHeight()));
+				//console.log($(".chat_content_div")[0].offsetHeight);
+				if((objDiv[0].scrollHeight - Math.round(objDiv.scrollTop() + objDiv.outerHeight())) <= objDiv.outerHeight() + 12){
+					is_scrollBottom = 'true';
+				}
+				else{
+					is_scrollBottom = 'false';
+				}
+				//console.log(is_scrollBottom);
+
+				if(is_scrollBottom == 'true'){
+					var objDiv_tmp = document.getElementById("chat_show_id");
+					objDiv_tmp.scrollTop = objDiv_tmp.scrollHeight;
+				}
 	            $("#user_num").html("참여 인원 : " + class_user_list_split.length);
 	            //$("#show_user_list_content").html(user_list_content);
 	            $(".user_list_div_show").html(user_list_content);
@@ -1343,6 +1382,7 @@
 	        });
 
 	        $("#delete_msg_div").css('display', 'none');
+	        $(".overlay").css('display','none');
 	    }
 
 

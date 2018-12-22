@@ -237,11 +237,15 @@ def logout(request) :
 
 	request.session['login_complete'] = False
 
+	"""
 	unknown_member = Member(user_name='unknown', user_id = 'unknown')
 
 	context = { 'member' : unknown_member }
 
 	return render(request, './main.html', context)
+	"""
+
+	return redirect('../main/')
 
 
 def check_login(request) :
@@ -734,20 +738,40 @@ def mypage(request):
  	})			
 	
 def upload_class(request):
- 	user_id = request.session.get('user_id', False)
- 	myself = Member.objects.filter(user_id = user_id)
+	user_id = request.session.get('user_id', False)
+	myself = Member.objects.filter(user_id = user_id)
 
- 	if request.method == 'POST':
- 		form = ClassNodeForm(request.POST, request.FILES)
- 		class_id = request.POST.get("class_id",None)
- 		if form.is_valid():
- 			form.save()
- 			return redirect('../' + "joinClass/" + class_id)
- 	else:
- 		form = ClassNodeForm()
- 		return render(request, 'upload_class.html', {
- 		'form':form, 'myself' : myself
- 		})
+	if request.method == 'POST':
+		#print(Member.objects.get(user_id = user_id).user_name)
+		class_id = request.POST.get("class_id", None)
+		class_name = request.POST.get("class_name", None)
+		founder_id = user_id
+		founder_name = Member.objects.get(user_id = user_id).user_name
+		#print(request.FILES)
+		image = request.FILES['image']
+		new_classnode = ClassNode(
+			class_id = class_id, 
+			class_name = class_name, 
+			founder_id = founder_id, 
+			founder_name = founder_name,
+			image = image
+			)
+		print("...")
+		new_classnode.save()
+		return redirect('../' + "joinClass/" + class_id)
+		"""
+		form = ClassNodeForm(request.POST, request.FILES)
+		class_id = request.POST.get("class_id",None)
+		if form.is_valid():
+			print("!!!!!!!")
+			form.save()
+			return redirect('../' + "joinClass/" + class_id)
+		"""
+	else:
+		form = ClassNodeForm()
+		return render(request, 'upload_class.html', {
+		'form':form, 'myself' : myself
+		})
 
 
 
