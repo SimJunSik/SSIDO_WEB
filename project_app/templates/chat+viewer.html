@@ -1096,10 +1096,10 @@
 			            var chat_ddabong_container_start = "<div class=\"ddabong_container\" id=\"";
 			            var chat_ddabong_container_id = class_id_list[i] + "$$$" + name_list[i] + "$$$" + content_list[i] + "$$$" + date_list[i] + "\">";
 			            if(check_ddabong[i] == 0 || check_ddabong.length == 0){
-				            var chat_ddabong1 = "<img class=\"ddabong_img\" src=\"../static/img/heart_icon_off.png\" id=\"";				  
+				            var chat_ddabong1 = "<img class=\"ddabong_img ddabong_normal\" src=\"../static/img/heart_icon_off.png\" id=\"";				  
 				        }
 				        else {
-				        	var chat_ddabong1 = "<img class=\"ddabong_img\" src=\"../static/img/heart_icon_on.png\" id=\"";
+				        	var chat_ddabong1 = "<img class=\"ddabong_img ddabong_normal\" src=\"../static/img/heart_icon_on.png\" id=\"";
 				        }
 			            var chat_ddabong_id = class_id_list[i] + "###" + name_list[i] + "###" + content_list[i] + "###" + date_list[i];
 			            var chat_ddabong2 = "\" style=\"width: 1.5vw; height : 1.5vw;\" onclick=\"ddabong(this);\">";
@@ -1136,7 +1136,7 @@
 				            }
 			            	function_div_start = "<div class='chat_function_div' style='width: 3.5vw; height: auto; float: right; position: relative;  margin-left : 2%;'>";
 			            	if(global_user_id == founder_id){
-				            	var check_answer_div_start = "<img class=\"check_answer_div\" src='../static/img/check_answer_icon.png' style='width: 0vw; height: 0vw; margin-left: 0%; display : none;' onclick='check_answer(this);' id='";
+				            	var check_answer_div_start = "<img class=\"check_answer_div check_answer_normarl\" src='../static/img/check_answer_icon.png' style='width: 0vw; height: 0vw; margin-left: 0%; display : none;' onclick='check_answer(this);' id='";
 					        	var check_answer_id = class_id_list[i] + "***" + name_list[i] + "***" + content_list[i] + "***" + date_list[i];
 					        	var check_answer_div_end = "'>";
 					        	var check_answer = check_answer_div_start + check_answer_id + check_answer_div_end;
@@ -1149,7 +1149,7 @@
 				        }
 				        else{
 				        	if(global_user_id == founder_id){
-				        		var check_answer_div_start = "<img class=\"check_answer_div\" src='../static/img/check_answer_icon.png' style='width: 1.5vw; height: 1.5vw; margin-left: 1%;' onclick='check_answer(this);' id='";
+				        		var check_answer_div_start = "<img class=\"check_answer_div check_answer_normarl\" src='../static/img/check_answer_icon.png' style='width: 1.5vw; height: 1.5vw; margin-left: 1%;' onclick='check_answer(this);' id='";
 				        		var check_answer_id = class_id_list[i] + "***" + name_list[i] + "***" + content_list[i] + "***" + date_list[i];
 				        		var check_answer_div_end = "'>";
 				        		var check_answer = check_answer_div_start + check_answer_id + check_answer_div_end;
@@ -1174,9 +1174,23 @@
 					        		var check_answer_div_start = "<img class=\"check_answer_div\" src='../static/img/check_answer_icon.png' style='width: 1vw; height: 1vw; margin-left: 1%;' onclick='check_answer(this);'>";
 					        		//var check_answer_div_end = "</img>";
 					        		var check_answer = check_answer_div_start;
-				        			best_chat_content += start + content_start + chat_content_body + chat_ddabong + chat_delete + check_answer + content_end + end;
+					        		if(check_ddabong[i] == 0 || check_ddabong.length == 0){
+							            var chat_ddabong1 = "<img class=\"ddabong_img\" src=\"../static/img/heart_icon_off.png\" id=\"";				  
+							        }
+							        else {
+							        	var chat_ddabong1 = "<img class=\"ddabong_img\" src=\"../static/img/heart_icon_on.png\" id=\"";
+							        }
+					        		chat_ddabong = chat_ddabong_container_start + chat_ddabong_container_id + chat_ddabong1 + chat_ddabong_id + chat_ddabong2 + ddabong_cnt_div_start + ddabong_cnt + ddabong_cnt_div_end + chat_ddabong_container_end;
+				        			best_chat_content += start + content_start + chat_content_body + chat_ddabong + chat_delete + content_end + end;
 					        	}
 					        	else{
+					        		if(check_ddabong[i] == 0 || check_ddabong.length == 0){
+							            var chat_ddabong1 = "<img class=\"ddabong_img\" src=\"../static/img/heart_icon_off.png\" id=\"";				  
+							        }
+							        else {
+							        	var chat_ddabong1 = "<img class=\"ddabong_img\" src=\"../static/img/heart_icon_on.png\" id=\"";
+							        }
+					        		chat_ddabong = chat_ddabong_container_start + chat_ddabong_container_id + chat_ddabong1 + chat_ddabong_id + chat_ddabong2 + ddabong_cnt_div_start + ddabong_cnt + ddabong_cnt_div_end + chat_ddabong_container_end;
 						        	best_chat_content += start + content_start + chat_content_body + chat_ddabong + content_end + end;
 						        }
 					        }
@@ -1186,7 +1200,7 @@
 
 
 		        if(check_ddabong_list_push == 0){
-			        var img_list = $("#chat_show_id").find('.ddabong_img');
+			        var img_list = $("#chat_show_id").find('.ddabong_normal');
 			        for(var i=0;i<img_list.length;i++){
 			        	check_ddabong.push(0);
 			        	check_answer_list.push(0);
@@ -1566,7 +1580,7 @@
 	    }
 
 	    function check_answer(btn){
-	    	var nodes = $(".check_answer_div");
+	    	var nodes = $(".check_answer_normarl");
 	    	for(var i=0;i<nodes.length;i++){
 	    		if(btn.id == nodes[i].id){
 		    		console.log(nodes[i]);

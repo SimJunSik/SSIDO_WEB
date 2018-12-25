@@ -8,7 +8,7 @@ class ChatNode(models.Model) :
 	chat_unique_id = models.AutoField(primary_key=True)
 	user_id = models.CharField(max_length=50, default="unknown")
 	user_name = models.CharField(max_length=50, default="unknown")
-	content = models.CharField(max_length=50, default="")
+	content = models.CharField(max_length=500, default="")
 	class_id = models.CharField(max_length=50, default="")
 	created_date = models.CharField(max_length=50,default=datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
 	ddabong = models.IntegerField(default=0)
