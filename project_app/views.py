@@ -532,6 +532,7 @@ def save_memo(request) :
 	return JsonResponse(result)
 
 from django.core.mail import EmailMessage
+from django.core.mail import send_mail
 
 def send_email_test(request) :
 
@@ -674,7 +675,8 @@ def password_change_success(request) :
 		print(user_email)
 		send_mail(
 		'Password_Reset',
-		'http://localhost:8000/password_validation_check/'+user_id ,
+		#'http://localhost:8000/password_validation_check/'+user_id ,
+		'http://ihaq.site/password_validation_check/'+user_id ,
 		'tlsjh082@gmail.com',
 		[user_email],
 		fail_silently=False,

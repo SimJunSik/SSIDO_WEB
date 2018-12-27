@@ -40,20 +40,23 @@
 			height: 20vw;
 		}
 		.mid_title{
-			width: 70vw;
-			height: 30vw;
+			width: 50%;
+			height: 39%;
 			position: fixed;
-			padding-top: 13vw;
-			padding-left: 10vw;
+			margin-top: 10vw;
+			margin-left: 25%;
 			color: white;
 			font-size: 9vw;
+			background-repeat: no-repeat;
 		}
 		.mid_explain{
-			width: 70vw;
-			height: 40vw;
+			width: 50%;
+			height: 40%;
 			position: fixed;
-			padding-left: 10vw;
+			margin-left: 25%;
+			margin-top: -5%;
 			line-height: 2em;
+			text-align: center;
 			top: 30vw;
 			color: white;
 			font-size: 1.5vw;
@@ -64,8 +67,8 @@
 			position: fixed;
 			opacity: 0.7;
 			float: right;
-			margin-top: 6vw;
-			margin-right: 10vw;
+			margin-top: 13%;
+			margin-right: 35%;
 			padding-left: 2vw;
 			border: 2vw; 
 			border-radius: 2vw;
@@ -77,6 +80,8 @@
 			height: 2vw; 
 			float: left;
 			font-size: 1.2vw;
+			margin-top: 7.3%;
+			margin-right: 25%;
 			cursor: pointer;
 			background-color: transparent;
 			border: none;
@@ -139,6 +144,9 @@
 			top: 30vw;
 			right: 10.5vw;
 			background-color: transparent;
+			margin-top: -28.3%;
+			margin-right: 75%;
+			font-size: 1.4em;
 		}
 		.create_new_class_button{
 			background-color: transparent;
@@ -297,6 +305,7 @@
 			width: 50%;
 			float: left;
 			padding-top: 15%;
+			font-size: 90%;
 		}
 
 		.main_text p{
@@ -637,7 +646,7 @@
 
 <body>
 	<div id="fullpage">
-		<div class="section" style="width: 100%; height: 5vw; margin: 0; background-image: url('../../static/img/main_image.png'); background-size: 100%;">
+		<div class="section" style="width: 100%; height: 5vw; margin: 0; background-image: url('../../static/img/main_image_new2.png'); background-size: 100%; background-repeat: no-repeat; background-color: white;">
 			<div class="top">
 			{% if member.user_id == 'unknown' %}
 				<div class="top_login_div">
@@ -659,9 +668,7 @@
 		</div>
 
 		<div class="mid">
-			<div class="mid_title">
-				<b>iHAQ</b>
-			</div>
+			<div class="mid_title" style="background-image: url('../../static/img/logo_main.png'); background-size: 100%;"></div>
 			<div class="mid_explain">
 				iHAQ은 당신의 프레젠테이션을 더 원활하게 만들어줍니다. <br>
 				새로워진 소통형 프레젠테이션을 경험해보세요.
@@ -765,14 +772,14 @@
 	</div>
 	
 	<div class="section">
-	       <div class="main_text"> 
+	       <div class="main_text">
 	          <p style="font-size:300%;">LIVE CHAT</p><br/>
 	          <p>
-	             프레젠테이션을 진행하면서 실시간 채팅을 통해 청중의 의견을 확인해보세요.
+	             프레젠테이션을 진행하며 실시간 채팅으로 <br>청중의 의견을 확인해보세요.
 	          </p>
 	          <br/>
 	          <p>
-	             IHAQ은 보다 더 원활한 소통을 가능하게 해줍니다.
+	             IHAQ은 보다 더 원활한 소통을 <br>가능하게 해줍니다.
 	          </p>
 	            <button class="btn btn-default" id="btn1" type="button" style="width: 20%; margin-left: 20%; margin-top: 5%; background-color: darkgrey; font-weight:bold;
 	            font-size:150%;"  onclick="joinShow();"> 가입하기 </button>
@@ -801,7 +808,7 @@
 	          </p>
 	          <br/>
 	          <p style="color:white;">
-	             IHAQ은 보다 더 원활한 소통을 가능하게 해줍니다.
+	             IHAQ은 보다 더 원활한 소통을 <br>가능하게 해줍니다.
 	          </p>
 	            <button class="btn btn-default" id="btn1" type="button" style="width: 20%; margin-left: 20%; margin-top: 5%; background-color: darkgrey; font-weight:bold;
 	            font-size:150%;" onclick="joinShow();"> 가입하기 </button>

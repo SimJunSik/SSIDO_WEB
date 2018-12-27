@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>마이 페이지</title>
+	<title>iHAQ | my page</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<style type="text/css">
 	A:link{text-decoration:none; color:black;} 
@@ -26,6 +26,8 @@
 		text-align: center;
 		font-size:2em;
 		overflow: hidden;
+		background-size: 80%;
+		background-repeat: no-repeat;
 	}
 	#logo > span{
 		color:blue;
@@ -64,7 +66,6 @@
         list-style-type: none;
         padding:0;
         margin:0 0 28vh 0;
-        align:center;
     }
    	li{
 		margin:0;
@@ -233,11 +234,10 @@
 <body style="width:98%; height:660px;">
 	<div id="mainDiv">
 		<div id="header">
-			<div id="logo">
-				<span>i</span><a href="../">&nbspHAQ</a>
-			</div>
-			<div id="bar">
-			</div> 
+			<a href="../">
+			<div id="logo" style="background-image: url('../../static/img/logo_color.png');"></div>
+			</a>
+			<div id="bar"></div> 
 		</div>
 		<div id="center">
 			<div id="leftDiv">
@@ -248,10 +248,10 @@
 				</div>
 				<div id="list">
 					<ul id="menu">
-						<li id="l1">접속한 클래스</li>
-						<li id="l2">개설한 클래스</li>
-						<li id="l3">결제 하기</li>
-						<li id="l4">개인정보 수정</li>
+						<li id="l1" style="cursor: pointer;">접속한 클래스</li>
+						<li id="l2" style="cursor: pointer;">개설한 클래스</li>
+						<li id="l3" style="cursor: pointer;">결제 하기</li>
+						<li id="l4" style="cursor: pointer;">개인정보 수정</li>
 					</ul>
 					<span><a href="../../logout/">로그아웃</a></span>
 				</div>
@@ -300,15 +300,17 @@
 					</div>
 					<div id="bottom_history1" style="display: block">
 						{% if classimages3.get.class_name != 'base' %}
-						<span>&nbsp&nbsp&nbsp클래스명</span>
-						<div id="class_name">{{ classimages3.get.class_name }}</div>
+						<span>{{ classimages3.get.class_id }}</span>
+						<a href="../joinClass/{{classimages3.get.class_id}}">
+						<div id="class_name">{{ classimages3.get.class_name }}</div></a>
 						<div id="date">{{ classimages3.get.created_date }}</div>
 						<br>
 						<hr color="white">
 						{% endif %}
 						{% if classimages4.get.class_name != 'base' %}
-						<span>&nbsp&nbsp&nbsp클래스명</span>
-						<div id="class_name">{{ classimages4.get.class_name }}</div>
+						<span>{{ classimages4.get.class_id }}</span>
+						<a href="../joinClass/{{classimages4.get.class_id}}">
+						<div id="class_name">{{ classimages4.get.class_name }}</div></a>
 						<div id="date">{{ classimages4.get.created_date }}</div>
 						<br>
 						<hr color="white">
@@ -316,15 +318,17 @@
 					</div>
 					<div id="bottom_history2" style="display: none">
 						{% if classimages1.get.class_name != 'base' %}
-						<span>&nbsp&nbsp&nbsp클래스명</span>
-						<div id="class_name">{{ classimages1.get.class_name }}</div>
+						<span>{{ classimages1.get.class_id }}</span>
+						<a href="../joinClass/{{classimages1.get.class_id}}">
+						<div id="class_name">{{ classimages1.get.class_name }}</div></a>
 						<div id="date">{{ classimages1.get.created_date }}</div>
 						<br>
 						<hr color="white">
 						{% endif %}
 						{% if classimages2.get.class_name != 'base' %}
-						<span>&nbsp&nbsp&nbsp클래스명</span>
-						<div id="class_name">{{ classimages2.get.class_name }}</div>
+						<span>{{ classimages2.get.class_id }}</span>
+						<a href="../joinClass/{{classimages2.get.class_id}}">
+						<div id="class_name">{{ classimages2.get.class_name }}</div></a>
 						<div id="date">{{ classimages2.get.created_date }}</div>
 						<br>
 						<hr color="white">
