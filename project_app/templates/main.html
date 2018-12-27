@@ -639,6 +639,47 @@
 			 return Math.floor((Math.random() * (n2 - n1 + 1)) + n1);
 		}
 
+		function create_class(){
+			var form = document.f3;
+			if(check_class_id_flag == true){
+				form.action = "../upload/";
+				form.submit();
+			}
+			else{
+				alert("클래스 코드를 확인해주세요.");
+			}
+		}
+
+		var check_class_id_flag = false;
+
+		$(document).ready(function(){
+	      	$('#id_class_id').on('input',function(e){
+				//alert('Changed!')
+				var class_id = $("#id_class_id").val();
+				//console.log(text);
+				$.ajax({
+					url: '/check_class_id/',
+					data: {
+						'class_id' : class_id,
+					},
+					dataType: 'json',
+					success: function (data) {
+						//console.log(class_id);
+						if(data.result == 'success'){
+							$("#class_check_text").html("사용 가능한 클래스코드 입니다.");
+							$("#class_check_text").css("color", "green");
+							check_class_id_flag = true;
+						}
+						else{
+							$("#class_check_text").html("이미 사용중인 클래스코드 입니다.");
+							$("#class_check_text").css("color", "red");
+							check_class_id_flag = false;
+						}
+					}
+				});
+			});
+	    });
+
 	</script>
 
 
@@ -754,12 +795,14 @@
 					<div id="class_code_section" style="width: 100%; padding-left: 10%; padding-top: 12%;">
 							<input class="border-bottom" type="text" name="class_id" maxlength="10" required id="id_class_id" style="width: 75%;"placeholder="클래스 코드">
 						<button type="button" class="btn btn-default" id="btn" onclick="allocate();"> 할당 </button>
+						<br>
+						<div id="class_check_text" style="width: 100%; height: 40px;"></div>
 					</div>
 				</form>
 			</div>
 			<div id="class_section2">
 					<div id="class_button_section" style="width: 100%;">
-						<button class="btn btn-default" id="btn1" type="button" style="width: 76%; margin-left: 12%; margin-top: 12%; background-color: darkgrey;" onclick="submit_class();"> 클래스 생성 </button>
+						<button class="btn btn-default" id="btn1" type="button" style="width: 76%; margin-left: 12%; margin-top: 12%; background-color: darkgrey;" onclick="create_class();"> 클래스 생성 </button>
 					</div>
 					<input type="hidden" name="founder_id" maxlength="10" required id="id_founder_id" value="{{ myself.get.user_id }}">
 					<input type="hidden" name="founder_name" maxlength="10" required id="id_founder_name" value="{{ myself.get.user_name }}">
