@@ -5,7 +5,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 
-	<title></title>
+	<title>iHAQ | class page</title>
 	<script type="text/javascript">
 		function startFS() {
 			var element = document.getElementById("viewer_content");
@@ -518,10 +518,12 @@
 
 				<div id="memo_div" class="memo_div" style="display: none;">
 					<div class="memo_body" style="width: 90%; height: 100%; float: left;">
+						<!--
 						<div class="memo_title" style="width: 100%; height: 8%; font-size: 1.5vw; margin-bottom: 4%;">
 							MEMO
 						</div>
-						<div id="memo" style="width: 100%; height: 70%; overflow: scroll;">
+						-->
+						<div id="memo" style="width: 100%; height: 100%; overflow: scroll;">
 							<textarea cols="150" rows="100" id="t1" style="resize:none; overflow-x:auto; overflow-y:auto" wrap="hard" >{{memo.memo}}</textarea>
 						</div>
 					</div>
@@ -550,7 +552,7 @@
 				<div class="chat_input_div" style="position: relative; margin-top: 5%; background-color: #072837;">
 					{% if member.user_name == 'unknown' %}
 						<input type="text" id="chat_input" style="width: 16vw; height: 3vw; background-color: #072837; float: left; border: 1px solid rgba(255,255,255,0.4); border-radius: 10px; margin-right: 5%; margin-left: 2%; margin-top: 2%; color: white;" disabled="true" placeholder="닉네임을 설정해주세요.">
-						<button id="send_msg_btn" type="button" style="width: 5vw; height: 3vw; float: left;  font-size: 0.8vw;" onclick="open_set_name();">닉네임 설정</button>
+						<button id="send_msg_btn" type="button" style="width: 5vw; height: 3vw; float: left;  font-size: 0.8vw;" onclick="open_set_name();">닉네임 설정<br></button>
 					{% else %}
 						<input type="text" id="chat_input" style="width: 16vw; height: 3vw; background-color: #072837; float: left; border: 1px solid rgba(255,255,255,0.4); border-radius: 10px; margin-right: 5%; margin-left: 2%; margin-top: 2%; color: white;">
 						<button id="send_msg_btn" type="button" style="width: 5vw; height: 3vw; float: left;  font-size: 1vw;" onclick="send_msg();">전송</button>
@@ -589,7 +591,7 @@
 			<img src="../static/img/check_icon.png" style="width: 2vw; height: 2vw; cursor: pointer;" onclick="check_set_name();">
 			<div id="result_check_set_name" style="width: 100%; text-align: center;"></div>
 		</div>
-		<button id="set_name_button" type="button" style="width: 6vw; height: 3vw; background-color: gray; padding-top: -20%;" disabled="true" onclick="start_chat();">채팅시작</button>
+		<button id="set_name_button" type="button" style="width: 7vw; height: 3vw; background-color: gray; padding-top: -20%;" disabled="true" onclick="start_chat();">채팅시작</button>
 	</div>
 
 	<div class="delete_msg_div" id="delete_msg_div" style="width: 18%; height: 15%; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -70%); background-color: white; z-index: 10000; box-shadow:0px -1px 30px 2px #999; border-radius: 10px; display: none; text-align: center;">
@@ -1487,14 +1489,14 @@
 	          	//alert(data.result);
 	          	if(data.result == 'success'){
 	          		//alert("가능합니다.");
-	          		$("#result_check_set_name").html("가능합니다.");
+	          		$("#result_check_set_name").html("사용가능한 닉네임입니다.");
 	          		$("#result_check_set_name").css({"color" : "green"});
-	          		$("#set_name_button").css({"background-color" : "#F2385A"});
+	          		$("#set_name_button").css({"background-color" : "#19829C"});
 	          		$("#set_name_button").removeAttr("disabled");
 	          	}
 	          	else {
 	          		//alert("불가능합니다.");
-	          		$("#result_check_set_name").html("불가능합니다.");
+	          		$("#result_check_set_name").html("이미 사용중인 닉네임입니다.");
 	          		$("#result_check_set_name").css({"color" : "red"});
 	          		$("#set_name_button").css({"background-color" : "gray"});
 	          		$("#set_name_button").attr("disabled","disabled");
@@ -1505,6 +1507,7 @@
 
 	    function start_chat(){
 	    	$("#set_name_div").fadeOut(500);
+	    	$(".overlay").css('display','none');
 	    	user_name = name;
 	    	$("#send_msg_btn").attr('onclick', 'send_msg();');
 	    	$("#send_msg_btn").html('보내기');
