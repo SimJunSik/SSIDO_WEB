@@ -27,21 +27,6 @@
 	<script type="text/javascript" src="../static/js/pdfobject.js"></script>
 
 	<style type="text/css">
-		.top{
-			width: 100%;
-			height: 5vw;
-			background-color: white;
-			position: fixed;
-			top: 0;
-			z-index: 9998;
-		}
-		.top_login_div, .top_login_member_div{
-			width: 20vw;
-			height: 80%;
-			margin-top: 0.5%;
-			float: right;
-			position: relative;
-		}
 
 		.middle{
 			width: 100%; 
@@ -341,11 +326,10 @@
 			cursor: pointer; 
 			border: 0.7px solid black;
 			border-radius: 4px;
-
 			position: relative;
 			float: left;
 			width: 7vw;
-			height: 0.8vw;
+			height: 1.2vw;
 		}
 		.filebox input[type="file"] { 
 			/* 파일 필드 숨기기 */ 
@@ -393,27 +377,6 @@
 		</div>
 	</div>
 
-
-	<!--
-	<div class="top">
-		<img src="../../static/img/logo3.png" style="width: 10vw; height: 80%; float: left; margin-left: 5%; margin-top: 0.5%;">
-		<div class="top_right" style="float: right; width: 25%; height: 80%; margin-top: 1%; margin-right: 5%; position: relative;">
-			{% if member.user_id == classnode.founder_id %}
-			<div class="user_list_div" onclick="show_user_list();">
-				<div id="user_num" class="user_num" style="width: auto; height: auto; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 0.7vw; font-weight: bold; color: white;">
-					
-				</div>
-			</div>
-			{% endif %}
-			<div class="go_home_div" style="width: 40%; height: 90%; float: right; position: relative;">
-				<div class="go_home_content" style="width: auto; height: auto; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);  font-size: 1vw; font-weight: bold; color: black;" onclick="go_home();">
-					HOME
-				</div>
-			</div>
-		</div>	
-	</div>
-	-->
-
 	<div class="middle">
 		<div class="class_title_div" style="width: 90%; height: 7%; margin-left: 1.5%; position: relative; background-color: transparent;">
 			<!--
@@ -429,15 +392,15 @@
 			{% endif %}
 			-->
 			<a href="../main">
-				<div class="logo_div" style="width: 8vw; height: 2vw; float: left; top: 12%; position: relative; margin-right:2vw;">
-					<img src="../../static/img/logo_white.png" style="width: 10vw; height: 3.5vw;">
+				<div class="logo_div" style="width: 8vw; height: 2vw; float: right; top: 12%; position: relative; margin-right:-5vw;">
+					<img src="../../static/img/logo_back.png" style="width: 10vw; height: 3.5vw;">
 				</div>
 			</a>
 			<div class="class_title_content" style="width: auto; height: auto; font-size: 2vw; color: white; float: left; position: relative; margin-top: 0.5vw;">
-				{{classnode.class_name}} / {{classnode.class_id}}
+				{{classnode.class_name}} :: {{classnode.class_id}}
 			</div>
 			{% if member.user_id == classnode.founder_id %}
-			<div class="user_list_div" onclick="test123();">
+			<div class="user_list_div" onclick="test123();" style="background-color: #19829C;">
 				<div id="user_num" class="user_num" style="width: auto; height: auto;  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 0.8vw; font-weight: bold; color: white;">
 					
 				</div>
@@ -453,48 +416,39 @@
 
 				</div>
 			</div>
-			<!--
-			<div class="memo_div">
-				<input type="textarea" style="width: 100%; height: 100%;">
-			</div>
-			-->
-			<div class="function_div" style="width: 100%; height: 12vw; background-color: #072837; border: 1px solid rgba(255,255,255,0.4); position: absolute; bottom: 0;">
+
+			<div class="function_div" style="width: 101%; height: 12vw; background-color: #072837; border: 1px solid rgba(255,255,255,0.4); position: absolute; bottom: 0;">
 	   			{% if member.user_id != classnode.founder_id %}
 	   			<div class="choice_function_div" style="width: 5%; height: 100%; float: left; position: relative; background-color: transparent; margin: 0;">
 	   				<div id="choice_pdf" class="choice_pdf choice_class" style="width: 100%; height: 50%; text-align: center; border:
 	   				border-right: 1px solid rgba(255,255,255,0.4);
-	   				background-color: transparent; color: white;" onclick="change_function(this);">   					
-	   					<br>
-	   					P<br>
-	   					D<br>
-	   					F
+	   				background-color: transparent; color: white;
+	   				cursor: pointer;" onclick="change_function(this);">   					
+	   					<br> 파일
 	   				</div>
 
 	   				<div id="choice_memo" class="choice_memo choice_class" style="width: 100%; height: 50%;  text-align: center; 
 	   				border-right: 1px solid rgba(255,255,255,0.4);
 	   				border-top: 1px solid rgba(255,255,255,0.4);
-	   				color: white;"  onclick="change_function(this);">
-	   					<br>
-	   					<br>
-	   					메<br>
-	   					모
+	   				color: white;  cursor: pointer;"  onclick="change_function(this);">
+	   					<br> 메모
 	   				</div>
 	   			</div>
 
 				<div id="pdf_div" class="pdf_div"  style="width: 90%; height: 100%; float: left; background-color: transparent; border: 1px solid transparent; margin-left: 1%;">
-					<div class="pdf_search_div" style="width: 100%; height: 15%;  border: 1px solid #5D5D5D;  border-radius: 10px; position: relative; margin-top: 0.5%;">
+					<div class="pdf_search_div" style="width: 103%; height: 15%;  border: 1px solid #5D5D5D;  border-radius: 10px; position: relative; margin-top: 0.5%;">
 						<div class="pdf_search_text" style="width: 5%; height: 100%; float: left; margin-top: 0.1%; margin-left: 0.5%; margin-right: 0.5%; color: white; font-size: 1vw;">
 							검색
 						</div>
 						<input id="search_text" class="search_text" type="text" style="width: 70%; height: 100%; float: left; color: white;">
 						<div class="add_or_full_div" style="width: 10%; height: 100%; float: right;">
-							<img src="../static/img/full_icon.png" style="width: 1.7vw; height: 1.7vw; float: right;" onclick="startFS();">
+							<img src="../static/img/full_icon.png" style="width: 1.3vw; height: 1.3vw; float: right;cursor: pointer; margin-top: 3%; margin-right: 4%;" onclick="startFS();">
 							{% if member.user_id == classnode.founder_id %}
-							<img src="../static/img/plus_icon.png" style="width: 1.7vw; height: 1.7vw; float: right; margin-right: 10%;" onclick="open_upload_pdf();">
+							<img src="../static/img/plus_icon.png" style="width: 1.3vw; height: 1.3vw; float: right; margin-right: 14%; cursor: pointer; margin-top: 3%;" onclick="open_upload_pdf();">
 							{% endif %}
 						</div>
 					</div>
-					<div class="pdf_list_div" id="pdf_list_div" style="width: 100%; height: 75%; background-color: #072837; overflow-x: hidden; overflow-y:auto; margin-top: 1%;">
+					<div class="pdf_list_div" id="pdf_list_div" style="width: 103%; height: 75%; background-color: #072837; overflow-x: hidden; overflow-y:auto; margin-top: 1%;">
 						{% for pdf in pdfs %}
 							<div id="{{pdf.pdf.url}}" class="pdf_content" style="width: 100%; height: 20%; background-color: transparent; border: 1px solid transparent; border-radius: 10px; color: white; font-size: 1vw; font-weight: bold;" onclick="change_pdf(this);">
 								<div class="pdf_name" style="width: 90%; height: 100%; float: left; left: 0;  font-size: 1vw;">
@@ -507,19 +461,19 @@
 
 				{% else %}
 				<div id="pdf_div" class="pdf_div"  style="width: 90%; height: 100%; float: left; background-color: transparent; border: 1px solid transparent; margin-left: 1%;">
-					<div class="pdf_search_div" style="width: 100%; height: 15%;  border: 1px solid #5D5D5D;  border-radius: 10px; position: relative;  margin-top: 0.5%;">
+					<div class="pdf_search_div" style="width: 108%; height: 15%;  border: 1px solid #5D5D5D;  border-radius: 10px; position: relative;  margin-top: 0.5%;">
 						<div class="pdf_search_text" style="width: 5%; height: 100%; float: left; margin-top: 0.1%; margin-left: 0.5%; margin-right: 0.5%; color: white;  font-size: 1vw;">
 							검색
 						</div>
 						<input id="search_text" class="search_text" type="text" style="width: 75%; height: 100%; float: left; color: white;">
 						<div class="add_or_full_div" style="width: 10%; height: 100%; float: right;">
-							<img src="../static/img/full_icon.png" style="width: 1.7vw; height: 1.7vw; float: right;" onclick="startFS();">
+							<img src="../static/img/full_icon.png" style="width: 1.3vw; height: 1.3vw; float: right; cursor: pointer; margin-top: 3%; margin-right: 4%;" onclick="startFS();">
 							{% if member.user_id == classnode.founder_id %}
-							<img src="../static/img/plus_icon.png" style="width: 1.7vw; height: 1.7vw; float: right; margin-right: 10%;" onclick="open_upload_pdf();">
+							<img src="../static/img/plus_icon.png" style="width: 1.3vw; height: 1.3vw; float: right; margin-right: 14%;  cursor: pointer; margin-top: 3%;" onclick="open_upload_pdf();">
 							{% endif %}
 						</div>
 					</div>
-					<div class="pdf_list_div" id="pdf_list_div" style="width: 100%; height: 70%; background-color: #072837;  overflow-x: hidden; overflow-y:auto; margin-top: 1%;">
+					<div class="pdf_list_div" id="pdf_list_div" style="width: 108%; height: 70%; background-color: #072837;  overflow-x: hidden; overflow-y:auto; margin-top: 1%;">
 						{% for pdf in pdfs %}
 							<div id="{{pdf.pdf.url}}" class="pdf_content" style="width: 100%; height: 20%; background-color: transparent; border: 1px solid transparent; border-radius: 10px; position: relative; color: white;  font-size: 1vw;  font-weight: bold;" onclick="change_pdf(this);">
 								<div class="pdf_name" style="width: 90%; height: 100%; float: left; left: 0;  font-size: 1vw;">
@@ -533,7 +487,7 @@
 					</div>
 
 					<div id="upload_pdf_div" class="upload_pdf_div" style="width: 20%; height: 60%; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -70%); background-color: white; z-index: 10000; box-shadow:0px -1px 30px 2px #999; border-radius: 10px; display: none; text-align: center;">
-						<div class="show_upload_pdf_close" style="width: 5%; height: 5%; position: absolute; top: 0%; right: 0%; font-weight: bold;" onclick="close_show_upload_pdf();">
+						<div class="show_upload_pdf_close" style="width: 5%; height: 5%; position: absolute; top: 0%; right: 0%; font-weight: bold;  cursor: pointer;" onclick="close_show_upload_pdf();">
 							X
 						</div>
 
@@ -543,7 +497,7 @@
 					    <div id="selected_pdfs" style="width: 90%; height: 60%; background-color: #EDEDED;  border: 1px solid transparent; border-radius: 4px; margin-top: 5%; margin-left: 5%; overflow-x: hidden; overflow-y:auto; text-align: left;">
 
 					    </div>
-					    <div class="upload_pdf_button_div" style="width: 18vw; height: auto; position: absolute; left: 50%; transform: translate(-50%,0%); margin-top: 4%;">
+					    <div class="upload_pdf_button_div" style="width: 18vw; height: 5vw; position: absolute; left: 50%; transform: translate(-50%,0%); margin-top: 4%;">
 						    <form action="" method="post" enctype="multipart/form-data" name="frm">
 								{% csrf_token %}
 		                        <div class="filebox" style="float: left;">
@@ -572,8 +526,8 @@
 						</div>
 					</div>
 					<div class="memo_function" style="width: 10%; height: 100%; float: left; background-color: #072837;">
-						<div style="width: 130%; height: 20%; color: white;" id="memo_edit"></div>
-						<button type="button" style="width: 3vw; height: 2vw; float: left; margin-left: 5%;" onclick="save_memo();">저장</button>
+						<div style="width: 150%; height: 20%; color: white;" id="memo_edit"></div>
+						<button type="button" style="width: 5vw; height: 2vw; float: left; margin-top: 95%; margin-left: 5%;background-color: #19829C; border: none; cursor: pointer" onclick="save_memo();">저장</button>
 					</div>
 				</div>
 			</div>
@@ -596,7 +550,7 @@
 				<div class="chat_input_div" style="position: relative; margin-top: 5%; background-color: #072837;">
 					{% if member.user_name == 'unknown' %}
 						<input type="text" id="chat_input" style="width: 16vw; height: 3vw; background-color: #072837; float: left; border: 1px solid rgba(255,255,255,0.4); border-radius: 10px; margin-right: 5%; margin-left: 2%; margin-top: 2%; color: white;" disabled="true" placeholder="닉네임을 설정해주세요.">
-						<button id="send_msg_btn" type="button" style="width: 5vw; height: 3vw; float: left;  font-size: 1vw;" onclick="open_set_name();">SET NAME</button>
+						<button id="send_msg_btn" type="button" style="width: 5vw; height: 3vw; float: left;  font-size: 0.8vw;" onclick="open_set_name();">닉네임 설정</button>
 					{% else %}
 						<input type="text" id="chat_input" style="width: 16vw; height: 3vw; background-color: #072837; float: left; border: 1px solid rgba(255,255,255,0.4); border-radius: 10px; margin-right: 5%; margin-left: 2%; margin-top: 2%; color: white;">
 						<button id="send_msg_btn" type="button" style="width: 5vw; height: 3vw; float: left;  font-size: 1vw;" onclick="send_msg();">전송</button>
@@ -624,28 +578,29 @@
 	</div>
 
 
-	<div id="set_name_div" style="width: 20%; height: 50%; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -70%); background-color: white; z-index: 10000; box-shadow:0px -1px 30px 2px #999; border-radius: 10px; display: none; text-align: center;">
-		<div class="set_name_close" style="width: 5%; height: 5%; position: absolute; top: 0%; right: 0%; font-weight: bold;" 
-		onclick="close_set_name();">X
+	<div id="set_name_div" style="width: 20%; height: 30%; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -70%); background-color: white; z-index: 10000; box-shadow:0px -1px 30px 2px #999; border-radius: 10px; display: none; text-align: center;">
+		<div class="set_name_close" style="width: 6%; height: 6%; position: absolute; top: 0%; right: 0%; font-weight: bold;  cursor: pointer; z-index: 9999;" 
+		onclick="close_set_name();"> X
 		</div>
 
-		<div class="check_set_name_input" style="width: 100%; height: 50%; position: relative; margin-top: 40%; text-align: center;">
-			<input type="text" id="set_name_input" style="width: 60%; height: 20%; border: 1px solid black;">
-			<img src="../static/img/check_icon.png" style="width: 2vw; height: 2vw;" onclick="check_set_name();">
+		<div class="check_set_name_input" style="width: 100%; height: 70%; position: relative;">
+			<br>비회원 채팅 닉네임 설정<br><br>
+			<input type="text" id="set_name_input" style="width: 60%; height: 10%; border-bottom:2px solid gray;">
+			<img src="../static/img/check_icon.png" style="width: 2vw; height: 2vw; cursor: pointer;" onclick="check_set_name();">
 			<div id="result_check_set_name" style="width: 100%; text-align: center;"></div>
 		</div>
-		<button id="set_name_button" type="button" style="width: 6vw; height: 3vw; background-color: gray;" disabled="true" onclick="start_chat();">채팅시작</button>
+		<button id="set_name_button" type="button" style="width: 6vw; height: 3vw; background-color: gray; padding-top: -20%;" disabled="true" onclick="start_chat();">채팅시작</button>
 	</div>
 
-	<div class="delete_msg_div" id="delete_msg_div" style="width: 15%; height: 10%; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -70%); background-color: white; z-index: 10000; box-shadow:0px -1px 30px 2px #999; border-radius: 10px; display: none; text-align: center;">
+	<div class="delete_msg_div" id="delete_msg_div" style="width: 18%; height: 15%; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -70%); background-color: white; z-index: 10000; box-shadow:0px -1px 30px 2px #999; border-radius: 10px; display: none; text-align: center;">
 
 		<div class="delete_msg_text" style="width: 100%; height: auto; position: relative; margin-bottom: 5%;">
-			삭제하시겠습니까?
+			<br>삭제하시겠습니까?
 		</div>
 
 		<div class="delete_msg_button_div" style="width: auto; height: auto; position: relative; margin-left: 18%;">
-			<button id="delete_msg_ok_btn" style="width: 5vw; height: 2vw; float: left;" onclick="delete_msg();">OK</button>
-			<button id="delete_msg_cancel_btn" style="width: 5vw; height: 2vw; float: left; color: black;" onclick="cancel_delete_msg();">CANCEL</button>
+			<button id="delete_msg_ok_btn" style="width: 5vw; height: 2vw; float: left;" onclick="delete_msg();">예</button>
+			<button id="delete_msg_cancel_btn" style="width: 6vw; height: 2vw; float: left; color: black; background-color: #ABDEEB" onclick="cancel_delete_msg();">아니오</button>
 		</div>
 
 	</div>
