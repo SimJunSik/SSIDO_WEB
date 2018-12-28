@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>iHAQ | my page</title>
+	<title>마이 페이지</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"/>
 	<style type="text/css">
 	A:link{text-decoration:none; color:black;} 
 	A:visited{text-decoration:none; color:black;} 
@@ -62,12 +63,13 @@
 		overflow:hidden;
 		position:absolute;
 	}
-	ul{
+	#menu{
         list-style-type: none;
         padding:0;
         margin:0 0 28vh 0;
+        align:center;
     }
-   	li{
+   	#menu > li{
 		margin:0;
 		padding:10px 0 10px 40px;
 		list-style:none;
@@ -79,7 +81,7 @@
 		font-size:1.2em;
 		opacity:0.47;
 	}
-	li:nth-child(1){
+	#menu > #l1{
 		background-image:url('../../static/img/bar.png');
 		opacity:1;
 	}
@@ -92,18 +94,19 @@
 	}
 	#show1 ,#show2{
 		width:100%;
-		height:62%;
+		height:50%;
 	}
 	#top_show1, #top_show2{
 		width:100%;
 		height:15%;
 		font-size:1.5em;
 		font-weight:bold;
-		padding:5vh 0 0 0;
+		padding:2vh 0 0 0;
 	}
 	#middle_show1, #middle_show2{
 		width:90%;
-		height:70%;
+		height:80%;
+		margin: 5vh 0 0 0;
 	}
 	#left_show1, #right_show1, #left_show2, #right_show2{
 		float:left;
@@ -140,7 +143,7 @@
 		height:25%;
 		text-align:left;
 		padding:3px 3px;
-		margin:0;
+		margin:1vh 0 0 0;
 		float:left;
 	}
 	#class_name{
@@ -149,7 +152,7 @@
 		float:left;
 		width:45%;
 		height:28%;
-		margin:0 0 0 0.5vw;
+		margin:1vh 0 0 0.5vw;
 		font-weight:bold;
 		padding:3px 0 0 7px;
 	}
@@ -157,10 +160,23 @@
 		float:left;
 		width:29%;
 		height:28%;
-		margin:0 0 0 0.5vw;
+		margin:1vh 0 0 0.5vw;
 		font-weight:bold;
 		border:1px solid black;
 		padding:3px 0 0 7px;
+	}
+	#paging{
+		width:92%;
+		height:40%;
+		margin: 2vh 0 0 0;
+		padding: 0 0 0 50vh;
+	}
+	#paging > ul{
+		list-style-type: none;
+	}
+	#paging > ul > li{
+		float: left;
+		margin:0 2vw 0 0 ;
 	}
 	</style>
 	<script type="text/javascript">
@@ -248,10 +264,10 @@
 				</div>
 				<div id="list">
 					<ul id="menu">
-						<li id="l1" style="cursor: pointer;">접속한 클래스</li>
-						<li id="l2" style="cursor: pointer;">개설한 클래스</li>
-						<li id="l3" style="cursor: pointer;">결제 하기</li>
-						<li id="l4" style="cursor: pointer;">개인정보 수정</li>
+						<li id="l1">접속한 클래스</li>
+						<li id="l2">개설한 클래스</li>
+						<li id="l3">결제 하기</li>
+						<li id="l4">개인정보 수정</li>
 					</ul>
 					<span><a href="../../logout/">로그아웃</a></span>
 				</div>
@@ -299,41 +315,48 @@
 						기록
 					</div>
 					<div id="bottom_history1" style="display: block">
+						{% for class in class_con %}
 						{% if classimages3.get.class_name != 'base' %}
-						<span>{{ classimages3.get.class_id }}</span>
-						<a href="../joinClass/{{classimages3.get.class_id}}">
-						<div id="class_name">{{ classimages3.get.class_name }}</div></a>
-						<div id="date">{{ classimages3.get.created_date }}</div>
-						<br>
-						<hr color="white">
+						<span>&nbsp&nbsp&nbsp클래스명</span>
+						<div id="class_name">{{ class.0 }}</div>
+						<div id="date">{{ class.0.created_date }}</div>
 						{% endif %}
-						{% if classimages4.get.class_name != 'base' %}
-						<span>{{ classimages4.get.class_id }}</span>
-						<a href="../joinClass/{{classimages4.get.class_id}}">
-						<div id="class_name">{{ classimages4.get.class_name }}</div></a>
-						<div id="date">{{ classimages4.get.created_date }}</div>
-						<br>
-						<hr color="white">
-						{% endif %}
+						{% endfor %}
 					</div>
 					<div id="bottom_history2" style="display: none">
-						{% if classimages1.get.class_name != 'base' %}
-						<span>{{ classimages1.get.class_id }}</span>
-						<a href="../joinClass/{{classimages1.get.class_id}}">
-						<div id="class_name">{{ classimages1.get.class_name }}</div></a>
-						<div id="date">{{ classimages1.get.created_date }}</div>
-						<br>
-						<hr color="white">
+						{% for class in classes_make %}
+						{% if classimages3.get.class_name != 'base' %}
+						<span>&nbsp&nbsp&nbsp클래스명</span>
+						<div id="class_name">{{ class.class_name }}</div>
+						<div id="date">{{ class.created_date }}</div>
 						{% endif %}
-						{% if classimages2.get.class_name != 'base' %}
-						<span>{{ classimages2.get.class_id }}</span>
-						<a href="../joinClass/{{classimages2.get.class_id}}">
-						<div id="class_name">{{ classimages2.get.class_name }}</div></a>
-						<div id="date">{{ classimages2.get.created_date }}</div>
-						<br>
-						<hr color="white">
+						{% endfor %}
+					</div>
+					<div id="paging">					
+						{% if class_con.has_other_pages %}
+						<nav aria-label="...">
+						  <ul class="pagination">
+						    {% if class_con.has_previous %}
+						      <li><a href="?page={{ class_con.previous_page_number }}" aria-label="Previous">&laquo;</a></li>
+						    {% else %}
+						      <li class="disabled"><span>&laquo;</span></li>
+						    {% endif %}
+						    {% for i in class_con.paginator.page_range %}
+						      {% if class_con.number == i %}
+						        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+						      {% else %}
+						        <li><a href="?page={{ i }}">{{ i }}</a></li>
+						      {% endif %}
+						    {% endfor %}
+						    {% if class_con.has_next %}
+						      <li><a href="?page={{ class_con.next_page_number }}">&raquo;</a></li>
+						    {% else %}
+						      <li class="disabled"><span>&raquo;</span></li>
+						    {% endif %}
+						  </ul>
+						</nav> 
 						{% endif %}
-					</div>		
+					<div>	
 				</div>
 			</div>
 		</div>

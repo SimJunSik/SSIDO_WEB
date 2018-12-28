@@ -698,6 +698,8 @@ def psw_changed_success(request):
 		member.user_psw=user_psw
 		member.save()
 		return render(request, './psw_changed_success.html')
+
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
  
 def mypage(request):
  	user_id = request.session.get('user_id', False)
@@ -717,6 +719,11 @@ def mypage(request):
 	
  	classConnect_len = len(con_list)
  	classMake_count = classMake_check.count()
+ 
+ 	class_con = []
+ 	for i in range(0, classConnect_len):
+ 		a = list(ClassNode.objects.filter(class_id = con_list[i]))
+ 		class_con.append(a) 		
 
  	classimages1 = ClassNode.objects.filter(founder_id = 'default')
  	classimages2 = ClassNode.objects.filter(founder_id = 'default')
@@ -733,11 +740,24 @@ def mypage(request):
  		classimages3 = ClassNode.objects.filter(class_id = con_list[len(con_list)-2])
  		if classConnect_len > 1:
  			classimages4 = ClassNode.objects.filter(class_id = con_list[len(con_list)-1])
-		
+
+ 	page = request.GET.get('page', 1)
+ 	paginator = Paginator(classMake_check, 5)
+ 	paginator1 = Paginator(class_con, 5)
+ 	try:
+ 		classes_make = paginator.page(page)
+ 		class_con = paginator1.page(page)
+ 	except PageNotAnInteger:
+ 		classes_make = paginator.page(1)
+ 		class_con = paginator1.page(1)
+ 	except EmptyPage:
+ 		classes_make = paginator1.page(paginator1.num_pages)
+ 		class_con = paginator1.page(paginator1.num_pages)
+
  	return render(request, 'my_page.html', {
  		'myself' : myself , 'classimages1' : classimages1, 'classimages2' : classimages2,
- 		'classimages3' : classimages3, 'classimages4' : classimages4,
- 	})			
+ 		'classimages3' : classimages3, 'classimages4' : classimages4, 'classes_make': classes_make, 'class_con' : class_con,
+ 	})
 	
 def upload_class(request):
 	user_id = request.session.get('user_id', False)
