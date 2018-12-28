@@ -318,7 +318,9 @@
 						{% for class in class_con %}
 						{% if classimages3.get.class_name != 'base' %}
 						<span>&nbsp&nbsp&nbsp클래스명</span>
-						<div id="class_name">{{ class.0 }}</div>
+						<a href="../joinClass/{{classimages1.get.class_id}}">
+							<div id="class_name">{{ class.0 }}</div>
+						</a>
 						<div id="date">{{ class.0.created_date }}</div>
 						{% endif %}
 						{% endfor %}
@@ -327,7 +329,9 @@
 						{% for class in classes_make %}
 						{% if classimages3.get.class_name != 'base' %}
 						<span>&nbsp&nbsp&nbsp클래스명</span>
-						<div id="class_name">{{ class.class_name }}</div>
+						<a href="../joinClass/{{classimages1.get.class_id}}">
+							<div id="class_name">{{ class.class_name }}</div>
+						</a>
 						<div id="date">{{ class.created_date }}</div>
 						{% endif %}
 						{% endfor %}
