@@ -770,14 +770,22 @@ def upload_class(request):
 		founder_id = user_id
 		founder_name = Member.objects.get(user_id = user_id).user_name
 		#print(request.FILES)
-		image = request.FILES['image']
-		new_classnode = ClassNode(
-			class_id = class_id, 
-			class_name = class_name, 
-			founder_id = founder_id, 
-			founder_name = founder_name,
-			image = image
-			)
+		try :
+			image = request.FILES['image']
+			new_classnode = ClassNode(
+				class_id = class_id, 
+				class_name = class_name, 
+				founder_id = founder_id, 
+				founder_name = founder_name,
+				image = image
+				)
+		except :
+			new_classnode = ClassNode(
+				class_id = class_id, 
+				class_name = class_name, 
+				founder_id = founder_id, 
+				founder_name = founder_name
+				)
 		print("...")
 		new_classnode.save()
 		return redirect('../' + "joinClass/" + class_id)
