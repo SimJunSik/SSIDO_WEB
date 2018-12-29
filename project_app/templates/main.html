@@ -631,7 +631,30 @@
 				case 2: id += String.fromCharCode(randomRange(65,90)); break;
 				}
 			}
+			check_class_id_flag = true;
 			document.getElementById("id_class_id").value = id;
+			var class_id = $("#id_class_id").val();
+			//console.log(text);
+			$.ajax({
+				url: '/check_class_id/',
+				data: {
+					'class_id' : class_id,
+				},
+				dataType: 'json',
+				success: function (data) {
+					//console.log(class_id);
+					if(data.result == 'success'){
+						$("#class_check_text").html("사용 가능한 클래스코드 입니다.");
+						$("#class_check_text").css("color", "green");
+						check_class_id_flag = true;
+					}
+					else{
+						$("#class_check_text").html("이미 사용중인 클래스코드 입니다.");
+						$("#class_check_text").css("color", "red");
+						check_class_id_flag = false;
+					}
+				}
+			});
 		}
 
 		//랜덤 번호 생성
